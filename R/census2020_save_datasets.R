@@ -6,7 +6,7 @@
 #' @param overwrite default is TRUE, but only relevant if usethis = TRUE
 #' @import data.table
 #' @return a list of huge data.tables, bgid2fips, blockid2fips, 
-#'   blockpoints, blockwts, quaddata, blockquadtree
+#'   blockpoints, blockwts, quaddata,  
 #' @export
 #'
 census2020_save_datasets <- function(x, 
@@ -25,7 +25,7 @@ census2020_save_datasets <- function(x,
     )
   }
   
-  #  compare to   /EJAMblockdata/inst/NOTES_read_blockweights2020.R
+  #  compare to   /EJAM/inst/datasets/NOTES_read_blockweights2020.R
   # #   instead of this, once it is on a public repo.   
   # vs  /census2020download/R/census2020_save_datasets.R
   
@@ -97,10 +97,10 @@ census2020_save_datasets <- function(x,
   #  and as done in proxistat::proxistat()
 
   ############################################################################### #
-  #  CREATE quaddata, blockquadtree for fast search for nearby block points ####
+  #  CREATE quaddata  for fast search for nearby block points ####
   #
   ########### convert block lat lon to XYZ units ########## #
-  # Note quaddata is used to create blockquadtree here but also is used in buffering code I think,
+  # Note quaddata is used to create localtree here but also is used in buffering code I think,
   #  to index the site points around which one is buffering, using the same quadtree structure,
   #  so quaddata will be saved here - it still gets used later. 
   earthRadius_miles <- 3959 # in case it is not already in global envt
@@ -114,7 +114,8 @@ census2020_save_datasets <- function(x,
   quaddata[ , BLOCK_Z := earthRadius_miles *          sin( BLOCK_LAT_RAD   )]
   quaddata <- quaddata[ , .(BLOCK_X, BLOCK_Z, BLOCK_Y, blockid)]
   
-  blockquadtree <- SearchTrees::createTree(quaddata, treeType = "quad", dataType = "point") 
+  # must be done again in each session, such as when package is loaded:
+  # localtree <- SearchTrees::createTree(quaddata, treeType = "quad", dataType = "point") 
   
   ############################################################################### #
   # set key for some of these
@@ -135,22 +136,19 @@ census2020_save_datasets <- function(x,
   # blockid2fips  <- EJAM::metadata_add( blockid2fips, metadata = metadata)
   # blockpoints   <- EJAM::metadata_add( blockpoints,  metadata = metadata)
   # blockwts      <- EJAM::metadata_add( blockwts,     metadata = metadata)
-  # quaddata      <- EJAM::metadata_add( quaddata,     metadata = metadata)
-  # blockquadtree <- EJAM::metadata_add(blockquadtree, metadata = metadata)
+  # quaddata      <- EJAM::metadata_add( quaddata,     metadata = metadata) 
   
   attributes(   bgid2fips)  <- c(attributes(   bgid2fips),  metadata)
   attributes(blockid2fips)  <- c(attributes(blockid2fips),  metadata)
   attributes(blockpoints)   <- c(attributes(blockpoints),   metadata)
   attributes(blockwts)      <- c(attributes(blockwts),      metadata)
-  attributes(quaddata)      <- c(attributes(     quaddata), metadata)
-  attributes(blockquadtree) <- c(attributes(blockquadtree), metadata)
+  attributes(quaddata)      <- c(attributes(     quaddata), metadata) 
   
   usethis::use_data(   bgid2fips,  overwrite = TRUE)
   usethis::use_data(blockid2fips,  overwrite = TRUE)
   usethis::use_data(blockpoints,   overwrite = TRUE)  
   usethis::use_data(blockwts,      overwrite = TRUE)
-  usethis::use_data(quaddata,      overwrite = TRUE)
-  usethis::use_data(blockquadtree, overwrite = TRUE)
+  usethis::use_data(quaddata,      overwrite = TRUE) 
   
   ############################################################################### #  ############################################################################### #
   
@@ -159,8 +157,7 @@ census2020_save_datasets <- function(x,
             blockid2fips = blockid2fips,
             blockpoints = blockpoints,
             blockwts = blockwts,
-            quaddata = quaddata,
-            blockquadtree = blockquadtree)
+            quaddata = quaddata )
   invisible(x)
   ############################################################################### #
   
