@@ -19,7 +19,7 @@ with small changes to some source code.
 The proxistat package has a similar data.table but also with area and population count.
 EPA may at some point provide the same data in a package such as EJAMblockdata.
 
-To use quaddata and blockquadtree for fast search of blocks:
+To use quaddata  for fast search of blocks:
 localtree <- SearchTrees::createTree(
 EJAMblockdata::quaddata, treeType = "quad", dataType = "point")
 
@@ -39,6 +39,5 @@ and save for use in the package.
 \item \code{\link{blockwts}} - data.table with Census 2020 population-based weight
 as fraction of parent block group population
 \item \code{\link{quaddata}} - data.table with xyz format locations of blocks
-\item \code{\link{blockquadtree}} A quadtree index, for fast search to find nearby blocks
 }
 }

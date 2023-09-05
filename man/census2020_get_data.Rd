@@ -7,22 +7,35 @@
 census2020_get_data(
   folder = "~/../Downloads/census2020zip",
   folderout = "~/../Downloads/census2020out",
-  mystates = c(state.abb, "DC"),
+  mystates = c(state.abb, "PR", "DC"),
+  do_download = TRUE,
+  do_unzip = TRUE,
+  do_read = TRUE,
+  do_clean = TRUE,
   ...
 )
 }
 \arguments{
-\item{folder}{path for downloaded files}
+\item{folder}{path for downloaded files, or you could try setting it to tempdir()}
 
-\item{folderout}{path for assembled results files}
+\item{folderout}{path for assembled results files, or you could try setting it to tempdir()}
 
-\item{mystates}{default is DC and the 50 states, not PR not VI/GU/MU/AS}
+\item{mystates}{default is DC and the 50 states -- lacks PR and VI/GU/MU/AS
+and probably would need those from a different source}
+
+\item{do_download}{whether to do census2020_download()}
+
+\item{do_unzip}{whether to do census2020_unzip()}
+
+\item{do_read}{whether to do census2020_read()}
+
+\item{do_clean}{whether to do census2020_clean()}
 
 \item{...}{passed to census2020_read()}
 }
 \value{
-a data.table of US Census blocks with columns like
-blockid lat lon pop area (area in square meters I think)
+invisibly returns a data.table of US Census blocks with columns like
+blockid lat lon pop area (area in square meters)
 }
 \description{
 Download and clean up block data census 2020
