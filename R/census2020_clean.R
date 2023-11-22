@@ -4,6 +4,8 @@
 #'   Drops columns not needed. 
 #'   Returns it in data.table format. 
 #'   
+#'   area is in square meters 
+#'   
 #'   This is part of how the output of census2020_read() 
 #'   can be cleaned up and split into smaller data files,
 #'   to be used in EJAM.  

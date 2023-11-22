@@ -9,13 +9,13 @@ BUT SEE EJAMblockdata package
 This has selected columns from Census block dataset.
 \preformatted{
 
-  Code that created blockdata, quaddata, blockquadtree:
+  Code that created blockdata, quaddata 
     (also localtree has to be created during runtime. 
     cannot be saved as data file beforehand)
   
   blockdata <- 0
   quaddata <- blockdata[ , .(BLOCK_X, BLOCK_Z, BLOCK_Y, blockid)]
-  blockquadtree <- SearchTrees::createTree(quaddata, treeType = "quad", dataType = "point")
+  localtree <- SearchTrees::createTree(quaddata, treeType = "quad", dataType = "point")
   
   2020 data format:
   
@@ -28,7 +28,4 @@ This has selected columns from Census block dataset.
    - attr(*, ".internal.selfref")=<externalptr> 
      - attr(*, "year")= num 2020
 }
-}
-\seealso{
-blockquadtree
 }

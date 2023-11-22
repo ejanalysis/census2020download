@@ -1,4 +1,4 @@
-#' @name blockwts2020
+#' @name blockwts
 #' @docType data
 #' @title 2020 Decennial Census block group weights
 #' 
@@ -10,20 +10,28 @@
 #'   average person in the buffer, as the population weighted mean
 #'   of blockgroup scores of all the blocks in the buffer.
 #'   
-#' @details  This is drawn from blocks2020 dataset 
+#' @details  This is drawn from 2020 Census dataset via census2020_get_data()
 #' 
 #'  \preformatted{
-#'   blockfips is the 15 character Census Bureau FIPS code for each Census block
-#'   blockid will be a unique integer ID 1 through total number of blocks, 
+#'   blockid2fips data.table will have blockid and blockfips columns
+#'   
+#'     - blockfips is the 15 character Census Bureau FIPS code for each Census block
+#'   
+#'     - blockid will be a unique integer ID 1 through total number of blocks, 
 #'     to be used as a more efficient indexing than a FIPS code is.
 #'   
-#'   bgfips from blocks2020 is the 12 character Census Bureau FIPS code 
+#'   bgid2fips data.table will have bgid and bgfips columns
+#'   
+#'     - bgfips  is the 12 character Census Bureau FIPS code 
 #'     for the parent blockgroup (i.e., the one containing the given block).
 #'     and bgfips is used to join to a blockgroup dataset to get indicator scores.
-#'   bgid will be a unique integer ID 1 through total number of unique blockgroups,
+#'   
+#'     - bgid will be a unique integer ID 1 through total number of unique blockgroups,
 #'     to be used as a more efficient indexing than a FIPS code is.
 #'   
-#'   blockwt is the block's population weight, 
+#'   blockwts data.table will have blockid, bgid, blockwt, block_radius_miles as columns
+#'   
+#'     - blockwt is the block's population weight, 
 #'   calculated as the block population as a fraction of the parent blockgroup pop.
 #'   Based on the latest decennial Census table of population count for each block.
 #' 
@@ -33,6 +41,10 @@
 #'   The sum of weights from some blocks tells you 
 #'   what fraction of its whole parent blockgroup's population count
 #'   is in those blocks (the ones found inside a buffer, for example).
+#'   
+#'     - block_radius_miles is the effective radius of a block, 
+#'       where pi times that radius squared is the block area in square miles.
+#'         This gets used to adjust distances of sites at very short distances to the centroid.
 #'  }
 #'
 #'   See \url{https://www.epa.gov/ejscreen}

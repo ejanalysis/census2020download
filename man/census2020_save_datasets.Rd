@@ -5,20 +5,25 @@
 \title{create each separate data.table, and optionally save for use in package
 This was just done once, to create the datasets in this package}
 \usage{
-census2020_save_datasets(x, metadata = NULL, usethis = FALSE, overwrite = TRUE)
+census2020_save_datasets(
+  x,
+  metadata = NULL,
+  save_as_data_for_package = FALSE,
+  overwrite = TRUE
+)
 }
 \arguments{
 \item{x}{results of census2020_get_data()}
 
 \item{metadata}{default is Census 2020 related}
 
-\item{usethis}{default is FALSE, but if TRUE will install each dataset in package}
-
 \item{overwrite}{default is TRUE, but only relevant if usethis = TRUE}
+
+\item{usethis}{default is FALSE, but if TRUE will install each dataset in package}
 }
 \value{
 a list of huge data.tables, bgid2fips, blockid2fips,
-blockpoints, blockwts, quaddata, blockquadtree
+blockpoints, blockwts, quaddata,
 }
 \description{
 create each separate data.table, and optionally save for use in package

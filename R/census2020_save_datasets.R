@@ -11,38 +11,42 @@
 #'
 census2020_save_datasets <- function(x, 
                                metadata=NULL,
-                               usethis=FALSE, overwrite=TRUE) {
-  cat('To create the datasets, census2020_get_data(); census2020_save_datasets(blocks, usethis=TRUE, overwrite=TRUE) \n')
+                               save_as_data_for_package=FALSE, overwrite=TRUE) {
+  cat('
+      To create the datasets, 
+      blocks <- census2020_get_data()
+      listoftables <- census2020_save_datasets(blocks, save_as_data_for_package=TRUE, overwrite=TRUE)
+      \n')
   
   if (is.null(metadata)) {
+    # used only if EJAM package not available
     metadata <- list(
+      ejscreen_version =  '2.2',
+      acs_version =          '2017-2021',
       census_version = 2020,
-      acs_version = '2016-2020',
-      acs_releasedate = '3/17/2022',
-      ejscreen_version = '2.1',
-      ejscreen_releasedate = 'October 2022',
-      ejscreen_pkg_data = 'bg22'
+      ejscreen_releasedate = '2023-08-21',
+      acs_releasedate =      '2022-12-08',
+      ejscreen_pkg_data = NA,
+      savedate = Sys.Date()
     )
   }
   
-  #  compare to   /EJAM/inst/datasets/NOTES_read_blockweights2020.R
-  # #   instead of this, once it is on a public repo.   
-  # vs  /census2020download/R/census2020_save_datasets.R
+  #  see EJAM 
+ 
+    # this should now obtain PR,
+  # but then still need AS VI GU MU 
   
-    # also still need PR, and then AS VI GU MU
-  
- #see  census2020_create_datasets() 
-   #    clean up downloaded Census block data to use in EJAM 
-  #  e.g. after census2020_download, _unzip, _read, _clean 
  
   blocks <- data.table::copy(x) # make a copy just in case, to preclude inadvertently altering by reference the original data.table that was passed to this function  .
   ############################################################################### #
+
+  data.table::setorder(blocks, blockfips)   #    sort by increasing blockfips 
+  blocks[, bgfips := substr(blockfips, 1, 12)] # for merging blockgroup indicators to buffered blocks later on
   
-  
-  data.table::setnames(x = blocks, old = 'pop', new = 'blockpop') #  RENAME POPULATION FIELD   ----
-  data.table::setorder(blocks, blockfips) #    sort by increasing blockfips 
-   blocks[, bgfips := substr(blockfips, 1, 12)] # for merging blockgroup indicators to buffered blocks later on
+   data.table::setnames(x = blocks, old = 'pop', new = 'blockpop') #  RENAME for now POPULATION FIELD   ----
+   
    #  *CREATE blockwts column *  #  the blockwt is the blocks share of parent blockgroup census pop count
+   
    blocks[ , bgpop := sum(blockpop), by=bgfips] # Census count population total of parent blockgroup gets saved with each block temporarily
    blocks[ , bgpop := as.integer(bgpop)] # had to be in a separate line for some reason
    blocks[ , blockwt := blockpop / bgpop] # ok if the ones with zero population were already removed
@@ -59,15 +63,10 @@ census2020_save_datasets <- function(x,
   #    [and 12 total define a blockgroup, which uses 1 digit more than a tract]
   # 4-character tabulation block code. [15 total define a block]
    ############################################################################### #  ############################################################################### #
-   # 
-   
-  
   
   
 
-  
-  ############################################################################### ################################################################################ #
-  
+     
   ############################################################################### #
   # BREAK UP BLOCK DATA INTO A FEW SPECIFIC FILES ####
   # break into smaller data.tables, for lat/lon (blockpoints) and weights (blockwts) and bgid2fips and blockid2fips
@@ -78,13 +77,18 @@ census2020_save_datasets <- function(x,
   blockid2fips <- data.table::copy(blocks[ , .(blockid, blockfips)])
   blockpoints  <- data.table::copy(blocks[ , .(blockid, lat, lon)])
   
-  blockwts     <- data.table::copy(blocks[ , .(blockid, bgfips, blockwt) ])
+  blockwts     <- data.table::copy(blocks[ , .(blockid, bgfips, blockwt, area) ])
   blockwts[ , bgid := .GRP, by=bgfips] # sorted so bgid starts at 1 with first bgfips in sort by bgfips
   bgid2fips <- data.table::copy(blockwts)
-  bgid2fips <- data.table::unique(bgid2fips[ , .(bgid, bgfips)])
-  blockwts[ , bgfips := NULL] # drop that column from this table
+  bgid2fips <-  unique(bgid2fips[ , .(bgid, bgfips)])
+  blockwts[ , bgfips := NULL] # drop that column from this table 
   
-  data.table::setcolorder(blockwts, neworder = c('blockid', 'bgid', 'blockwt'))
+  # calculate effective radius of block, based on area 
+  area.sq.mi <-   blockwts$area / (EJAMejscreenapi::meters_per_mile^2)   #  = convert_units(area, from = "sqm", towhat = "sqmi")
+  blockwts[ , block_radius_miles :=  sqrt(area.sq.mi/pi)  ]  ## because  area=pi*radius^2 
+  blockwts[ , area := NULL] # do not need to keep if have effective radius
+  
+  data.table::setcolorder(blockwts, neworder = c('blockid', 'bgid', 'blockwt', 'block_radius_miles'))
   
   # do not need to retain bgfips column since it has bgid, and bgfips is kept in bgid2fips
   # and blockwts is 170MB if bgfips kept as character, 125MB if bgid used instead of bgfips. 
@@ -122,34 +126,49 @@ census2020_save_datasets <- function(x,
   
   # (can you set more than one key in a table? some documentation said yes, but some 
   #  data.table examples seemed to say no and thus need to setindex not setkey for other columns)
-  data.table::setkey(blockwts,     blockid); data.table::setindex(blockwts, bgid) # not sure the best/right approach is 1 key and 1 index. I think you can have only 1 key col? and 
+  
+  data.table::setkey(  blockwts, blockid)
+  data.table::setindex(blockwts, bgid) # not sure the best/right approach is 1 key and 1 index. I think you can have only 1 key col?   
+  
   data.table::setkey(blockpoints,  blockid)
-  data.table::setkey(blockid2fips, blockid); data.table::setindex(blockid2fips, blockfips)
-  data.table::setkey(bgid2fips,       bgid); data.table::setindex(bgid2fips,       bgfips)
+  
+  data.table::setkey(  blockid2fips, blockid)
+  data.table::setindex(blockid2fips, blockfips)
+  
+  data.table::setkey(  bgid2fips,       bgid)
+  data.table::setindex(bgid2fips,       bgfips)
   
   ############################################################################### #
   # set attributes to store metadata on vintage
   
-
+if (save_as_data_for_package) {
+  if (require(EJAM)) {
+  bgid2fips     <- EJAM::metadata_add( bgid2fips ) # use defaults for metadata
+  blockid2fips  <- EJAM::metadata_add( blockid2fips )
+  blockpoints   <- EJAM::metadata_add( blockpoints )
+  blockwts      <- EJAM::metadata_add( blockwts )
+  quaddata      <- EJAM::metadata_add( quaddata )
   
-  # bgid2fips     <- EJAM::metadata_add( bgid2fips,    metadata = metadata)
-  # blockid2fips  <- EJAM::metadata_add( blockid2fips, metadata = metadata)
-  # blockpoints   <- EJAM::metadata_add( blockpoints,  metadata = metadata)
-  # blockwts      <- EJAM::metadata_add( blockwts,     metadata = metadata)
-  # quaddata      <- EJAM::metadata_add( quaddata,     metadata = metadata) 
+  attr( bgid2fips,   "download_date") <- Sys.Date()
+  attr(blockid2fips, "download_date") <- Sys.Date()
+  attr(blockpoints,  "download_date") <- Sys.Date()
+  attr(blockwts,     "download_date") <- Sys.Date()
+  attr(quaddata,     "download_date") <- Sys.Date()
   
+  
+  } else {
   attributes(   bgid2fips)  <- c(attributes(   bgid2fips),  metadata)
   attributes(blockid2fips)  <- c(attributes(blockid2fips),  metadata)
   attributes(blockpoints)   <- c(attributes(blockpoints),   metadata)
   attributes(blockwts)      <- c(attributes(blockwts),      metadata)
   attributes(quaddata)      <- c(attributes(     quaddata), metadata) 
-  
+  }
   usethis::use_data(   bgid2fips,  overwrite = TRUE)
   usethis::use_data(blockid2fips,  overwrite = TRUE)
   usethis::use_data(blockpoints,   overwrite = TRUE)  
   usethis::use_data(blockwts,      overwrite = TRUE)
   usethis::use_data(quaddata,      overwrite = TRUE) 
-  
+  }
   ############################################################################### #  ############################################################################### #
   
   # Return all  tables invisibly? ####
