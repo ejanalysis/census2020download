@@ -1,21 +1,47 @@
-#' create each separate data.table, and optionally save for use in package
-#' This was just done once, to create the datasets in this package
-#' @param x results of census2020_get_data()
+#' Create each separate data.table, and optionally save for use in a package
+#' This was just done once, to create datasets for the EJAM package
+#' @param x a single data.table called blocks that is from [census2020_get_data()]
 #' @param metadata default is Census 2020 related
 #' @param usethis default is FALSE, but if TRUE will install each dataset in package
 #' @param overwrite default is TRUE, but only relevant if usethis = TRUE
 #' @import data.table
-#' @return a list of huge data.tables, bgid2fips, blockid2fips, 
-#'   blockpoints, blockwts, quaddata,  
+#' @return A named list of these huge data.tables for the EJAM package:
+#'
+#'   - bgid2fips
+#'   - blockid2fips
+#'   - blockpoints
+#'   - blockwts
+#'   - quaddata
+#'   
+#' @details 
+#'       To create the individual data tables used by EJAM, 
+#'       
+#'       blockwts, blockpoints, quaddata, blockid2fips, and bgid2fips,
+#'       
+#'       from within the EJAM source package root folder, try something like 
+#'       
+#'       
+#'       blocks <- census2020_get_data()
+#'       
+#'       mylistoftables <- census2020_save_datasets(blocks, 
+#'         save_as_data_for_package=TRUE, overwrite=TRUE)
+#'
+#'       
+#'       See ?census2020_get_datasets
+#'       
 #' @export
 #'
 census2020_save_datasets <- function(x, 
                                metadata=NULL,
                                save_as_data_for_package=FALSE, overwrite=TRUE) {
   cat('
-      To create the datasets, 
+      To create and save the datasets from within the EJAM source package root folder,
+      
+      
       blocks <- census2020_get_data()
-      listoftables <- census2020_save_datasets(blocks, save_as_data_for_package=TRUE, overwrite=TRUE)
+      
+      mylistoftables <- census2020_save_datasets(blocks, save_as_data_for_package=TRUE, overwrite=TRUE)
+      
       \n')
   
   if (is.null(metadata)) {
@@ -47,7 +73,7 @@ census2020_save_datasets <- function(x,
    
    #  *CREATE blockwts column *  #  the blockwt is the blocks share of parent blockgroup census pop count
    
-   blocks[ , bgpop := sum(blockpop), by=bgfips] # Census count population total of parent blockgroup gets saved with each block temporarily
+   blocks[ , bgpop := sum(blockpop), by = bgfips] # Census count population total of parent blockgroup gets saved with each block temporarily
    blocks[ , bgpop := as.integer(bgpop)] # had to be in a separate line for some reason
    blocks[ , blockwt := blockpop / bgpop] # ok if the ones with zero population were already removed
    blocks[is.na(blockwt), blockwt := 0] 
@@ -78,17 +104,22 @@ census2020_save_datasets <- function(x,
   blockpoints  <- data.table::copy(blocks[ , .(blockid, lat, lon)])
   
   blockwts     <- data.table::copy(blocks[ , .(blockid, bgfips, blockwt, area) ])
-  blockwts[ , bgid := .GRP, by=bgfips] # sorted so bgid starts at 1 with first bgfips in sort by bgfips
+  blockwts[ , bgid := .GRP, by = bgfips] # sorted so bgid starts at 1 with first bgfips in sort by bgfips
   bgid2fips <- data.table::copy(blockwts)
   bgid2fips <-  unique(bgid2fips[ , .(bgid, bgfips)])
   blockwts[ , bgfips := NULL] # drop that column from this table 
   
-  # calculate effective radius of block, based on area 
-  area.sq.mi <-   blockwts$area / (EJAMejscreenapi::meters_per_mile^2)   #  = convert_units(area, from = "sqm", towhat = "sqmi")
-  blockwts[ , block_radius_miles :=  sqrt(area.sq.mi/pi)  ]  ## because  area=pi*radius^2 
-  blockwts[ , area := NULL] # do not need to keep if have effective radius
+  ############################ #
+  # calculate block_radius_miles based on area ####
+  # This is the effective radius of a block, i.e., the radius it would have based on its area if it were circular in shape
   
+  area_sqmi <- area_sqmi_from_area_sqmeters(blockwts$area) # census2020download  :::  (not an exported function)
+  # blockwts$area / (EJAMejscreenapi::meters_per_mile^2)   #  = convert_units(area, from = "sqm", towhat = "sqmi")
+  add_block_radius_miles_to_dt(blockwts, area_sqmi)
+  # blockwts[ , block_radius_miles :=  sqrt(area_sqmi / pi)]  ## because  area=pi*radius^2 
+  blockwts[ , area := NULL] # do not need to keep if have effective radius
   data.table::setcolorder(blockwts, neworder = c('blockid', 'bgid', 'blockwt', 'block_radius_miles'))
+  ############################ #
   
   # do not need to retain bgfips column since it has bgid, and bgfips is kept in bgid2fips
   # and blockwts is 170MB if bgfips kept as character, 125MB if bgid used instead of bgfips. 

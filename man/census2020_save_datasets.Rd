@@ -2,8 +2,8 @@
 % Please edit documentation in R/census2020_save_datasets.R
 \name{census2020_save_datasets}
 \alias{census2020_save_datasets}
-\title{create each separate data.table, and optionally save for use in package
-This was just done once, to create the datasets in this package}
+\title{Create each separate data.table, and optionally save for use in a package
+This was just done once, to create datasets for the EJAM package}
 \usage{
 census2020_save_datasets(
   x,
@@ -13,7 +13,7 @@ census2020_save_datasets(
 )
 }
 \arguments{
-\item{x}{results of census2020_get_data()}
+\item{x}{a single data.table called blocks that is from \code{\link[=census2020_get_data]{census2020_get_data()}}}
 
 \item{metadata}{default is Census 2020 related}
 
@@ -22,10 +22,33 @@ census2020_save_datasets(
 \item{usethis}{default is FALSE, but if TRUE will install each dataset in package}
 }
 \value{
-a list of huge data.tables, bgid2fips, blockid2fips,
-blockpoints, blockwts, quaddata,
+A named list of these huge data.tables for the EJAM package:
+\itemize{
+\item bgid2fips
+\item blockid2fips
+\item blockpoints
+\item blockwts
+\item quaddata
+}
 }
 \description{
-create each separate data.table, and optionally save for use in package
-This was just done once, to create the datasets in this package
+Create each separate data.table, and optionally save for use in a package
+This was just done once, to create datasets for the EJAM package
+}
+\details{
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  To create the individual data tables used by EJAM, 
+  
+  blockwts, blockpoints, quaddata, blockid2fips, and bgid2fips,
+  
+  from within the EJAM source package root folder, try something like 
+  
+  
+  blocks <- census2020_get_data()
+  
+  mylistoftables <- census2020_save_datasets(blocks, 
+    save_as_data_for_package=TRUE, overwrite=TRUE)
+
+  
+  See ?census2020_get_datasets
+}\if{html}{\out{</div>}}
 }

@@ -2,7 +2,8 @@
 % Please edit documentation in R/census2020_read.R
 \name{census2020_read}
 \alias{census2020_read}
-\title{Compile Census 2020 block data for all US states once downloaded and unzipped}
+\title{Compile Census 2020 block data for all US states once downloaded and unzipped
+used by census2020_get()}
 \usage{
 census2020_read(
   folder = ".",
@@ -35,13 +36,16 @@ File03 has Table P5.}
 data.frame of 1 row per block, for example
 }
 \description{
-Not tested. Works for file 1, but maybe not files 2 and 3.
-Not used for EJAM - that Census 2020 data was from EJScreen team.
-ttempts to read files already downloaded and unzipped, data files for specified states
-from the US Census Bureau's FTP site for Decennial Census file data.
-see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf}
+Compile Census 2020 block data for all US states once downloaded and unzipped
+used by census2020_get()
 }
 \details{
+Not extensively tested.
+Attempts to read files already downloaded and unzipped, data files for specified states
+from the US Census Bureau's FTP site for Decennial Census file data.
+
+see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf}
+
 Also look at the package totalcensus https://github.com/GL-Li/totalcensus
 see Census website for list of possible fields etc.
 \preformatted{ 

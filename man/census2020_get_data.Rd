@@ -2,7 +2,7 @@
 % Please edit documentation in R/census2020_get_data.R
 \name{census2020_get_data}
 \alias{census2020_get_data}
-\title{Download and clean up block data census 2020}
+\title{Download and clean up block data census 2020 (for EJAM)}
 \usage{
 census2020_get_data(
   folder = "~/../Downloads/census2020zip",
@@ -21,7 +21,7 @@ census2020_get_data(
 \item{folderout}{path for assembled results files, or you could try setting it to tempdir()}
 
 \item{mystates}{default is DC and the 50 states -- lacks PR and VI/GU/MU/AS
-and probably would need those from a different source}
+and would need those from a different source}
 
 \item{do_download}{whether to do census2020_download()}
 
@@ -38,5 +38,39 @@ invisibly returns a data.table of US Census blocks with columns like
 blockid lat lon pop area (area in square meters)
 }
 \description{
-Download and clean up block data census 2020
+Download and clean up block data census 2020 (for EJAM)
+}
+\details{
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  To create the individual data tables used by EJAM, 
+  
+  blockwts, blockpoints, quaddata, blockid2fips, and bgid2fips,
+  
+  try something like 
+  
+  
+  blocks <- census2020_get_data()
+  
+  mylistoftables <- census2020_save_datasets(blocks)
+  
+  
+  where mylistoftables will be 
+  
+  
+  list(bgid2fips = bgid2fips, 
+  
+  blockid2fips = blockid2fips,
+  
+  blockpoints = blockpoints,
+  
+  blockwts = blockwts,
+  
+  quaddata = quaddata )
+  
+  
+  See ?census2020_save_datasets
+}\if{html}{\out{</div>}}
+}
+\seealso{
+This just does \code{\link[=census2020_download]{census2020_download()}} then \code{\link[=census2020_unzip]{census2020_unzip()}}
+then \code{\link[=census2020_read]{census2020_read()}} then \code{\link[=census2020_clean]{census2020_clean()}}
 }
