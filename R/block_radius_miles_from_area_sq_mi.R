@@ -24,7 +24,7 @@ area_sqmi_from_area_sqmeters <- function(area_sqmeters) {
   # the factor to divide by 2589988
   #
   # meters_per_mile^2  (using the meters_per_mile object from the EJAMejscreenapi package)
-  # format(1 / proxistat::convert(1, from = 'm2', towhat = 'mi2'), scientific = FALSE)
+  # format(1 /  convert(1, from = 'm2', towhat = 'mi2'), scientific = FALSE) # convert() is from the proxistat package
   # 1 %>% units::set_units(m2) %>% units::set_units(1 / mi2)
 
   area_sqmeters / 2589988

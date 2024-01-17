@@ -129,7 +129,7 @@ census2020_save_datasets <- function(x,
   ## area: previously did not bother saving columns that had block land area, water area, and plfips , BUT
   #    total area is useful for doing proximity scores for each block (and then parent block group) 
   #  - area is needed to calculate score when distance is smaller than effective radius of block, per formula in EJScreen tech doc,
-  #  and as done in proxistat::proxistat()
+  #  and as drafted in the proxistat package function proxistat()
 
   ############################################################################### #
   #  CREATE quaddata  for fast search for nearby block points ####
