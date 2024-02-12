@@ -29,11 +29,13 @@
 #'       
 #'       See ?census2020_get_datasets
 #'       
+#'       and see create_quaddata() in EJAM pkg. 
+#'       
 #' @export
 #'
 census2020_save_datasets <- function(x, 
-                               metadata=NULL,
-                               save_as_data_for_package=FALSE, overwrite=TRUE) {
+                                     metadata=NULL,
+                                     save_as_data_for_package=FALSE, overwrite=TRUE) {
   cat('
       To create and save the datasets from within the EJAM source package root folder,
       
@@ -58,41 +60,41 @@ census2020_save_datasets <- function(x,
   }
   
   #  see EJAM 
- 
-    # this should now obtain PR,
+  
+  # this should now obtain PR,
   # but then still need AS VI GU MU 
   
- 
+  
   blocks <- data.table::copy(x) # make a copy just in case, to preclude inadvertently altering by reference the original data.table that was passed to this function  .
   ############################################################################### #
-
+  
   data.table::setorder(blocks, blockfips)   #    sort by increasing blockfips 
   blocks[, bgfips := substr(blockfips, 1, 12)] # for merging blockgroup indicators to buffered blocks later on
   
-   data.table::setnames(x = blocks, old = 'pop', new = 'blockpop') #  RENAME for now POPULATION FIELD   ----
-   
-   #  *CREATE blockwts column *  #  the blockwt is the blocks share of parent blockgroup census pop count
-   
-   blocks[ , bgpop := sum(blockpop), by = bgfips] # Census count population total of parent blockgroup gets saved with each block temporarily
-   blocks[ , bgpop := as.integer(bgpop)] # had to be in a separate line for some reason
-   blocks[ , blockwt := blockpop / bgpop] # ok if the ones with zero population were already removed
-   blocks[is.na(blockwt), blockwt := 0] 
-   # In Census 2020:  1,393 blockgroups had 0 pop in every block, due to 12,922 of the 2,368,443 blocks with 0 pop.
-   # put columns in same order as were in blockweights csv from EJScreen (for those cols they have in common)
-   data.table::setcolorder(blocks, neworder = c('blockfips', 'bgfips', 'blockwt', 'area', 'lat', 'lon', 'blockpop', 'bgpop'))
-   
-   # Census Bureau explanation of FIPS:
+  data.table::setnames(x = blocks, old = 'pop', new = 'blockpop') #  RENAME for now POPULATION FIELD   ----
+  
+  #  *CREATE blockwts column *  #  the blockwt is the blocks share of parent blockgroup census pop count
+  
+  blocks[ , bgpop := sum(blockpop), by = bgfips] # Census count population total of parent blockgroup gets saved with each block temporarily
+  blocks[ , bgpop := as.integer(bgpop)] # had to be in a separate line for some reason
+  blocks[ , blockwt := blockpop / bgpop] # ok if the ones with zero population were already removed
+  blocks[is.na(blockwt), blockwt := 0] 
+  # In Census 2020:  1,393 blockgroups had 0 pop in every block, due to 12,922 of the 2,368,443 blocks with 0 pop.
+  # put columns in same order as were in blockweights csv from EJScreen (for those cols they have in common)
+  data.table::setcolorder(blocks, neworder = c('blockfips', 'bgfips', 'blockwt', 'area', 'lat', 'lon', 'blockpop', 'bgpop'))
+  
+  # Census Bureau explanation of FIPS:
   # blockid: 15-character code that is the concatenation of fields consisting of the 
   # 2-character state FIPS code, the 
   # 3-character county FIPS code, [5 total define a county] the 
   # 6-character census tract code, [11 total define a tract] and the  
   #    [and 12 total define a blockgroup, which uses 1 digit more than a tract]
   # 4-character tabulation block code. [15 total define a block]
-   ############################################################################### #  ############################################################################### #
+  ############################################################################### #  ############################################################################### #
   
   
-
-     
+  
+  
   ############################################################################### #
   # BREAK UP BLOCK DATA INTO A FEW SPECIFIC FILES ####
   # break into smaller data.tables, for lat/lon (blockpoints) and weights (blockwts) and bgid2fips and blockid2fips
@@ -130,7 +132,7 @@ census2020_save_datasets <- function(x,
   #    total area is useful for doing proximity scores for each block (and then parent block group) 
   #  - area is needed to calculate score when distance is smaller than effective radius of block, per formula in EJScreen tech doc,
   #  and as drafted in the proxistat package function proxistat()
-
+  
   ############################################################################### #
   #  CREATE quaddata  for fast search for nearby block points ####
   #
@@ -138,19 +140,28 @@ census2020_save_datasets <- function(x,
   # Note quaddata is used to create localtree here but also is used in buffering code I think,
   #  to index the site points around which one is buffering, using the same quadtree structure,
   #  so quaddata will be saved here - it still gets used later. 
-  earthRadius_miles <- 3959 # in case it is not already in global envt
-  radians_per_degree <- pi / 180
-  quaddata <- data.table::copy(blockpoints)
-  quaddata[ , BLOCK_LAT_RAD  := lat * radians_per_degree]
-  quaddata[ , BLOCK_LONG_RAD := lon * radians_per_degree]
-  coslat <- cos(quaddata$BLOCK_LAT_RAD)
-  quaddata[ , BLOCK_X := earthRadius_miles * coslat * cos(BLOCK_LONG_RAD)] 
-  quaddata[ , BLOCK_Y := earthRadius_miles * coslat * sin(BLOCK_LONG_RAD)] 
-  quaddata[ , BLOCK_Z := earthRadius_miles *          sin( BLOCK_LAT_RAD   )]
-  quaddata <- quaddata[ , .(BLOCK_X, BLOCK_Z, BLOCK_Y, blockid)]
-  
-  # must be done again in each session, such as when package is loaded:
-  # localtree <- SearchTrees::createTree(quaddata, treeType = "quad", dataType = "point") 
+  if (exists("create_quaddata")) {
+    # function from the EJAM package
+    quaddata <- create_quaddata(
+      pts = blockpoints, 
+      idcolname = "blockid", 
+      xyzcolnames = c("BLOCK_X", "BLOCK_Z", "BLOCK_Y")
+    )
+  } else {  
+    earthRadius_miles <- 3959 # in case it is not already in global envt
+    radians_per_degree <- pi / 180
+    quaddata <- data.table::copy(blockpoints)
+    quaddata[ , BLOCK_LAT_RAD  := lat * radians_per_degree]
+    quaddata[ , BLOCK_LONG_RAD := lon * radians_per_degree]
+    coslat <- cos(quaddata$BLOCK_LAT_RAD)
+    quaddata[ , BLOCK_X := earthRadius_miles * coslat * cos(BLOCK_LONG_RAD)] 
+    quaddata[ , BLOCK_Y := earthRadius_miles * coslat * sin(BLOCK_LONG_RAD)] 
+    quaddata[ , BLOCK_Z := earthRadius_miles *          sin( BLOCK_LAT_RAD   )]
+    quaddata <- quaddata[ , .(BLOCK_X, BLOCK_Z, BLOCK_Y, blockid)]
+    
+    # must be done again in each session, such as when package is loaded:
+    # localtree <- SearchTrees::createTree(quaddata, treeType = "quad", dataType = "point") 
+  }
   
   ############################################################################### #
   # set key for some of these
@@ -172,33 +183,33 @@ census2020_save_datasets <- function(x,
   ############################################################################### #
   # set attributes to store metadata on vintage
   
-if (save_as_data_for_package) {
-  if (require(EJAM)) {
-  bgid2fips     <- EJAM::metadata_add( bgid2fips ) # use defaults for metadata
-  blockid2fips  <- EJAM::metadata_add( blockid2fips )
-  blockpoints   <- EJAM::metadata_add( blockpoints )
-  blockwts      <- EJAM::metadata_add( blockwts )
-  quaddata      <- EJAM::metadata_add( quaddata )
-  
-  attr( bgid2fips,   "download_date") <- Sys.Date()
-  attr(blockid2fips, "download_date") <- Sys.Date()
-  attr(blockpoints,  "download_date") <- Sys.Date()
-  attr(blockwts,     "download_date") <- Sys.Date()
-  attr(quaddata,     "download_date") <- Sys.Date()
-  
-  
-  } else {
-  attributes(   bgid2fips)  <- c(attributes(   bgid2fips),  metadata)
-  attributes(blockid2fips)  <- c(attributes(blockid2fips),  metadata)
-  attributes(blockpoints)   <- c(attributes(blockpoints),   metadata)
-  attributes(blockwts)      <- c(attributes(blockwts),      metadata)
-  attributes(quaddata)      <- c(attributes(     quaddata), metadata) 
-  }
-  usethis::use_data(   bgid2fips,  overwrite = TRUE)
-  usethis::use_data(blockid2fips,  overwrite = TRUE)
-  usethis::use_data(blockpoints,   overwrite = TRUE)  
-  usethis::use_data(blockwts,      overwrite = TRUE)
-  usethis::use_data(quaddata,      overwrite = TRUE) 
+  if (save_as_data_for_package) {
+    if (require(EJAM)) {
+      bgid2fips     <- EJAM::metadata_add( bgid2fips ) # use defaults for metadata
+      blockid2fips  <- EJAM::metadata_add( blockid2fips )
+      blockpoints   <- EJAM::metadata_add( blockpoints )
+      blockwts      <- EJAM::metadata_add( blockwts )
+      quaddata      <- EJAM::metadata_add( quaddata )
+      
+      attr( bgid2fips,   "download_date") <- Sys.Date()
+      attr(blockid2fips, "download_date") <- Sys.Date()
+      attr(blockpoints,  "download_date") <- Sys.Date()
+      attr(blockwts,     "download_date") <- Sys.Date()
+      attr(quaddata,     "download_date") <- Sys.Date()
+      
+      
+    } else {
+      attributes(   bgid2fips)  <- c(attributes(   bgid2fips),  metadata)
+      attributes(blockid2fips)  <- c(attributes(blockid2fips),  metadata)
+      attributes(blockpoints)   <- c(attributes(blockpoints),   metadata)
+      attributes(blockwts)      <- c(attributes(blockwts),      metadata)
+      attributes(quaddata)      <- c(attributes(     quaddata), metadata) 
+    }
+    usethis::use_data(   bgid2fips,  overwrite = TRUE)
+    usethis::use_data(blockid2fips,  overwrite = TRUE)
+    usethis::use_data(blockpoints,   overwrite = TRUE)  
+    usethis::use_data(blockwts,      overwrite = TRUE)
+    usethis::use_data(quaddata,      overwrite = TRUE) 
   }
   ############################################################################### #  ############################################################################### #
   
