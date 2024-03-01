@@ -50,5 +50,7 @@ This was just done once, to create datasets for the EJAM package
 
   
   See ?census2020_get_datasets
+  
+  and see create_quaddata() in EJAM pkg. 
 }\if{html}{\out{</div>}}
 }

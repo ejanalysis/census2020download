@@ -37,3 +37,7 @@ used to create spatial index of blocks in the EJAM package.
 as fraction of parent block group population, and size of block
 }
 }
+\author{
+\strong{Maintainer}: Mark Corrales \email{corrales.mark@epa.gov}
+
+}
