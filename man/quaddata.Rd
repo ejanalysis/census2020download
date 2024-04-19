@@ -3,7 +3,8 @@
 \docType{data}
 \name{quaddata}
 \alias{quaddata}
-\title{xyz location of internal point of each Census 2020 block, for spatial index in EJAM}
+\title{xyz location of internal point of each Census 2020 block,
+for spatial index in EJAM}
 \description{
 data.table for use in EJAM
 }
@@ -25,17 +26,17 @@ used as a more efficient ID than a 15-character FIPS code.
 }
 
 \preformatted{
-  
-  str(quaddata) 
-  
+
+  str(quaddata)
+
   Classes ‘data.table’ and 'data.frame':	8174955 obs. of  4 variables:
-  
+
    $ BLOCK_X: num  205 205 204 204 204 ...
    $ BLOCK_Z: num  2125 2125 2125 2126 2126 ...
    $ BLOCK_Y: num  -3334 -3334 -3334 -3334 -3334 ...
    $ blockid: int  1 2 3 4 5 6 7 8 9 10 ...
-   
-     - attr(*, ".internal.selfref")=<externalptr> 
+
+     - attr(*, ".internal.selfref")=<externalptr>
      - attr(*, "sorted")= chr "blockid"
      - attr(*, "census_version")= num 2020
      - attr(*, "acs_version")= chr "2016-2020"
