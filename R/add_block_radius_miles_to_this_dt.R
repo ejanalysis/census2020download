@@ -9,7 +9,7 @@
 #' @param area_sqmi vector of numbers that are area in square miles.
 #'   If area were in square meters, it could be converted like this:
 #'
-#'   area_sqmi <-
+#'   area_sqmi <- 
 #'     census2020download:::area_sqmi_from_area_sqmeters(area_sqmeters)
 #'
 #' @return NULL. The side effect is that a new column is created by reference in
