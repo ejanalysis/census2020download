@@ -1,4 +1,4 @@
-census2020download package - 2020 Census Blocks and Tools to Download from FTP (for use in the EJAM package)
+Download Census 2020 Blocks for the entire US from FTP to use in EJAM
 ================
 
 This package is just a set of helper functions that are essentially scripts

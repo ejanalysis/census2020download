@@ -40,6 +40,13 @@ used to create spatial index of blocks in the EJAM package.
 as fraction of parent block group population, and size of block
 }
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://ejanalysis.github.io/census2020download/}
+}
+
+}
 \author{
 \strong{Maintainer}: Mark Corrales \email{corrales.mark@epa.gov}
 
