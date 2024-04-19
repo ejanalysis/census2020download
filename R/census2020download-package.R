@@ -12,23 +12,25 @@
 #'   FIPS. This package downloads and also could retain some other columns like
 #'    some basic race ethnicity counts,
 #'   with small changes to some source code.
-#'   
-#'   See Census vs ACS geos info here:
-#'   https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html
 #'
-#'   The proxistat package had a similar data.table but also with area and population count.
+#'   See Census vs ACS geos info here:
+#'   <https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html>
+#'
+#'   The proxistat package had a similar data.table
+#'   but also with area and population count.
 #'
 #' Key functions and data.tables created include
 #'
-#' - [census2020_get_data()] Download/ Unzip/ Read/ Clean basic data on all US Census blocks
-#' - [census2020_save_datasets()]  Use the data to create the separate data.tables,
+#' - [census2020_get_data()] Download/ Unzip/ Read/ Clean data on
+#'   all US Census blocks
+#' - [census2020_save_datasets()] Use the data to create separate data.tables,
 #'   and save for use in the EJAM package.
 #'
 #' Key data.table objects created:
 #'
 #' - [blockid2fips] - data.table with FIPS code to blockid lookup
 #' - [blockpoints]  - data.table with latitude and longitude of internal points
-#' - [quaddata] - data.table with xyz format locations of blocks, 
+#' - [quaddata] - data.table with xyz format locations of blocks,
 #'   used to create spatial index of blocks in the EJAM package.
 #' - [blockwts] - data.table with Census 2020 population-based weight
 #'   as fraction of parent block group population, and size of block

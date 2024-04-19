@@ -19,14 +19,16 @@ some basic race ethnicity counts,
 with small changes to some source code.
 
 See Census vs ACS geos info here:
-https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html
+\url{https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html}
 
-The proxistat package had a similar data.table but also with area and population count.
+The proxistat package had a similar data.table
+but also with area and population count.
 
 Key functions and data.tables created include
 \itemize{
-\item \code{\link[=census2020_get_data]{census2020_get_data()}} Download/ Unzip/ Read/ Clean basic data on all US Census blocks
-\item \code{\link[=census2020_save_datasets]{census2020_save_datasets()}}  Use the data to create the separate data.tables,
+\item \code{\link[=census2020_get_data]{census2020_get_data()}} Download/ Unzip/ Read/ Clean data on
+all US Census blocks
+\item \code{\link[=census2020_save_datasets]{census2020_save_datasets()}} Use the data to create separate data.tables,
 and save for use in the EJAM package.
 }
 
