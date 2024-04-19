@@ -1,6 +1,5 @@
-Download Census 2020 Blocks for the entire US from FTP to use in EJAM
-================
+# Download Census 2020 Blocks for the entire US from FTP to use in EJAM
 
-This package is just a set of helper functions that are essentially scripts
-used to download Census Bureau block data and reformat it for use in the EJAM
-package. See https://usepa.github.io/EJAM
+For more information see [census2020download package documentation](https://ejanalysis.github.io/census2020download/reference/census2020download.html).
+
+This package is just a set of helper functions that are essentially scripts used to download Census Bureau block data and reformat it for use in the EJAM package. Also see the [EJAM R Package](https://usepa.github.io/EJAM){.uri}.
