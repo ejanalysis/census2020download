@@ -30,11 +30,11 @@ see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-docum
 }
 \examples{
 \dontrun{
- library(census2020download)
+ # library(census2020download)
  census2020_download('./census2020zip', mystates = c('MD', 'DC'))
  census2020_unzip('./census2020zip','./census2020out')
  c2 <- census2020_read(folder = './census2020out', mystates = c('MD', 'DC'))
- save(c2,file = 'census2020blocks.rdata')
+ save(c2, file = 'census2020blocks.rdata')
  dim(c2)
  str(c2)
  head(c2)

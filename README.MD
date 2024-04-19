@@ -1,6 +1,6 @@
 Package: census2020download
 Title: 2020 Census Blocks and Tools to Download from FTP
-Version: 0.1.0.0000
+Version: 0.2.0.0000
 Authors@R: 
     person(given = "Mark",
            family = "Corrales",

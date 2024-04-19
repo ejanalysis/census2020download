@@ -4,9 +4,10 @@
 #' @description
 #'   FIPS code, name, etc., for each State, DC, PR, and Island Areas
 #' @examples 
-#' str(lookup_states)
-#' 
-#' 'data.frame':	58 obs. of  26 variables:
+#'  str(lookup_states)
+#' @details 
+#'   data.frame  	58 obs. of  26 variables 
+#'   
 #' $ statename       : chr  "Alabama" "Alaska" "Arizona" "Arkansas" ...
 #' $ FIPS.ST         : chr  "01" "02" "04" "05" ...
 #' $ ST              : chr  "AL" "AK" "AZ" "AR" ...

@@ -17,9 +17,9 @@ census2020_save_datasets(
 
 \item{metadata}{default is Census 2020 related}
 
-\item{overwrite}{default is TRUE, but only relevant if usethis = TRUE}
+\item{save_as_data_for_package}{logical, whether to do \code{\link[usethis:use_data]{usethis::use_data()}} here}
 
-\item{usethis}{default is FALSE, but if TRUE will install each dataset in package}
+\item{overwrite}{default is TRUE, but only relevant if usethis = TRUE}
 }
 \value{
 A named list of these huge data.tables for the EJAM package:

@@ -83,7 +83,7 @@ see Census website for list of possible fields etc.
 }
 \examples{
 \dontrun{
- library(census2020download)
+ # library(census2020download)
  census2020_download('./census2020zip', mystates = c('MD', 'DC'))
  census2020_unzip('./census2020zip','./census2020out')
  c2 <- census2020_read(folder = './census2020out', mystates = c('MD', 'DC'))
@@ -91,9 +91,13 @@ see Census website for list of possible fields etc.
  str(c2)
  head(c2)
  sum(c2$POP100)
- plot(c2$INTPTLON[substr(c2$GEOCODE,1,2)=='24'], c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='24'], pch='.')
+ plot(
+   c2$INTPTLON[substr(c2$GEOCODE,1,2) == '24'], 
+   c2$INTPTLAT[substr(c2$GEOCODE,1,2) == '24'], pch = '.')
  c2$LOGRECNO <- NULL
- colnames(c2) <- census_col_names_map$Rname[match(colnames(blocks2020), census_col_names_map$ftpname)]
+ colnames(c2) <- census2020_download::census_col_names_map$Rname[
+    match(colnames(blocks2020), census2020_download::census_col_names_map$ftpname)
+    ]
  }
 }
 \seealso{

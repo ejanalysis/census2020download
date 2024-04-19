@@ -1,7 +1,7 @@
 #' @name census_col_names_map
 #' @docType data
 #' @title Table that maps some Census variable names to short friendly variable names
-#' @details  str(census_col_names_map)
+#' @details 
 #' 
 #'  data.frame:	19 obs. of  3 variables:
 #' 

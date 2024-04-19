@@ -2,7 +2,7 @@
 #' This was just done once, to create datasets for the EJAM package
 #' @param x a single data.table called blocks that is from [census2020_get_data()]
 #' @param metadata default is Census 2020 related
-#' @param usethis default is FALSE, but if TRUE will install each dataset in package
+#' @param save_as_data_for_package logical, whether to do [usethis::use_data()] here
 #' @param overwrite default is TRUE, but only relevant if usethis = TRUE
 #' @import data.table
 #' @return A named list of these huge data.tables for the EJAM package:
@@ -34,8 +34,9 @@
 #' @export
 #'
 census2020_save_datasets <- function(x, 
-                                     metadata=NULL,
-                                     save_as_data_for_package=FALSE, overwrite=TRUE) {
+                                     metadata = NULL,
+                                     save_as_data_for_package = FALSE,
+                                     overwrite = TRUE) {
   cat('
       To create and save the datasets from within the EJAM source package root folder,
       
@@ -58,8 +59,9 @@ census2020_save_datasets <- function(x,
       savedate = Sys.Date()
     )
   }
-  
-  #  see EJAM 
+  cat("assuming this is the right metadata to use: \n")
+  print(metadata)
+  #  see EJAM package
   
   # this should now obtain PR,
   # but then still need AS VI GU MU 
@@ -160,7 +162,7 @@ census2020_save_datasets <- function(x,
     quaddata <- quaddata[ , .(BLOCK_X, BLOCK_Z, BLOCK_Y, blockid)]
     
     # must be done again in each session, such as when package is loaded:
-    # localtree <- SearchTrees::createTree(quaddata, treeType = "quad", dataType = "point") 
+    # localtree <- SearchTrees   ::   #   createTree(quaddata, treeType = "quad", dataType = "point") 
   }
   
   ############################################################################### #
@@ -184,12 +186,13 @@ census2020_save_datasets <- function(x,
   # set attributes to store metadata on vintage
   
   if (save_as_data_for_package) {
-    if (require(EJAM)) {
-      bgid2fips     <- EJAM::metadata_add( bgid2fips ) # use defaults for metadata
-      blockid2fips  <- EJAM::metadata_add( blockid2fips )
-      blockpoints   <- EJAM::metadata_add( blockpoints )
-      blockwts      <- EJAM::metadata_add( blockwts )
-      quaddata      <- EJAM::metadata_add( quaddata )
+    if (requireNamespace(EJAM) &&  isNamespaceLoaded(EJAM) ) {
+       
+      bgid2fips     <-  metadata_add( bgid2fips ) # use defaults for metadata
+      blockid2fips  <-  metadata_add( blockid2fips )
+      blockpoints   <-  metadata_add( blockpoints )
+      blockwts      <-  metadata_add( blockwts )
+      quaddata      <-  metadata_add( quaddata )
       
       attr( bgid2fips,   "download_date") <- Sys.Date()
       attr(blockid2fips, "download_date") <- Sys.Date()

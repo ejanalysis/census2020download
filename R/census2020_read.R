@@ -5,7 +5,7 @@
 #'   Attempts to read files already downloaded and unzipped, data files for specified states
 #'   from the US Census Bureau's FTP site for Decennial Census file data.
 #'   
-#'   see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf}
+#'   see <https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf>
 #'   
 #' @details  Also look at the package totalcensus https://github.com/GL-Li/totalcensus 
 #'   see Census website for list of possible fields etc.
@@ -51,12 +51,12 @@
 #' @param sumlev default is 750, for blocks
 #' @param best_header_cols default is a few key columns like POP100, GEOCODE (fips), etc.
 #' @param best_data_cols default is key race ethnicity fields
-#' @seealso \link{census2020_download} \link{census2020_unzip}
+#' @seealso [census2020_download] [census2020_unzip]
 #' @return data.frame of 1 row per block, for example
 #' @export
 #'
 #' @examples \dontrun{
-#'  library(census2020download)
+#'  # library(census2020download)
 #'  census2020_download('./census2020zip', mystates = c('MD', 'DC'))
 #'  census2020_unzip('./census2020zip','./census2020out')
 #'  c2 <- census2020_read(folder = './census2020out', mystates = c('MD', 'DC'))
@@ -64,16 +64,20 @@
 #'  str(c2)
 #'  head(c2)
 #'  sum(c2$POP100)
-#'  plot(c2$INTPTLON[substr(c2$GEOCODE,1,2)=='24'], c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='24'], pch='.')
+#'  plot(
+#'    c2$INTPTLON[substr(c2$GEOCODE,1,2) == '24'], 
+#'    c2$INTPTLAT[substr(c2$GEOCODE,1,2) == '24'], pch = '.')
 #'  c2$LOGRECNO <- NULL
-#'  colnames(c2) <- census_col_names_map$Rname[match(colnames(blocks2020), census_col_names_map$ftpname)]
+#'  colnames(c2) <- census2020_download::census_col_names_map$Rname[
+#'     match(colnames(blocks2020), census2020_download::census_col_names_map$ftpname)
+#'     ]
 #'  }
-census2020_read <- function(folder='.', filenumbers=1, mystates, sumlev=750, 
+census2020_read <- function(folder = ".", filenumbers=1, mystates, sumlev=750, 
                             best_header_cols=c("LOGRECNO", "GEOCODE", 
-                                               "AREALAND","AREAWATR", 
+                                               "AREALAND", "AREAWATR", 
                                                "POP100", "HU100", 
                                                "INTPTLAT", "INTPTLON"), 
-                            best_data_cols = paste0('P00', (20001:20011))) {
+                            best_data_cols = paste0("P00", (20001:20011))) {
   # Gets census 2020 data
   #  based on code provided by the Census Bureau for reading and merging their raw data files
   
@@ -245,7 +249,7 @@ census2020_read <- function(folder='.', filenumbers=1, mystates, sumlev=750,
                         "LSADC", "PARTFLAG", "UGA")
   combinedstates <- NULL
   
-  for (i in 1:length(mystates)) {
+  for (i in seq_along(mystates)) {
     
     cat(paste0('Reading ', toupper(mystates[i])), '\n')
     
@@ -297,8 +301,10 @@ census2020_read <- function(folder='.', filenumbers=1, mystates, sumlev=750,
     # ---------------------------- -
     # Merge the data #######
     # ---------------------------- -
-    combine <- Reduce(function(x, y) {merge(x, y, by = mergebycolnames)},
-                      list_needed
+    combine <- Reduce(function(x, y) {
+      merge(x, y, by = mergebycolnames)
+    },
+    list_needed
     )
     
     # ---------------------------- -

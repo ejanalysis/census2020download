@@ -18,6 +18,9 @@ FIPS. This package downloads and also could retain some other columns like
 some basic race ethnicity counts,
 with small changes to some source code.
 
+See Census vs ACS geos info here:
+https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html
+
 The proxistat package had a similar data.table but also with area and population count.
 
 Key functions and data.tables created include

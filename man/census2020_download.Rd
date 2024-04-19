@@ -9,7 +9,10 @@ census2020_download(folder = getwd(), mystates)
 \arguments{
 \item{folder}{Default is getwd()}
 
-\item{mystates}{Character vector of 2 letter abbreviations, now optional - Default is 50 states + DC + PR here}
+\item{mystates}{Character vector of 2 letter abbreviations, now optional
+\itemize{
+\item Default is 50 states + DC + PR here
+}}
 }
 \value{
 Effect is to download and save locally a number of data files.
@@ -22,7 +25,7 @@ see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-docum
 }
 \examples{
 \dontrun{
- library(census2020download)
+ # library(census2020download)
  census2020_download('./census2020zip', mystates = c('MD', 'DC'))
  census2020_unzip('./census2020zip','./census2020out')
  c2 <- census2020_read(folder = './census2020out', mystates = c('MD', 'DC'))
@@ -31,7 +34,9 @@ see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-docum
  str(c2)
  head(c2)
  sum(c2$POP100)
- plot(c2$INTPTLON[substr(c2$GEOCODE,1,2)=='24'], c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='24'], pch='.')
+ plot(
+   c2$INTPTLON[substr(c2$GEOCODE,1,2)=='24'],
+   c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='24'], pch='.')
  }
 }
 \seealso{
