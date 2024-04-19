@@ -46,6 +46,7 @@ as fraction of parent block group population, and size of block
 Useful links:
 \itemize{
   \item \url{https://ejanalysis.github.io/census2020download/}
+  \item \url{https://ejanalysis.github.io/census2020download/index.html}
 }
 
 }
