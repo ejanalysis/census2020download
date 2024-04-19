@@ -28,7 +28,7 @@
 add_block_radius_miles_to_dt <- function(dt, area_sqmi) {
 
   # if needed, note that
-  #  area_sqmi <-   dt$area / (EJAMejscreenapi::meters_per_mile^2)
+  #  area_sqmi <- dt$area / (EJAMejscreenapi::meters_per_mile^2)
 
   # This will add the new column by reference,
   # which adds the new column to the data.table in the calling environment !!
