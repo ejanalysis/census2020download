@@ -33,7 +33,7 @@ add_block_radius_miles_to_dt <- function(dt, area_sqmi) {
   # This will add the new column by reference,
   # which adds the new column to the data.table in the calling environment !!
 
-  # area_sqmi <-   blockwts$area / (EJAMejscreenapi::meters_per_mile^2)
+  # area_sqmi <- blockwts$area / (EJAMejscreenapi::meters_per_mile^2)
   # blockwts[ , block_radius_miles :=  sqrt(area_sqmi / pi)]
   block_radius_miles <- NULL # to make the lintr warning go away
   dt[, block_radius_miles := block_radius_miles_from_area_sqmi(area_sqmi)]
