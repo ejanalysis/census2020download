@@ -41,5 +41,3 @@ docs/
 # translation temp files
 po/*~
 *.Rproj
-
-docs
