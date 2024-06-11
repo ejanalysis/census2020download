@@ -7,7 +7,7 @@
 #' @param folder Default is getwd()
 #' @param mystates Character vector of 2 letter abbreviations, now optional
 #'   - Default is 50 states + DC + PR here
-#' @seealso [census2020_read] [census2020_unzip]
+#' @seealso [census2020_read()] [census2020_unzip()]
 #' @return Effect is to download and save locally a number of data files.
 #' @examples \dontrun{
 #'  # library(census2020download)

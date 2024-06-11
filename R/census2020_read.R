@@ -51,7 +51,7 @@
 #' @param sumlev default is 750, for blocks
 #' @param best_header_cols default is a few key columns like POP100, GEOCODE (fips), etc.
 #' @param best_data_cols default is key race ethnicity fields
-#' @seealso [census2020_download] [census2020_unzip]
+#' @seealso [census2020_download()] [census2020_unzip()]
 #' @return data.frame of 1 row per block, for example
 #' @export
 #'
@@ -68,8 +68,8 @@
 #'    c2$INTPTLON[substr(c2$GEOCODE,1,2) == '24'], 
 #'    c2$INTPTLAT[substr(c2$GEOCODE,1,2) == '24'], pch = '.')
 #'  c2$LOGRECNO <- NULL
-#'  colnames(c2) <- census2020_download::census_col_names_map$Rname[
-#'     match(colnames(blocks2020), census2020_download::census_col_names_map$ftpname)
+#'  colnames(c2) <- census2020download::census_col_names_map$Rname[
+#'     match(colnames(blocks2020), census2020download::census_col_names_map$ftpname)
 #'     ]
 #'  }
 census2020_read <- function(folder = ".", filenumbers=1, mystates, sumlev=750, 

@@ -1,6 +1,6 @@
 #' start to clean up download block data
 #'
-#' Rename columns based on census2020_download::census_col_names_map
+#' Rename columns based on census2020download::census_col_names_map
 #'   Drops columns not needed.
 #'   Returns it in data.table format.
 #'
@@ -24,7 +24,7 @@ census2020_clean <- function(x, cols_to_keep = c("blockfips", "lat", "lon", "pop
 
   # change to friendlier variable names using data file that maps old to new names.
   x <- data.table::copy(data.table::setDT(x)) # do not alter the copy that was passed to here, just to be clearere
-  colnames(x) <- census2020_download::census_col_names_map$Rname[match(colnames(x), census_col_names_map$ftpname)]
+  colnames(x) <- census2020download::census_col_names_map$Rname[match(colnames(x), census_col_names_map$ftpname)]
   print("is a data.table?")
   print(is.data.table(x))
   # could Add 2-character abbreviation for State
@@ -52,7 +52,7 @@ census2020_clean <- function(x, cols_to_keep = c("blockfips", "lat", "lon", "pop
   x[ , areawater := NULL]
   
   if (!all(cols_to_keep %in% colnames(x))) {stop("some of specified column names are not available. 
-                                                 Check census2020_download::census_col_names_map and columns added in this source code")}
+                                                 Check census2020download::census_col_names_map and columns added in this source code")}
   x <- x[ , ..cols_to_keep]
 
   x <- data.table::as.data.table(x, key = "blockfips")

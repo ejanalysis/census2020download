@@ -15,7 +15,7 @@
 #'   File03 has Table P5.
 #' @param mystates optional vector of 2letter state abbreviations for which to unzip
 #'
-#' @seealso [census2020_download] [census2020_read]
+#' @seealso [census2020_download()] [census2020_read()]
 #' @return Vector of filenames of unzipped contents
 #' @export
 #' @examples \dontrun{
