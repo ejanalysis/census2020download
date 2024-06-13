@@ -15,7 +15,7 @@ census2020_clean(x, cols_to_keep = c("blockfips", "lat", "lon", "pop", "area"))
 data.table with these columns by default:  blockfips lat lon pop area
 }
 \description{
-Rename columns based on census2020_download::census_col_names_map
+Rename columns based on census2020download::census_col_names_map
 Drops columns not needed.
 Returns it in data.table format.
 }

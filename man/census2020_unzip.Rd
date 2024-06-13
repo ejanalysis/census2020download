@@ -43,5 +43,5 @@ see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-docum
  }
 }
 \seealso{
-\link{census2020_download} \link{census2020_read}
+\code{\link[=census2020_download]{census2020_download()}} \code{\link[=census2020_read]{census2020_read()}}
 }

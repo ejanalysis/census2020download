@@ -95,11 +95,11 @@ see Census website for list of possible fields etc.
    c2$INTPTLON[substr(c2$GEOCODE,1,2) == '24'], 
    c2$INTPTLAT[substr(c2$GEOCODE,1,2) == '24'], pch = '.')
  c2$LOGRECNO <- NULL
- colnames(c2) <- census2020_download::census_col_names_map$Rname[
-    match(colnames(blocks2020), census2020_download::census_col_names_map$ftpname)
+ colnames(c2) <- census2020download::census_col_names_map$Rname[
+    match(colnames(blocks2020), census2020download::census_col_names_map$ftpname)
     ]
  }
 }
 \seealso{
-\link{census2020_download} \link{census2020_unzip}
+\code{\link[=census2020_download]{census2020_download()}} \code{\link[=census2020_unzip]{census2020_unzip()}}
 }
