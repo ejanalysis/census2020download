@@ -2,26 +2,46 @@
 % Please edit documentation in R/census2020_download.R
 \name{census2020_download}
 \alias{census2020_download}
-\title{Download Census 2020 data files from FTP}
+\title{Download Census 2020 data files from FTP by State/DC/PR}
 \usage{
-census2020_download(folder = getwd(), mystates)
+census2020_download(
+  folder = NULL,
+  mystates = c(state.abb, "DC", "PR"),
+  allstates = c(state.abb, "DC", "PR"),
+  baseurl =
+    "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/",
+  urlmiddle = "",
+  zipnames_suffix = "2020.pl.zip"
+)
 }
 \arguments{
-\item{folder}{Default is getwd()}
+\item{folder}{Default is a tempdir. Folder and subfolder for data are created if they do not exist.}
 
-\item{mystates}{Character vector of 2 letter abbreviations, now optional
+\item{mystates}{Character vector of 2 letter abbreviations, optional,
 \itemize{
-\item Default is 50 states + DC + PR here
+\item Default is 50 states + DC + PR here. Island Areas are VI GU MP AS.
 }}
+
+\item{allstates}{Default is same as mystates default.}
+
+\item{baseurl}{default is the FTP folder with the data}
+
+\item{urlmiddle}{empty for States info, but
+for Island Areas, urlmiddle = "demographic-and-housing-characteristics-file/"}
 }
 \value{
 Effect is to download and save locally a number of data files.
 }
 \description{
-Warning: Code is not tested.
-Attempts to download data files for specified states
+Download Census 2020 data files from FTP by State/DC/PR
+}
+\details{
+Attempts to download some basic data files for specified states/etc.
 from the US Census Bureau's FTP site for Decennial Census file data.
-see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf}
+
+see (https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf)
+
+see (https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/2020-iac-dhc-readme.pdf)
 }
 \examples{
 \dontrun{
@@ -38,7 +58,8 @@ see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-docum
    c2$INTPTLON[substr(c2$GEOCODE,1,2)=='24'],
    c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='24'], pch='.')
  }
+ 
 }
 \seealso{
-\code{\link[=census2020_read]{census2020_read()}} \code{\link[=census2020_unzip]{census2020_unzip()}}
+\code{\link[=census2020_get_data]{census2020_get_data()}} \code{\link[=census2020_download_islandareas]{census2020_download_islandareas()}}
 }

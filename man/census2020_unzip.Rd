@@ -2,12 +2,12 @@
 % Please edit documentation in R/census2020_unzip.R
 \name{census2020_unzip}
 \alias{census2020_unzip}
-\title{unzip Census 2020 zipped files already downloaded}
+\title{unzip Census 2020 zipped files already downloaded, for States and DC, PR}
 \usage{
-census2020_unzip(folder = ".", folderout = folder, filenumbers = 1, mystates)
+census2020_unzip(folder = NULL, folderout = folder, filenumbers = 1, mystates)
 }
 \arguments{
-\item{folder}{path to where zip files are, default is working directory}
+\item{folder}{Default is current working directory. Should contain .zip file(s)}
 
 \item{folderout}{path to where you want to put files, created if does not exist}
 
@@ -23,10 +23,7 @@ File03 has Table P5.}
 Vector of filenames of unzipped contents
 }
 \description{
-Warning: Code is not tested.
-Attempts to read files already downloaded and unzipped, data files for specified states
-from the US Census Bureau's FTP site for Decennial Census file data.
-see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf}
+unzip Census 2020 zipped files already downloaded, for States and DC, PR
 }
 \examples{
 \dontrun{
@@ -41,6 +38,8 @@ see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-docum
  sum(c2$POP100)
  plot(c2$INTPTLON[substr(c2$GEOCODE,1,2)=='24'], c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='24'], pch='.')
  }
+ 
+ 
 }
 \seealso{
 \code{\link[=census2020_download]{census2020_download()}} \code{\link[=census2020_read]{census2020_read()}}

@@ -1,7 +1,7 @@
 #' Create each separate data.table, and optionally save for use in a package
 #' This was just done once, to create datasets for the EJAM package
 #' @param x a single data.table called blocks that is from [census2020_get_data()]
-#' @param metadata default is Census 2020 related
+#' @param metadata default is Census 2020 related, tries to use EJAM package
 #' @param save_as_data_for_package logical, whether to do [usethis::use_data()] here
 #' @param overwrite default is TRUE, but only relevant if usethis = TRUE
 #' @import data.table
@@ -40,34 +40,25 @@ census2020_save_datasets <- function(x,
   cat('
       To create and save the datasets from within the EJAM source package root folder,
       
+      library(census2020download)
       
       blocks <- census2020_get_data()
       
-      mylistoftables <- census2020_save_datasets(blocks, save_as_data_for_package=TRUE, overwrite=TRUE)
+      mylistoftables <- census2020_save_datasets(
+        blocks, save_as_data_for_package = TRUE, overwrite = TRUE
+      )
       
+      rm(mylistoftables)
+      gc()
       \n')
   
-  if (is.null(metadata)) {
-    # used only if EJAM package not available
-    metadata <- list(
-      ejscreen_version =  '2.2',
-      acs_version =          '2017-2021',
-      census_version = 2020,
-      ejscreen_releasedate = '2023-08-21',
-      acs_releasedate =      '2022-12-08',
-      ejscreen_pkg_data = NA,
-      savedate = Sys.Date()
-    )
-  }
-  cat("assuming this is the right metadata to use: \n")
-  print(metadata)
-  #  see EJAM package
-  
   # this should now obtain PR,
-  # but then still need AS VI GU MU 
+  # but then still need AS VI GU MP 
   
+  # make a copy just in case, to preclude inadvertently altering by reference the original data.table that was passed to this function  .
   
-  blocks <- data.table::copy(x) # make a copy just in case, to preclude inadvertently altering by reference the original data.table that was passed to this function  .
+  blocks <- data.table::copy(x) 
+  
   ############################################################################### #
   
   data.table::setorder(blocks, blockfips)   #    sort by increasing blockfips 
@@ -184,30 +175,57 @@ census2020_save_datasets <- function(x,
   
   ############################################################################### #
   # set attributes to store metadata on vintage
+  # metadata_add() ####
   
   if (save_as_data_for_package) {
+    
     if (requireNamespace(EJAM) &&  isNamespaceLoaded(EJAM) ) {
-       
-      bgid2fips     <-  metadata_add( bgid2fips ) # use defaults for metadata
-      blockid2fips  <-  metadata_add( blockid2fips )
-      blockpoints   <-  metadata_add( blockpoints )
-      blockwts      <-  metadata_add( blockwts )
-      quaddata      <-  metadata_add( quaddata )
       
-      attr( bgid2fips,   "download_date") <- Sys.Date()
+      # for (i in seq_along(metadata)) {
+      #   attr(x, which = names(metadata)[i]) <- metadata[[i]]
+      # }
+      cat("Doing EJAM:::metadata_add() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
+      
+      bgid2fips     <-  EJAM:::metadata_add( bgid2fips ) # use defaults for metadata
+      blockid2fips  <-  EJAM:::metadata_add( blockid2fips )
+      blockpoints   <-  EJAM:::metadata_add( blockpoints )
+      blockwts      <-  EJAM:::metadata_add( blockwts )
+      quaddata      <-  EJAM:::metadata_add( quaddata )
+      
+      attr(   bgid2fips, "download_date") <- Sys.Date()
       attr(blockid2fips, "download_date") <- Sys.Date()
       attr(blockpoints,  "download_date") <- Sys.Date()
       attr(blockwts,     "download_date") <- Sys.Date()
       attr(quaddata,     "download_date") <- Sys.Date()
       
-      
     } else {
+      
+      if (is.null(metadata)) {
+        
+        # used only if EJAM package not available
+        x = 0
+        
+        metadata <- list(
+          ejscreen_version =     c(EJScreenVersion = "2.3"),
+          ejscreen_releasedate = c(EJScreenReleaseDate = "July 2024"), 
+          acs_releasedate =      c(ACSReleaseDate = "2023-12-07"), 
+          acs_version =          c(ACSVersion     = "2018-2022"), 
+          census_version =       c(CensusVersion  = "2020"), 
+          date_saved_in_package = as.character(Sys.Date())
+        )
+
+        cat("EJAM package not found. Adding this metadata: \n")
+        print(metadata)
+      }
+      
       attributes(   bgid2fips)  <- c(attributes(   bgid2fips),  metadata)
       attributes(blockid2fips)  <- c(attributes(blockid2fips),  metadata)
       attributes(blockpoints)   <- c(attributes(blockpoints),   metadata)
       attributes(blockwts)      <- c(attributes(blockwts),      metadata)
       attributes(quaddata)      <- c(attributes(     quaddata), metadata) 
     }
+    # use_data() ####
+    cat("Doing use_data() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
     usethis::use_data(   bgid2fips,  overwrite = TRUE)
     usethis::use_data(blockid2fips,  overwrite = TRUE)
     usethis::use_data(blockpoints,   overwrite = TRUE)  
@@ -216,15 +234,14 @@ census2020_save_datasets <- function(x,
   }
   ############################################################################### #  ############################################################################### #
   
-  # Return all  tables invisibly? ####
-  x <- list(bgid2fips = bgid2fips, 
+  # Return list of tables invisibly ####
+  x <- list(   bgid2fips =    bgid2fips, 
             blockid2fips = blockid2fips,
-            blockpoints = blockpoints,
-            blockwts = blockwts,
-            quaddata = quaddata )
-  invisible(x)
-  ############################################################################### #
+            blockpoints  = blockpoints,
+            blockwts     = blockwts,
+            quaddata     = quaddata )
   
+  invisible(x)
 }
-
+############################################################################### #
 

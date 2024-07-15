@@ -2,12 +2,12 @@
 % Please edit documentation in R/census2020_get_data.R
 \name{census2020_get_data}
 \alias{census2020_get_data}
-\title{Download and clean up block data census 2020 (for EJAM)}
+\title{Download and clean up US States,DC,PR block data Census 2020 (for EJAM)}
 \usage{
 census2020_get_data(
-  folder = "~/../Downloads/census2020zip",
-  folderout = "~/../Downloads/census2020out",
-  mystates = c(state.abb, "PR", "DC"),
+  folder = NULL,
+  folderout = folder,
+  mystates = c(state.abb, "DC", "PR"),
   do_download = TRUE,
   do_unzip = TRUE,
   do_read = TRUE,
@@ -16,12 +16,11 @@ census2020_get_data(
 )
 }
 \arguments{
-\item{folder}{path for downloaded files, or try tempdir()}
+\item{folder}{For downloaded files. Default is a tempdir. Folder is created if it does not exist.}
 
-\item{folderout}{path for assembled results files, or try tempdir()}
+\item{folderout}{path for assembled results files, default is what folder was set to.}
 
-\item{mystates}{default is DC and the 50 states -- lacks PR and VI/GU/MU/AS
-and would need those from a different source}
+\item{mystates}{default is DC, PR, and the 50 states -- lacks VI/GU/MP/AS}
 
 \item{do_download}{whether to do census2020_download()}
 
@@ -38,7 +37,7 @@ invisibly returns a data.table of US Census blocks with columns like
 blockid lat lon pop area (area in square meters)
 }
 \description{
-Download and clean up block data census 2020 (for EJAM)
+Download and clean up US States,DC,PR block data Census 2020 (for EJAM)
 }
 \details{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{  To create the individual data tables used by EJAM,
@@ -71,7 +70,7 @@ Download and clean up block data census 2020 (for EJAM)
 }\if{html}{\out{</div>}}
 }
 \seealso{
-\code{\link[=census2020_save_datasets]{census2020_save_datasets()}} which creates individual data.tables
+\code{\link[=census2020_get_islandareas]{census2020_get_islandareas()}}, \code{\link[=census2020_save_datasets]{census2020_save_datasets()}} which creates individual data.tables
 census2020_get_data() just does \code{\link[=census2020_download]{census2020_download()}} then \code{\link[=census2020_unzip]{census2020_unzip()}}
 then \code{\link[=census2020_read]{census2020_read()}} then \code{\link[=census2020_clean]{census2020_clean()}}
 }

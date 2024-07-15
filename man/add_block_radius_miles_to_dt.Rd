@@ -9,11 +9,7 @@ add_block_radius_miles_to_dt(dt, area_sqmi)
 \arguments{
 \item{dt}{data.table}
 
-\item{area_sqmi}{vector of numbers that are area in square miles.
-If area were in square meters, it could be converted like this:
-
-area_sqmi <-
-census2020download:::area_sqmi_from_area_sqmeters(area_sqmeters)}
+\item{area_sqmi}{vector of numbers that are area in square miles.}
 }
 \value{
 NULL. The side effect is that a new column is created by reference in
@@ -38,5 +34,5 @@ That would just turn the table into NULL.
 
 }
 \seealso{
-\code{\link[=block_radius_miles_from_area_sqmi]{block_radius_miles_from_area_sqmi()}}
+\code{\link[=radius_miles_from_area_sqmi]{radius_miles_from_area_sqmi()}}
 }

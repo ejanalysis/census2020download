@@ -1,6 +1,6 @@
 Package: census2020download
 Title: 2020 Census Blocks and Tools to Download from FTP
-Version: 2.2.2
+Version: 2.3.0
 Authors@R: 
     person(given = "Mark",
            family = "Corrales",
@@ -27,7 +27,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 NeedsCompilation: no
 Author: Mark Corrales [aut, cre] 
 Maintainer: Mark Corrales <corrales.mark@epa.gov>

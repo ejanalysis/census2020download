@@ -53,7 +53,6 @@
 #' @param best_data_cols default is key race ethnicity fields
 #' @seealso [census2020_download()] [census2020_unzip()]
 #' @return data.frame of 1 row per block, for example
-#' @export
 #'
 #' @examples \dontrun{
 #'  # library(census2020download)
@@ -72,6 +71,8 @@
 #'     match(colnames(blocks2020), census2020download::census_col_names_map$ftpname)
 #'     ]
 #'  }
+#'  
+#'  
 census2020_read <- function(folder = ".", filenumbers=1, mystates, sumlev=750, 
                             best_header_cols=c("LOGRECNO", "GEOCODE", 
                                                "AREALAND", "AREAWATR", 

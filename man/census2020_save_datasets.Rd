@@ -15,7 +15,7 @@ census2020_save_datasets(
 \arguments{
 \item{x}{a single data.table called blocks that is from \code{\link[=census2020_get_data]{census2020_get_data()}}}
 
-\item{metadata}{default is Census 2020 related}
+\item{metadata}{default is Census 2020 related, tries to use EJAM package}
 
 \item{save_as_data_for_package}{logical, whether to do \code{\link[usethis:use_data]{usethis::use_data()}} here}
 

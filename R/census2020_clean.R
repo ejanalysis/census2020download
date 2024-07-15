@@ -14,7 +14,7 @@
 #' @param cols_to_keep optional, which (renamed) columns to retain and return
 #' @return data.table with these columns by default:  blockfips lat lon pop area
 #' @import data.table
-#' @export
+#' 
 #'
 census2020_clean <- function(x, cols_to_keep = c("blockfips", "lat", "lon", "pop", "area")) {
 

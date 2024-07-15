@@ -99,6 +99,8 @@ see Census website for list of possible fields etc.
     match(colnames(blocks2020), census2020download::census_col_names_map$ftpname)
     ]
  }
+ 
+ 
 }
 \seealso{
 \code{\link[=census2020_download]{census2020_download()}} \code{\link[=census2020_unzip]{census2020_unzip()}}

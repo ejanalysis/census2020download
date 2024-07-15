@@ -1,12 +1,6 @@
-#' unzip Census 2020 zipped files already downloaded
+#' unzip Census 2020 zipped files already downloaded, for States and DC, PR
 #'
-#' @description
-#'   Warning: Code is not tested.
-#'   Attempts to read files already downloaded and unzipped, data files for specified states
-#'   from the US Census Bureau's FTP site for Decennial Census file data.
-#'   see <https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf>
-#'
-#' @param folder path to where zip files are, default is working directory
+#' @param folder Default is current working directory. Should contain .zip file(s)
 #' @param folderout path to where you want to put files, created if does not exist
 #' @param filenumbers a vector with any or all of 1,2,3 --
 #'   default is file 1.
@@ -17,7 +11,6 @@
 #'
 #' @seealso [census2020_download()] [census2020_read()]
 #' @return Vector of filenames of unzipped contents
-#' @export
 #' @examples \dontrun{
 #'  # library(census2020download)
 #'  census2020_download('./census2020zip', mystates = c('MD', 'DC'))
@@ -30,12 +23,18 @@
 #'  sum(c2$POP100)
 #'  plot(c2$INTPTLON[substr(c2$GEOCODE,1,2)=='24'], c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='24'], pch='.')
 #'  }
-census2020_unzip <- function(folder='.', folderout=folder, filenumbers=1, mystates) {
+#'  
+#'  
+census2020_unzip <- function(folder = NULL, folderout = folder, filenumbers = 1, mystates) {
   # not filenumbers=1:3
-  if (!dir.exists(folderout)) {
-    dir.create(folderout)
+  
+  if (is.null(folder) || missing(folder)) {
+    folder <- getwd()
   }
-
+  if (!dir.exists(folder)) {dir.create(folder)}
+  if (!dir.exists(folder)) {stop("failed to find or create folder at", folder)}
+  
+  
   if (missing(mystates)) {
     zipfiles <- list.files(folder, pattern = '2020.pl.zip')
     mystates <- substr(zipfiles,1,2)

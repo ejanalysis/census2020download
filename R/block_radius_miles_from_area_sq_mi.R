@@ -1,33 +1,47 @@
-#' simple formula to calculate radius given area
+
+
+#' helper - just calculates radius from area
 #' Just the square root of (area/pi)
-#' @param area_sqmi vector of numbers that are the area of each block,
-#'   in square miles.
+#' @param area_sqmi vector of areas of blocks in square miles.
+#' 
 #'   If area is available only in square meters, it can be converted like this:
-#'
+#'   
+#'   area_sqmeters <- 100000
+#'   
 #'   area_sqmi <-
 #'     census2020download:::area_sqmi_from_area_sqmeters(area_sqmeters)
-#'
+#' 
+#'   radius <- radius_miles_from_area_sqmi(area_sqmi)
+#'   
 #' @seealso [add_block_radius_miles_to_dt()] [add_block_radius_miles_to_dt()]
 #' @return vector of numbers same shape as input
-#' @export
+#' 
 #'
-block_radius_miles_from_area_sqmi <- function(area_sqmi) {
+radius_miles_from_area_sqmi <- function(area_sqmi) {
+  
   sqrt(area_sqmi / pi)
+  
 }
+#################################################################### #
 
 
+#' helper - converts units
+#' @details
+#'   area in the data.table blockwts after initial cleaning was 
+#'   called area and was in square meters
+#' @param area_sqmeters vector of areas in square meters
+#' @return vector of areas in square miles
+#' 
+#'
 area_sqmi_from_area_sqmeters <- function(area_sqmeters) {
-  # area in the data.table blockwts after initial cleaning was called area
-  # and was in square meters
-
-  # These ways of checking the conversion all report the same thing,
-  # the factor to divide by 2589988
-  #
-  # meters_per_mile^2  (using the meters_per_mile object 
-  #  from the EJAMejscreenapi package)
-  # format(1 /  convert(1, from = 'm2', towhat = 'mi2'), scientific = FALSE)
-  #  # convert() is from the proxistat package
-  # 1 %>% units::set_units(m2) %>% units::set_units(1 / mi2)
-
+  
+  # EJAM:::convert_units(
+  #   EJAM:::convert_units(1, from = 'm2', towhat = 'mi2'), 
+  #   from = 'mi2', towhat = 'm2')
+  
+  # EJAM:::convert_units(1, "square miles", "square meters")
+  # 2589988
+  
   area_sqmeters / 2589988
 }
+#################################################################### #
