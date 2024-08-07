@@ -51,7 +51,7 @@
 #' @param sumlev default is 750, for blocks
 #' @param best_header_cols default is a few key columns like POP100, GEOCODE (fips), etc.
 #' @param best_data_cols default is key race ethnicity fields
-#' @seealso [census2020_download()] [census2020_unzip()]
+#' @seealso [census2020_download()] [census2020_unzip()] [census2020_getdata()]
 #' @return data.frame of 1 row per block, for example
 #'
 #' @examples \dontrun{

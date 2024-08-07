@@ -103,5 +103,5 @@ see Census website for list of possible fields etc.
  
 }
 \seealso{
-\code{\link[=census2020_download]{census2020_download()}} \code{\link[=census2020_unzip]{census2020_unzip()}}
+\code{\link[=census2020_download]{census2020_download()}} \code{\link[=census2020_unzip]{census2020_unzip()}} \code{\link[=census2020_getdata]{census2020_getdata()}}
 }

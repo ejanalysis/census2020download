@@ -8,14 +8,18 @@ This was just done once, to create datasets for the EJAM package}
 census2020_save_datasets(
   x,
   metadata = NULL,
+  add_metadata = TRUE,
   save_as_data_for_package = FALSE,
   overwrite = TRUE
 )
 }
 \arguments{
-\item{x}{a single data.table called blocks that is from \code{\link[=census2020_get_data]{census2020_get_data()}}}
+\item{x}{a single data.table called blocks that is from \code{\link[=census2020_get_data]{census2020_get_data()}},
+with colnames blockfips, pop, area, lat, lon}
 
 \item{metadata}{default is Census 2020 related, tries to use EJAM package}
+
+\item{add_metadata}{logical, whether to add metadata about date and version}
 
 \item{save_as_data_for_package}{logical, whether to do \code{\link[usethis:use_data]{usethis::use_data()}} here}
 

@@ -57,7 +57,8 @@ census2020_get_data <- function(folder = NULL,      # "~/../Downloads/census2020
   
   if (is.null(folder) || missing(folder)) {
     folder = tempdir()
-    folder = file.path(folder, "census2020_islandareas")
+    # folder = file.path(folder, "census2020_islandareas")
+    folder = file.path(folder, "census2020")
   }
   if (!dir.exists(folder)) {dir.create(folder)}
   if (!dir.exists(folder)) {stop("failed to find or create folder at", folder)}
