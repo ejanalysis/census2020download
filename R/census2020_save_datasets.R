@@ -1,7 +1,9 @@
 #' Create each separate data.table, and optionally save for use in a package
 #' This was just done once, to create datasets for the EJAM package
-#' @param x a single data.table called blocks that is from [census2020_get_data()]
+#' @param x a single data.table called blocks that is from [census2020_get_data()],
+#'   with colnames blockfips, pop, area, lat, lon
 #' @param metadata default is Census 2020 related, tries to use EJAM package
+#' @param add_metadata logical, whether to add metadata about date and version
 #' @param save_as_data_for_package logical, whether to do [usethis::use_data()] here
 #' @param overwrite default is TRUE, but only relevant if usethis = TRUE
 #' @import data.table
@@ -35,6 +37,7 @@
 #'
 census2020_save_datasets <- function(x, 
                                      metadata = NULL,
+                                     add_metadata = TRUE,
                                      save_as_data_for_package = FALSE,
                                      overwrite = TRUE) {
   cat('
@@ -64,17 +67,23 @@ census2020_save_datasets <- function(x,
   data.table::setorder(blocks, blockfips)   #    sort by increasing blockfips 
   blocks[, bgfips := substr(blockfips, 1, 12)] # for merging blockgroup indicators to buffered blocks later on
   
-  data.table::setnames(x = blocks, old = 'pop', new = 'blockpop') #  RENAME for now POPULATION FIELD   ----
+  #  *CREATE blockwts column if not already there *  ####
+  ##  the blockwt is the blocks share of parent blockgroup census pop count
+  #
+  if ('blockwt' %in% names(blocks) && (!('pop' %in% names(blocks)) || all(is.na(blocks$pop)))) {
+    message('looks like we already have blockwt so do not need to create it')
+    # e.g., if we directly obtained an existing block weights file from EJScreen team instead of downloading the info from census
+  } else {
+    data.table::setnames(x = blocks, old = 'pop', new = 'blockpop') #  RENAME for now POPULATION FIELD   ----
+    blocks[ , bgpop := sum(blockpop), by = bgfips] # Census count population total of parent blockgroup gets saved with each block temporarily
+    blocks[ , bgpop := as.integer(bgpop)] # had to be in a separate line for some reason
+    blocks[ , blockwt := blockpop / bgpop] # ok if the ones with zero population were already removed
+    # In Census 2020:  1,393 blockgroups had 0 pop in every block, due to 12,922 of the 2,368,443 blocks with 0 pop.
+    # put columns in same order as were in blockweights csv from EJScreen (for those cols they have in common)
+  }
+  blocks[is.na(blockwt), blockwt := 0]
   
-  #  *CREATE blockwts column *  #  the blockwt is the blocks share of parent blockgroup census pop count
-  
-  blocks[ , bgpop := sum(blockpop), by = bgfips] # Census count population total of parent blockgroup gets saved with each block temporarily
-  blocks[ , bgpop := as.integer(bgpop)] # had to be in a separate line for some reason
-  blocks[ , blockwt := blockpop / bgpop] # ok if the ones with zero population were already removed
-  blocks[is.na(blockwt), blockwt := 0] 
-  # In Census 2020:  1,393 blockgroups had 0 pop in every block, due to 12,922 of the 2,368,443 blocks with 0 pop.
-  # put columns in same order as were in blockweights csv from EJScreen (for those cols they have in common)
-  data.table::setcolorder(blocks, neworder = c('blockfips', 'bgfips', 'blockwt', 'area', 'lat', 'lon', 'blockpop', 'bgpop'))
+  data.table::setcolorder(blocks, neworder = c('blockfips', 'bgfips', 'blockwt', 'area', 'lat', 'lon' )) # , 'blockpop', 'bgpop')) # pop is used only to create blockwt
   
   # Census Bureau explanation of FIPS:
   # blockid: 15-character code that is the concatenation of fields consisting of the 
@@ -177,7 +186,7 @@ census2020_save_datasets <- function(x,
   # set attributes to store metadata on vintage
   # metadata_add() ####
   
-  if (save_as_data_for_package) {
+  if (add_metadata) {
     
     if (requireNamespace(EJAM) &&  isNamespaceLoaded(EJAM) ) {
       
@@ -213,7 +222,7 @@ census2020_save_datasets <- function(x,
           census_version =       c(CensusVersion  = "2020"), 
           date_saved_in_package = as.character(Sys.Date())
         )
-
+        
         cat("EJAM package not found. Adding this metadata: \n")
         print(metadata)
       }
@@ -224,6 +233,9 @@ census2020_save_datasets <- function(x,
       attributes(blockwts)      <- c(attributes(blockwts),      metadata)
       attributes(quaddata)      <- c(attributes(     quaddata), metadata) 
     }
+  }
+  if (save_as_data_for_package) {
+    
     # use_data() ####
     cat("Doing use_data() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
     usethis::use_data(   bgid2fips,  overwrite = TRUE)
@@ -236,10 +248,10 @@ census2020_save_datasets <- function(x,
   
   # Return list of tables invisibly ####
   x <- list(   bgid2fips =    bgid2fips, 
-            blockid2fips = blockid2fips,
-            blockpoints  = blockpoints,
-            blockwts     = blockwts,
-            quaddata     = quaddata )
+               blockid2fips = blockid2fips,
+               blockpoints  = blockpoints,
+               blockwts     = blockwts,
+               quaddata     = quaddata )
   
   invisible(x)
 }
