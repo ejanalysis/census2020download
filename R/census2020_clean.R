@@ -1,16 +1,15 @@
-#' start to clean up download block data
+#' Start to clean up download block data
+#' Renames columns, drops most, calculates total area.
+#' @details 
+#'   Renames and drops columns based on names in 
+#'    [census_col_names_map] and the parameter cols_to_keep,
+#'   but see census_col_names_map for what could be retained.
+#'   
+#'   Returns table in data.table format.
 #'
-#' Rename columns based on census2020download::census_col_names_map
-#'   Drops columns not needed.
-#'   Returns it in data.table format.
+#'   area is in square meters and is sum of land and water areas.
 #'
-#'   area is in square meters
-#'
-#'   This is part of how the output of census2020_read()
-#'   can be cleaned up and split into smaller data files,
-#'   to be used in EJAM.
-#'
-#' @param x data from census2020_read()
+#' @param x data from [census2020_read()]
 #' @param cols_to_keep optional, which (renamed) columns to retain and return
 #' @return data.table with these columns by default:  blockfips lat lon pop area
 #' @import data.table
@@ -18,9 +17,27 @@
 #'
 census2020_clean <- function(x, cols_to_keep = c("blockfips", "lat", "lon", "pop", "area")) {
 
-  # # get rid of these variables - do not really need them
-  # x$LOGRECNO <- NULL
-  # x$POP100 <- NULL
+  # > census_col_names_map
+  #     ftpname        Rname                                                                               longname
+  # 1  LOGRECNO     logrecno                                                                  logical record number
+  # 2   GEOCODE    blockfips                                                                   15 digit Census FIPS
+  # 3  AREALAND     arealand                                                    size of area that is land not water
+  # 4  AREAWATR    areawater                                                             size of area that is water
+  # 5    POP100       pop100                                                                 Total Population Count
+  # 6     HU100 housingunits                                                                    Housing Units count
+  # 7  INTPTLAT          lat                                                             latitude of internal point
+  # 8  INTPTLON          lon                                                            longitude of internal point
+  # 9  P0020001          pop                                                                 Total Population Count
+  # 10 P0020002         hisp                                                                     Hispanic or Latino
+  # 11 P0020003      nonhisp                                                                 Not Hispanic or Latino
+  # 12 P0020004      nhalone                                          Not Hispanic or Latino Population of one race
+  # 13 P0020005         nhwa                                      White alone (of one race), Not Hispanic or Latino
+  # 14 P0020006         nhba                  Black or African American alone (of one race), Not Hispanic or Latino
+  # 15 P0020007      nhaiana          American Indian and Alaska Native alone (of one race), Not Hispanic or Latino
+  # 16 P0020008         nhaa                                      Asian alone (of one race), Not Hispanic or Latino
+  # 17 P0020009      nhnhpia Native Hawaiian and Other Pacific Islander alone (of one race), Not Hispanic or Latino
+  # 18 P0020010 nhotheralone                            Some Other Race alone (of one race), Not Hispanic or Latino
+  # 19 P0020011      nhmulti                  Population of two or more races (of one race), Not Hispanic or Latino
 
   # change to friendlier variable names using data file that maps old to new names.
   x <- data.table::copy(data.table::setDT(x)) # do not alter the copy that was passed to here, just to be clearere

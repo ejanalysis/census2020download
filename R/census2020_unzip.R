@@ -25,17 +25,17 @@
 #'  }
 #'  
 #'  
-census2020_unzip <- function(folder = NULL, folderout = folder, filenumbers = 1, mystates) {
+census2020_unzip <- function(folder = NULL, folderout = NULL, filenumbers = 1, mystates = NULL) {
   # not filenumbers=1:3
   
-  if (is.null(folder) || missing(folder)) {
-    folder <- getwd()
-  }
-  if (!dir.exists(folder)) {dir.create(folder)}
-  if (!dir.exists(folder)) {stop("failed to find or create folder at", folder)}
+  if (is.null(folder))    {folder    <- getwd()}
+  if (is.null(folderout)) {folderout <- folder}
+  if (!dir.exists(folder))    {dir.create(folder)}
+  if (!dir.exists(folderout)) {dir.create(folderout)}
+  if (!dir.exists(folder))    {stop("failed to find or create folder at", folder)}
+  if (!dir.exists(folderout)) {stop("failed to find or create folder at", folderout)}
   
-  
-  if (missing(mystates)) {
+  if (is.null(mystates)) {
     zipfiles <- list.files(folder, pattern = '2020.pl.zip')
     mystates <- substr(zipfiles,1,2)
   } else {

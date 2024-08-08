@@ -1,5 +1,5 @@
 #' Compile Census 2020 block data for all US states once downloaded and unzipped
-#' used by census2020_get()
+#' used by [census2020_get_data()]
 #' @details 
 #'   Not extensively tested.
 #'   Attempts to read files already downloaded and unzipped, data files for specified states
@@ -7,7 +7,7 @@
 #'   
 #'   see <https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf>
 #'   
-#' @details  Also look at the package totalcensus https://github.com/GL-Li/totalcensus 
+#' @details  Also look at the package [totalcensus](https://github.com/GL-Li/totalcensus) 
 #'   see Census website for list of possible fields etc.
 #'   \preformatted{ 
 #'     for example: 
@@ -51,7 +51,7 @@
 #' @param sumlev default is 750, for blocks
 #' @param best_header_cols default is a few key columns like POP100, GEOCODE (fips), etc.
 #' @param best_data_cols default is key race ethnicity fields
-#' @seealso [census2020_download()] [census2020_unzip()] [census2020_getdata()]
+#' @seealso [census2020_download()] [census2020_unzip()] [census2020_get_data()]
 #' @return data.frame of 1 row per block, for example
 #'
 #' @examples \dontrun{
@@ -73,7 +73,7 @@
 #'  }
 #'  
 #'  
-census2020_read <- function(folder = ".", filenumbers=1, mystates, sumlev=750, 
+census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumlev=750, 
                             best_header_cols=c("LOGRECNO", "GEOCODE", 
                                                "AREALAND", "AREAWATR", 
                                                "POP100", "HU100", 
@@ -81,8 +81,8 @@ census2020_read <- function(folder = ".", filenumbers=1, mystates, sumlev=750,
                             best_data_cols = paste0("P00", (20001:20011))) {
   # Gets census 2020 data
   #  based on code provided by the Census Bureau for reading and merging their raw data files
-  
-  if (missing(mystates)) {
+  if (is.null(folder)) {folder <- getwd()}
+  if (is.null(mystates)) {
     pl_files <- list.files(folder, pattern = 'geo2020.pl')
     mystates <- substr(pl_files,1,2)
   } else {
@@ -252,10 +252,11 @@ census2020_read <- function(folder = ".", filenumbers=1, mystates, sumlev=750,
   
   for (i in seq_along(mystates)) {
     
-    cat(paste0('Reading ', toupper(mystates[i])), '\n')
+    cat(paste0('Reading ', toupper(mystates[i])), ' geo file... \n')
     
     header <- try(readr::read_delim(header_file_path[i], col_names = header_col_names, show_col_types = FALSE, delim = "|"))
     if ("try-error" %in% class(header)) {print(header_file_path[i]); stop('cannot find or read file')}
+    if (NROW(vroom::problems(header)) > 0) {print(cbind(problem_colname = header_col_names[vroom::problems(header)$col], vroom::problems(header)))}
     
     # KEEP ONLY BLOCKS NOT OTHER GEOGRAPHIES LIKE TRACT
     header <- header[header$SUMLEV == sumlev, ]
@@ -274,25 +275,31 @@ census2020_read <- function(folder = ".", filenumbers=1, mystates, sumlev=750,
     # stop('that was geo header')
     
     if (1 %in% filenumbers) {
+      cat(paste0('Reading ', toupper(mystates[i])), ' part1 data file... \n')
       part1_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
                           paste0("P00", c(10001:10071, 20001:20073)))
       part1  <- readr::read_delim(part1_file_path[i], col_names = part1_colnames,show_col_types = FALSE, delim = "|")
+      if (NROW(vroom::problems(part1)) > 0) {print(vroom::problems(part1))}
       part1 <- part1[ , colnames(part1) %in% cols_needed]
       # cols_needed <- c(cols_needed, colnames(part1)[!(colnames(part1) %in% c('FILEID', 'STUSAB','CHARITER', "CIFSN" ,   "LOGRECNO" ))])
       list_needed <- c(list_needed, list(part1)) # try leaving that field in here
     }
     if (2 %in% filenumbers) {
+      cat(paste0('Reading ', toupper(mystates[i])), ' part2 data file... \n')
       part2_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
                           paste0("P00", c(30001:30071, 40001:40073)),
                           paste0("H00", 10001:10003))
       part2  <- readr::read_delim(part2_file_path[i], col_names = part2_colnames, show_col_types = FALSE,  delim = "|")
+      if (NROW(vroom::problems(part2)) > 0) {print(vroom::problems(part2))}
       cols_needed <- c(cols_needed, colnames(part2)[!(colnames(part2) %in% c('FILEID', 'STUSAB','CHARITER', "CIFSN" ,   "LOGRECNO"))])
       list_needed <- c(list_needed, list(part2[,names(part2)[!(names(part2) %in% 'CIFSN')]] ))
     }
     if (3 %in% filenumbers) {
+      cat(paste0('Reading ', toupper(mystates[i])), ' part3 data file... \n')
       part3_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
                           paste0("P00", 50001:50010))
       part3  <- readr::read_delim(part3_file_path[i], col_names = part3_colnames, show_col_types = FALSE,  delim = "|")
+      if (NROW(vroom::problems(part3)) > 0) {print(vroom::problems(part3))}
       cols_needed <- c(cols_needed, colnames(part3)[!(colnames(part3) %in% c('FILEID', 'STUSAB','CHARITER', "CIFSN" ,   "LOGRECNO"))])
       list_needed <- c(list_needed, list(part3))   #[,names(part3)[!(names(part3) %in% 'CIFSN')]] )) # seems like they did not remove that field from part3
     }

@@ -1,37 +1,25 @@
-#' Create each separate data.table, and optionally save for use in a package
-#' This was just done once, to create datasets for the EJAM package
+#' Create separate data.tables, and optionally save them in the EJAM package
+#' This is just done when Census FIPS or bounds or points change.
 #' @param x a single data.table called blocks that is from [census2020_get_data()],
 #'   with colnames blockfips, pop, area, lat, lon
 #' @param metadata default is Census 2020 related, tries to use EJAM package
-#' @param add_metadata logical, whether to add metadata about date and version
+#' @param add_metadata logical, whether to add EJAM-related metadata about date and version
 #' @param save_as_data_for_package logical, whether to do [usethis::use_data()] here
 #' @param overwrite default is TRUE, but only relevant if usethis = TRUE
 #' @import data.table
 #' @return A named list of these huge data.tables for the EJAM package:
+#'   - [bgid2fips]
+#'   - [blockid2fips]
+#'   - [blockpoints]
+#'   - [blockwts]
+#'   - [quaddata]
 #'
-#'   - bgid2fips
-#'   - blockid2fips
-#'   - blockpoints
-#'   - blockwts
-#'   - quaddata
-#'   
-#' @details 
-#'       To create the individual data tables used by EJAM, 
-#'       
-#'       blockwts, blockpoints, quaddata, blockid2fips, and bgid2fips,
-#'       
-#'       from within the EJAM source package root folder, try something like 
-#'       
-#'       
-#'       blocks <- census2020_get_data()
-#'       
-#'       mylistoftables <- census2020_save_datasets(blocks, 
-#'         save_as_data_for_package=TRUE, overwrite=TRUE)
-#'
-#'       
-#'       See ?census2020_get_datasets
-#'       
-#'       and see create_quaddata() in EJAM pkg. 
+#' @seealso [census2020_save_datasets()] creates individual data.tables, 
+#'  after [census2020_get_data()] has done these: 
+#'  - [census2020_download()]
+#'  - [census2020_unzip()]
+#'  - [census2020_read()]
+#'  - [census2020_clean()]
 #'       
 #' @export
 #'
@@ -40,20 +28,8 @@ census2020_save_datasets <- function(x,
                                      add_metadata = TRUE,
                                      save_as_data_for_package = FALSE,
                                      overwrite = TRUE) {
-  cat('
-      To create and save the datasets from within the EJAM source package root folder,
-      
-      library(census2020download)
-      
-      blocks <- census2020_get_data()
-      
-      mylistoftables <- census2020_save_datasets(
-        blocks, save_as_data_for_package = TRUE, overwrite = TRUE
-      )
-      
-      rm(mylistoftables)
-      gc()
-      \n')
+
+  cat("CREATING INDIVIDUAL TABLES\n")
   
   # this should now obtain PR,
   # but then still need AS VI GU MP 
@@ -193,7 +169,7 @@ census2020_save_datasets <- function(x,
       # for (i in seq_along(metadata)) {
       #   attr(x, which = names(metadata)[i]) <- metadata[[i]]
       # }
-      cat("Doing EJAM:::metadata_add() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
+      cat("ADDING METADATA... doing EJAM:::metadata_add() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
       
       bgid2fips     <-  EJAM:::metadata_add( bgid2fips ) # use defaults for metadata
       blockid2fips  <-  EJAM:::metadata_add( blockid2fips )
@@ -237,7 +213,7 @@ census2020_save_datasets <- function(x,
   if (save_as_data_for_package) {
     
     # use_data() ####
-    cat("Doing use_data() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
+    cat("SAVING AS PACKAGE DATASETS... doing use_data() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
     usethis::use_data(   bgid2fips,  overwrite = TRUE)
     usethis::use_data(blockid2fips,  overwrite = TRUE)
     usethis::use_data(blockpoints,   overwrite = TRUE)  
@@ -252,7 +228,7 @@ census2020_save_datasets <- function(x,
                blockpoints  = blockpoints,
                blockwts     = blockwts,
                quaddata     = quaddata )
-  
+  cat("RETURNING LIST OF TABLES INVISIBLY\n\n")
   invisible(x)
 }
 ############################################################################### #

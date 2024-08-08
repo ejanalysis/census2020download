@@ -3,12 +3,12 @@
 \name{census2020_read}
 \alias{census2020_read}
 \title{Compile Census 2020 block data for all US states once downloaded and unzipped
-used by census2020_get()}
+used by \code{\link[=census2020_get_data]{census2020_get_data()}}}
 \usage{
 census2020_read(
-  folder = ".",
+  folder = NULL,
   filenumbers = 1,
-  mystates,
+  mystates = NULL,
   sumlev = 750,
   best_header_cols = c("LOGRECNO", "GEOCODE", "AREALAND", "AREAWATR", "POP100", "HU100",
     "INTPTLAT", "INTPTLON"),
@@ -37,7 +37,7 @@ data.frame of 1 row per block, for example
 }
 \description{
 Compile Census 2020 block data for all US states once downloaded and unzipped
-used by census2020_get()
+used by \code{\link[=census2020_get_data]{census2020_get_data()}}
 }
 \details{
 Not extensively tested.
@@ -46,7 +46,7 @@ from the US Census Bureau's FTP site for Decennial Census file data.
 
 see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf}
 
-Also look at the package totalcensus https://github.com/GL-Li/totalcensus
+Also look at the package \href{https://github.com/GL-Li/totalcensus}{totalcensus}
 see Census website for list of possible fields etc.
 \preformatted{ 
     for example: 
@@ -103,5 +103,5 @@ see Census website for list of possible fields etc.
  
 }
 \seealso{
-\code{\link[=census2020_download]{census2020_download()}} \code{\link[=census2020_unzip]{census2020_unzip()}} \code{\link[=census2020_getdata]{census2020_getdata()}}
+\code{\link[=census2020_download]{census2020_download()}} \code{\link[=census2020_unzip]{census2020_unzip()}} \code{\link[=census2020_get_data]{census2020_get_data()}}
 }

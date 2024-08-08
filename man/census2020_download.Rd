@@ -11,23 +11,25 @@ census2020_download(
   baseurl =
     "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/",
   urlmiddle = "",
-  zipnames_suffix = "2020.pl.zip"
+  zipnames_suffix = "2020.pl.zip",
+  overwrite = TRUE
 )
 }
 \arguments{
 \item{folder}{Default is a tempdir. Folder and subfolder for data are created if they do not exist.}
 
-\item{mystates}{Character vector of 2 letter abbreviations, optional,
-\itemize{
-\item Default is 50 states + DC + PR here. Island Areas are VI GU MP AS.
-}}
+\item{mystates}{Default is 50 states + DC + PR here. Island Areas are VI GU MP AS.
+Character vector of 2 letter abbreviations.}
 
 \item{allstates}{Default is same as mystates default.}
 
-\item{baseurl}{default is the FTP folder with the data}
+\item{baseurl}{Default is the FTP folder with the data}
 
-\item{urlmiddle}{empty for States info, but
+\item{urlmiddle}{Default is empty for States info, but
 for Island Areas, urlmiddle = "demographic-and-housing-characteristics-file/"}
+
+\item{overwrite}{set to FALSE to skip download if filename already in folder,
+but note it does not check if any existing file is corrupt/size zero/obsolete/etc.}
 }
 \value{
 Effect is to download and save locally a number of data files.
@@ -46,17 +48,17 @@ see (https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/a
 \examples{
 \dontrun{
  # library(census2020download)
- census2020_download('./census2020zip', mystates = c('MD', 'DC'))
+ census2020_download('./census2020zip', mystates = c('RI', 'DE'))
  census2020_unzip('./census2020zip','./census2020out')
- c2 <- census2020_read(folder = './census2020out', mystates = c('MD', 'DC'))
+ c2 <- census2020_read(folder = './census2020out', mystates = c('RI', 'DE'))
  save(c2,file = 'census2020blocks.rdata')
  dim(c2)
  str(c2)
  head(c2)
  sum(c2$POP100)
  plot(
-   c2$INTPTLON[substr(c2$GEOCODE,1,2)=='24'],
-   c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='24'], pch='.')
+   c2$INTPTLON[substr(c2$GEOCODE,1,2)=='10'],
+   c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='10'], pch='.')
  }
  
 }

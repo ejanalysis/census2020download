@@ -2,8 +2,8 @@
 % Please edit documentation in R/census2020_save_datasets.R
 \name{census2020_save_datasets}
 \alias{census2020_save_datasets}
-\title{Create each separate data.table, and optionally save for use in a package
-This was just done once, to create datasets for the EJAM package}
+\title{Create separate data.tables, and optionally save them in the EJAM package
+This is just done when Census FIPS or bounds or points change.}
 \usage{
 census2020_save_datasets(
   x,
@@ -19,7 +19,7 @@ with colnames blockfips, pop, area, lat, lon}
 
 \item{metadata}{default is Census 2020 related, tries to use EJAM package}
 
-\item{add_metadata}{logical, whether to add metadata about date and version}
+\item{add_metadata}{logical, whether to add EJAM-related metadata about date and version}
 
 \item{save_as_data_for_package}{logical, whether to do \code{\link[usethis:use_data]{usethis::use_data()}} here}
 
@@ -28,33 +28,24 @@ with colnames blockfips, pop, area, lat, lon}
 \value{
 A named list of these huge data.tables for the EJAM package:
 \itemize{
-\item bgid2fips
-\item blockid2fips
-\item blockpoints
-\item blockwts
-\item quaddata
+\item \link{bgid2fips}
+\item \link{blockid2fips}
+\item \link{blockpoints}
+\item \link{blockwts}
+\item \link{quaddata}
 }
 }
 \description{
-Create each separate data.table, and optionally save for use in a package
-This was just done once, to create datasets for the EJAM package
+Create separate data.tables, and optionally save them in the EJAM package
+This is just done when Census FIPS or bounds or points change.
 }
-\details{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{  To create the individual data tables used by EJAM, 
-  
-  blockwts, blockpoints, quaddata, blockid2fips, and bgid2fips,
-  
-  from within the EJAM source package root folder, try something like 
-  
-  
-  blocks <- census2020_get_data()
-  
-  mylistoftables <- census2020_save_datasets(blocks, 
-    save_as_data_for_package=TRUE, overwrite=TRUE)
-
-  
-  See ?census2020_get_datasets
-  
-  and see create_quaddata() in EJAM pkg. 
-}\if{html}{\out{</div>}}
+\seealso{
+\code{\link[=census2020_save_datasets]{census2020_save_datasets()}} creates individual data.tables,
+after \code{\link[=census2020_get_data]{census2020_get_data()}} has done these:
+\itemize{
+\item \code{\link[=census2020_download]{census2020_download()}}
+\item \code{\link[=census2020_unzip]{census2020_unzip()}}
+\item \code{\link[=census2020_read]{census2020_read()}}
+\item \code{\link[=census2020_clean]{census2020_clean()}}
+}
 }

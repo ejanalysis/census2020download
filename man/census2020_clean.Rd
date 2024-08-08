@@ -2,12 +2,13 @@
 % Please edit documentation in R/census2020_clean.R
 \name{census2020_clean}
 \alias{census2020_clean}
-\title{start to clean up download block data}
+\title{Start to clean up download block data
+Renames columns, drops most, calculates total area.}
 \usage{
 census2020_clean(x, cols_to_keep = c("blockfips", "lat", "lon", "pop", "area"))
 }
 \arguments{
-\item{x}{data from census2020_read()}
+\item{x}{data from \code{\link[=census2020_read]{census2020_read()}}}
 
 \item{cols_to_keep}{optional, which (renamed) columns to retain and return}
 }
@@ -15,14 +16,15 @@ census2020_clean(x, cols_to_keep = c("blockfips", "lat", "lon", "pop", "area"))
 data.table with these columns by default:  blockfips lat lon pop area
 }
 \description{
-Rename columns based on census2020download::census_col_names_map
-Drops columns not needed.
-Returns it in data.table format.
+Start to clean up download block data
+Renames columns, drops most, calculates total area.
 }
 \details{
-area is in square meters
+Renames and drops columns based on names in
+\link{census_col_names_map} and the parameter cols_to_keep,
+but see census_col_names_map for what could be retained.
 
-This is part of how the output of census2020_read()
-can be cleaned up and split into smaller data files,
-to be used in EJAM.
+Returns table in data.table format.
+
+area is in square meters and is sum of land and water areas.
 }

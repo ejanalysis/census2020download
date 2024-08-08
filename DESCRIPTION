@@ -7,14 +7,10 @@ Authors@R:
            role = c("aut", "cre"),
            email = "corrales.mark@epa.gov"
            )
-Description: Creates block datasets for use in the EJAM package.
-  Has basic functions for downloading from FTP, 
+Description: Creates block datasets (and some blockgroup tables)
+  for use in the EJAM package. Has basic functions for downloading from FTP, 
   unzipping, reading the 2020 Census data for some or all US States 
-  into a single data.frame. It creates a dataset of all US blocks
-  with a few key variables like population count, lat/lon of internal point, 
-  FIPS. It downloads and also could retain some other columns like 
-  area, and some basic race ethnicity counts,
-  with small changes to some source code. 
+  into data.table format.
 Depends: R (>= 3.5.0)
 Imports: 
     data.table,

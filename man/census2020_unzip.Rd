@@ -4,7 +4,12 @@
 \alias{census2020_unzip}
 \title{unzip Census 2020 zipped files already downloaded, for States and DC, PR}
 \usage{
-census2020_unzip(folder = NULL, folderout = folder, filenumbers = 1, mystates)
+census2020_unzip(
+  folder = NULL,
+  folderout = NULL,
+  filenumbers = 1,
+  mystates = NULL
+)
 }
 \arguments{
 \item{folder}{Default is current working directory. Should contain .zip file(s)}
