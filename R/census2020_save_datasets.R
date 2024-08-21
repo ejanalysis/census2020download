@@ -164,7 +164,7 @@ census2020_save_datasets <- function(x,
   
   if (add_metadata) {
     
-    if (requireNamespace(EJAM) &&  isNamespaceLoaded(EJAM) ) {
+    if (requireNamespace('EJAM') &&  isNamespaceLoaded('EJAM') ) {
       
       # for (i in seq_along(metadata)) {
       #   attr(x, which = names(metadata)[i]) <- metadata[[i]]
