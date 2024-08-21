@@ -11,7 +11,7 @@ Description: Creates block datasets (and some blockgroup tables)
   for use in the EJAM package. Has basic functions for downloading from FTP, 
   unzipping, and reading the 2020 Census data for some or all US States 
   into data.table format.
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.6.1)
 Imports: 
     data.table,
     SearchTrees,
