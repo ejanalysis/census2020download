@@ -1,4 +1,19 @@
-url: ~
+url: https://ejanalysis.github.io/census2020download/
 template:
   bootstrap: 5
-
+reference:
+- title: "Key Functions"
+  contents:
+  - census2020_get_data
+  - census2020_save_datasets
+- title: "Datasets"
+  contents:
+  - starts_with("block")
+  - quaddata
+- title: internal
+  contents:
+  - starts_with("census2020")
+  - add_block_radius_miles_to_dt
+  - area_sqmi_from_area_sqmeters
+  - census_col_names_map
+  - radius_miles_from_area_sqmi
