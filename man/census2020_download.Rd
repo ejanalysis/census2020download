@@ -28,6 +28,8 @@ Character vector of 2 letter abbreviations.}
 \item{urlmiddle}{Default is empty for States info, but
 for Island Areas, urlmiddle = "demographic-and-housing-characteristics-file/"}
 
+\item{zipnames_suffix}{last part of the filenames Census provides - default should work}
+
 \item{overwrite}{set to FALSE to skip download if filename already in folder,
 but note it does not check if any existing file is corrupt/size zero/obsolete/etc.}
 }
@@ -60,7 +62,7 @@ see (https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/a
    c2$INTPTLON[substr(c2$GEOCODE,1,2)=='10'],
    c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='10'], pch='.')
  }
- 
+
 }
 \seealso{
 \code{\link[=census2020_get_data]{census2020_get_data()}} \code{\link[=census2020_download_islandareas]{census2020_download_islandareas()}}

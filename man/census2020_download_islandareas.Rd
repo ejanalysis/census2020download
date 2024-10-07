@@ -24,6 +24,11 @@ census2020_download_islandareas(
 \item{allstates}{Default is VI GU MP AS}
 
 \item{baseurl}{default is the FTP folder with the data}
+
+\item{urlmiddle}{Default is empty for States info, but
+for Island Areas, urlmiddle = "demographic-and-housing-characteristics-file/"}
+
+\item{zipnames_suffix}{last part of the filenames Census provides - default should work}
 }
 \value{
 Effect is to download and save locally a number of data files.
@@ -33,9 +38,9 @@ Download Census 2020 data files from FTP - For Island Areas VI GU MP AS
 }
 \examples{
 \dontrun{
- # 
+ #
  }
- 
+
 }
 \seealso{
 \code{\link[=census2020_get_data]{census2020_get_data()}} \code{\link[=census2020_download]{census2020_download()}}
