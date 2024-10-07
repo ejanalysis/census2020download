@@ -1,27 +1,27 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>https://ejanalysis.github.io/census2020download/404.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/LICENSE-text.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/authors.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/index.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/add_block_radius_miles_to_dt.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/area_sqmi_from_area_sqmeters.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/block_radius_miles_from_area_sqmi.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/blockid2fips.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/blockpoints.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/blockwts.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/census2020_clean.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/census2020_download.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/census2020_download_islandareas.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/census2020_get_data.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/census2020_get_data_islandareas.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/census2020_read.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/census2020_save_datasets.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/census2020_unzip.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/census2020download.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/census_col_names_map.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/index.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/lookup_states.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/quaddata.html</loc></url>
-<url><loc>https://ejanalysis.github.io/census2020download/reference/radius_miles_from_area_sqmi.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/404.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/LICENSE-text.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/authors.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/index.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/add_block_radius_miles_to_dt.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/area_sqmi_from_area_sqmeters.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/block_radius_miles_from_area_sqmi.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/blockid2fips.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/blockpoints.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/blockwts.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/census2020_clean.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/census2020_download.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/census2020_download_islandareas.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/census2020_get_data.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/census2020_get_data_islandareas.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/census2020_read.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/census2020_save_datasets.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/census2020_unzip.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/census2020download.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/census_col_names_map.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/index.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/lookup_states.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/quaddata.html</loc></url>
+<url><loc>https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download/reference/radius_miles_from_area_sqmi.html</loc></url>
 </urlset>
 
