@@ -14,6 +14,7 @@ reference:
   contents:
   - starts_with("census2020")
   - add_block_radius_miles_to_dt
+  - lookup_states
   - area_sqmi_from_area_sqmeters
   - census_col_names_map
   - radius_miles_from_area_sqmi
