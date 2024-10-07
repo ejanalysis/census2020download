@@ -31,7 +31,7 @@ For more information see
 \itemize{
 \item \href{https://ejanalysis.github.io/census2020download/reference/census2020download.html}{census2020download package documentation}
 \item \href{https://github.com/ejanalysis/census2020download}{census2020download package github repository}
-\item \href{https://usepa.github.io/EJAM}{EJAM package}{.uri}
+\item \href{https://usepa.github.io/EJAM}{EJAM package}
 \item \href{https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html}{Census vs ACS geos info}
 }
 
@@ -57,7 +57,7 @@ as fraction of parent block group population, and size of block
 Useful links:
 \itemize{
   \item \url{https://ejanalysis.github.io/census2020download/}
-  \item \url{https://ejanalysis.github.io/census2020download/index.html}
+  \item \url{https://github.com/ejanalysis/census2020download}
 }
 
 }
