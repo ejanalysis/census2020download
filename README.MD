@@ -23,9 +23,7 @@ For more information see
 
 - [census2020download package documentation](https://ejanalysis.github.io/census2020download/reference/census2020download.html)
 
-- [census2020download package github repository](https://github.com/ejanalysis/census2020download)
-
-- [EJAM package](https://usepa.github.io/EJAM){.uri}
+- [EJAM package documentation](https://usepa.github.io/EJAM)
 
  - [Census vs ACS geos info](https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html)
 
