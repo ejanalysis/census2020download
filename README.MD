@@ -1,7 +1,7 @@
 # Download all Census 2020 blocks to use in EJAM
 
 
-This package is just a set of helper functions used by the EJAM package.
+This package is just a set of helper functions used by the [EJAM](https://usepa.github.io/EJAM/index.html) package.
 
 It creates block datasets (and some blockgroup tables) for use in the EJAM package.
 It has basic functions for downloading from FTP, 
