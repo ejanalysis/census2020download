@@ -35,11 +35,17 @@ Also see page a-22 in https://www2.census.gov/programs-surveys/decennial/2020/te
 
 \item{overwrite}{passed to \code{\link[=census2020_download_islandareas]{census2020_download_islandareas()}}}
 
-\item{sumlev}{set to 150, meaning blockgroup not block, since no block data for island areas in these files!}
+\item{sumlev}{set to 150, meaning blockgroup not block.
+
+However, note this from Census Bureau:
+"With this release of the 2020 IAC Demographic and Housing Characteristics Summary File,
+the Census Bureau provides additional demographic
+and housing characteristics for the Island Areas
+down to the block, block group, and census tract levels."}
 }
 \value{
-invisibly returns a data.table of US Census blocks with columns like
-blockid lat lon pop area (area in square meters), or intermediate info
+invisibly returns a data.table of US Census units with columns like
+the id, lat lon pop area (area in square meters), or intermediate info
 depending on do_read, do_clean, etc.
 }
 \description{
@@ -58,6 +64,7 @@ see the detailed references in the help for \code{\link[=census2020_read]{census
 \examples{
  \dontrun{
  x = [census2020_get_data()] # States/DC/PR at block resolution
- y = [census2020_get_data_islandareas()] # VI,GU,MP,AS at blockgroup scale
+ y = [census2020_get_data_islandareas()] # VI,GU,MP,AS (at blockgroup scale)
  }
 }
+\keyword{internal}

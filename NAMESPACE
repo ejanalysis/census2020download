@@ -3,6 +3,7 @@
 export(census2020_download)
 export(census2020_download_islandareas)
 export(census2020_get_data)
+export(census2020_get_data_islandareas)
 export(census2020_save_datasets)
 import(data.table)
 importFrom(utils,download.file)

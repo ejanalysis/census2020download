@@ -24,7 +24,13 @@ and/or island areas via helper function \code{\link[=census2020_get_data_islanda
 returning either type of data, or a combined data.table if both are requested.
 But block resolution is not available from these files for island areas,
 so default for those is to get block groups,
-which would not make sense to mix with blocks for states.}
+which would not make sense to mix with blocks for states.
+
+However, note this from Census Bureau:
+"With this release of the 2020 IAC Demographic and Housing Characteristics Summary File,
+the Census Bureau provides additional demographic
+and housing characteristics for the Island Areas
+down to the block, block group, and census tract levels."}
 
 \item{folder}{For downloaded files. Default is a tempdir. Folder is created if it does not exist.}
 
@@ -42,10 +48,16 @@ which would not make sense to mix with blocks for states.}
 
 \item{sumlev}{Generally should not be changed from defaults.
 Value of 750 means blocks, the only option likely to work here.
-150 would mean blockgroups as for Island Areas since they lack block data here.
+150 would mean blockgroups as for Island Areas since they seemed to lack block data here.
 140 is tracts, 40 and 50 are State and County.
 If mystates are Island Areas, this function uses 150 instead of 750.
-But a mix of resolutions would not really make sense.}
+But a mix of resolutions would not really make sense.
+
+However, note this from Census Bureau:
+"With this release of the 2020 IAC Demographic and Housing Characteristics Summary File,
+the Census Bureau provides additional demographic
+and housing characteristics for the Island Areas
+down to the block, block group, and census tract levels."}
 }
 \value{
 invisibly returns a data.table of US Census blocks with columns like

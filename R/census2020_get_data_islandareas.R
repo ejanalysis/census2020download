@@ -25,7 +25,13 @@
 #' @param do_read     whether to do [census2020_read_islandareas()]
 #' @param do_clean    whether to do [census2020_clean_islandareas()]
 #' @param overwrite passed to [census2020_download_islandareas()]
-#' @param sumlev set to 150, meaning blockgroup not block, since no block data for island areas in these files!
+#' @param sumlev set to 150, meaning blockgroup not block.
+#'
+#'  However, note this from Census Bureau:
+#'  "With this release of the 2020 IAC Demographic and Housing Characteristics Summary File,
+#'  the Census Bureau provides additional demographic
+#'  and housing characteristics for the Island Areas
+#'  down to the block, block group, and census tract levels."
 #'
 #' @details
 #' Table 1 with pop seems unavailable from this source for island areas
@@ -41,13 +47,14 @@
 #' @examples
 #'  \dontrun{
 #'  x = [census2020_get_data()] # States/DC/PR at block resolution
-#'  y = [census2020_get_data_islandareas()] # VI,GU,MP,AS at blockgroup scale
+#'  y = [census2020_get_data_islandareas()] # VI,GU,MP,AS (at blockgroup scale)
 #'  }
-#' @return invisibly returns a data.table of US Census blocks with columns like
-#'   blockid lat lon pop area (area in square meters), or intermediate info
+#' @return invisibly returns a data.table of US Census units with columns like
+#'   the id, lat lon pop area (area in square meters), or intermediate info
 #'   depending on do_read, do_clean, etc.
 #'
-#'
+#' @export
+#' @keywords internal
 #'
 census2020_get_data_islandareas <- function(mystates = c('VI', 'GU', 'MP', 'AS'),
                                             folder = NULL,# file.path(getwd(), "census2020_islandareas"),
