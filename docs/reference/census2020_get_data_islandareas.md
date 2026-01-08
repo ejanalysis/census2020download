@@ -64,13 +64,18 @@ census2020_get_data_islandareas(
 
 - sumlev:
 
-  set to 150, meaning blockgroup not block, since no block data for
-  island areas in these files!
+  set to 150, meaning blockgroup not block.
+
+  However, note this from Census Bureau: "With this release of the 2020
+  IAC Demographic and Housing Characteristics Summary File, the Census
+  Bureau provides additional demographic and housing characteristics for
+  the Island Areas down to the block, block group, and census tract
+  levels."
 
 ## Value
 
-invisibly returns a data.table of US Census blocks with columns like
-blockid lat lon pop area (area in square meters), or intermediate info
+invisibly returns a data.table of US Census units with columns like the
+id, lat lon pop area (area in square meters), or intermediate info
 depending on do_read, do_clean, etc.
 
 ## Details

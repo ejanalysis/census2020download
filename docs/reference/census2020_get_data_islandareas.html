@@ -90,13 +90,18 @@ Also see page a-22 in https://www2.census.gov/programs-surveys/decennial/2020/te
 
 
 <dt id="arg-sumlev">sumlev<a class="anchor" aria-label="anchor" href="#arg-sumlev"></a></dt>
-<dd><p>set to 150, meaning blockgroup not block, since no block data for island areas in these files!</p></dd>
+<dd><p>set to 150, meaning blockgroup not block.</p>
+<p>However, note this from Census Bureau:
+"With this release of the 2020 IAC Demographic and Housing Characteristics Summary File,
+the Census Bureau provides additional demographic
+and housing characteristics for the Island Areas
+down to the block, block group, and census tract levels."</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>invisibly returns a data.table of US Census blocks with columns like
-blockid lat lon pop area (area in square meters), or intermediate info
+    <p>invisibly returns a data.table of US Census units with columns like
+the id, lat lon pop area (area in square meters), or intermediate info
 depending on do_read, do_clean, etc.</p>
     </div>
     <div class="section level2">
