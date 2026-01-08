@@ -1,4 +1,4 @@
-url: https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download
+url: https://github.com/ejanalysis/census2020download
 template:
   bootstrap: 5
 reference:

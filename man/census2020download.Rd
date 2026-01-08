@@ -4,9 +4,9 @@
 \name{census2020download}
 \alias{census2020download}
 \alias{census2020download-package}
-\title{2020 Census Blocks and Tools to Download from FTP}
+\title{2020 Census Blocks and Tools to Download from Census Bureau}
 \description{
-Basic functions for downloading from FTP,
+Basic functions for downloading from Census website,
 unzipping, reading the 2020 Census data for some or all US States
 into a single data.table, and splitting into a few tables
 for use in the EJAM package.
@@ -15,7 +15,7 @@ for use in the EJAM package.
 This package is just a set of helper functions used by the EJAM package.
 
 It creates block datasets (and some blockgroup tables) for use in the EJAM package.
-It has basic functions for downloading from FTP,
+It has basic functions for downloading from Census,
 unzipping, reading the 2020 Census data for some or all US States
 into data.table format.
 
@@ -31,7 +31,7 @@ For more information see
 \itemize{
 \item \href{https://ejanalysis.github.io/census2020download/reference/census2020download.html}{census2020download package documentation}
 \item \href{https://github.com/ejanalysis/census2020download}{census2020download package github repository}
-\item \href{https://usepa.github.io/EJAM}{EJAM package}
+\item \href{https://ejanalysis.com/EJAM}{EJAM package}
 \item \href{https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html}{Census vs ACS geos info}
 }
 
@@ -56,12 +56,12 @@ as fraction of parent block group population, and size of block
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://ejanalysis.github.io/census2020download/}
   \item \url{https://github.com/ejanalysis/census2020download}
+  \item \url{https://ejanalysis.github.io/census2020download/}
 }
 
 }
 \author{
-\strong{Maintainer}: Mark Corrales \email{corrales.mark@epa.gov}
+\strong{Maintainer}: Mark Corrales \email{info@ejanalysis.com}
 
 }

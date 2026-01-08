@@ -1,16 +1,16 @@
 Package: census2020download
-Title: 2020 Census Blocks and Tools to Download from FTP
+Title: 2020 Census Blocks and Tools to Download from Census Bureau
 Version: 2.3.0
 Authors@R: 
     person(given = "Mark",
            family = "Corrales",
            role = c("aut", "cre"),
-           email = "corrales.mark@epa.gov"
+           email = "info@ejanalysis.com"
            )
 Description: Creates block datasets (and some blockgroup tables)
-  for use in the EJAM package. Has basic functions for downloading from FTP, 
-  unzipping, and reading the 2020 Census data for some or all US States 
-  into data.table format.
+  for use in the EJAM package. Has basic functions for downloading files from Census Bureau, 
+  unzipping, and reading the 2020 Census data for some or all US States/DC/PR 
+  into data.table format. Also some limited tools for Island Areas (VI,GU,MP,AS).
 Depends: R (>= 3.6.1)
 Imports: 
     data.table,
@@ -26,5 +26,5 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 NeedsCompilation: no
 Author: Mark Corrales [aut, cre] 
-Maintainer: Mark Corrales <corrales.mark@epa.gov>
-URL: https://ejanalysis.github.io/census2020download/, https://github.com/ejanalysis/census2020download
+Maintainer: Mark Corrales <info@ejanalysis.com>
+URL: https://github.com/ejanalysis/census2020download, https://ejanalysis.github.io/census2020download/

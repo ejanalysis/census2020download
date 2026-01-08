@@ -1,8 +1,8 @@
 
-#' @title Download Census 2020 data files from FTP by State/DC/PR
+#' @title Download Census 2020 data files by State/DC/PR
 #' @details
 #'   Attempts to download some basic data files for specified states/etc.
-#'   from the US Census Bureau's FTP site for Decennial Census file data.
+#'   from the US Census Bureau's site for Decennial Census file data.
 #'
 #'   see (https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf)
 #'
@@ -14,7 +14,7 @@
 #'   Character vector of 2 letter abbreviations.
 #' @param allstates Default is same as mystates default.
 #'
-#' @param baseurl Default is the FTP folder with the data
+#' @param baseurl Default is the URL of the folder with the data
 #' @param urlmiddle Default is empty for States info, but
 #'   for Island Areas, urlmiddle = "demographic-and-housing-characteristics-file/"
 #' @param overwrite set to FALSE to skip download if filename already in folder,

@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>2020 Census Blocks and Tools to Download from FTP • census2020download</title>
+<title>2020 Census Blocks and Tools to Download from Census Bureau • census2020download</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="2020 Census Blocks and Tools to Download from FTP">
-<meta name="description" content="Creates block datasets (and some blockgroup tables) for use in the EJAM package. Has basic functions for downloading from FTP, unzipping, and reading the 2020 Census data for some or all US States into data.table format.">
-<meta property="og:description" content="Creates block datasets (and some blockgroup tables) for use in the EJAM package. Has basic functions for downloading from FTP, unzipping, and reading the 2020 Census data for some or all US States into data.table format.">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="2020 Census Blocks and Tools to Download from Census Bureau">
+<meta name="description" content="Creates block datasets (and some blockgroup tables) for use in the EJAM package. Has basic functions for downloading files from Census Bureau, unzipping, and reading the 2020 Census data for some or all US States/DC/PR into data.table format. Also some limited tools for Island Areas (VI,GU,MP,AS).">
+<meta property="og:description" content="Creates block datasets (and some blockgroup tables) for use in the EJAM package. Has basic functions for downloading files from Census Bureau, unzipping, and reading the 2020 Census data for some or all US States/DC/PR into data.table format. Also some limited tools for Island Areas (VI,GU,MP,AS).">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -37,7 +37,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/ejanalysis/census2020download/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="nav-link" href="https://github.com/ejanalysis/census2020download/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -48,21 +48,20 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="download-all-census-2020-blocks-to-use-in-ejam">Download all Census 2020 blocks to use in EJAM<a class="anchor" aria-label="anchor" href="#download-all-census-2020-blocks-to-use-in-ejam"></a>
 </h1></div>
-<p>This package is just a set of helper functions used by the EJAM package.</p>
-<p>It creates block datasets (and some blockgroup tables) for use in the EJAM package. It has basic functions for downloading from FTP, unzipping, reading the 2020 Census data for some or all US States into data.table format.</p>
+<p>This package is just a set of helper functions used by the <a href="https://ejanalysis.com/EJAM" class="external-link">EJAM</a> package.</p>
+<p>It creates block datasets (and some blockgroup tables) for use in the EJAM package. It has basic functions for downloading from Census Bureau, unzipping, reading the 2020 Census data for some or all US States into data.table format. Also some limited tools for Island Areas (VI,GU,MP,AS).</p>
 <p>It can retain a few key variables like</p>
 <ul>
-<li><p>lat and lon of block internal point</p></li>
-<li><p>FIPS codes</p></li>
-<li><p>population count or weight</p></li>
-<li><p>area (or effective radius)</p></li>
+<li>lat and lon of block internal point</li>
+<li>FIPS codes</li>
+<li>population count or weight</li>
+<li>area (or effective radius)</li>
 </ul>
 <p>For more information see</p>
 <ul>
-<li><p><a href="https://ejanalysis.github.io/census2020download/reference/census2020download.html" class="external-link">census2020download package documentation</a></p></li>
-<li><p><a href="https://github.com/ejanalysis/census2020download" class="external-link">census2020download package github repository</a></p></li>
-<li><p><a href="https://usepa.github.io/EJAM" class="external-link uri">EJAM package</a></p></li>
-<li><p><a href="https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html" class="external-link">Census vs ACS geos info</a></p></li>
+<li><a href="https://ejanalysis.github.io/census2020download/reference/census2020download.html" class="external-link">census2020download package documentation</a></li>
+<li><a href="https://ejanalysis.com/docs" class="external-link">EJAM package documentation</a></li>
+<li><a href="https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html" class="external-link">Census vs ACS geos info</a></li>
 </ul>
 <p><em>Key functions and data.tables created include</em></p>
 <ul>
@@ -86,7 +85,7 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/ejanalysis/census2020download/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/ejanalysis/census2020download/">Browse source code</a></li>
 </ul>
 </div>
 
@@ -110,7 +109,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Mark Corrales <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Mark Corrales <br><small class="roles"> Author, maintainer </small>   </li>
 </ul>
 </div>
 
@@ -125,7 +124,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

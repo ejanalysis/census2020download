@@ -2,7 +2,7 @@
 % Please edit documentation in R/census2020_download.R
 \name{census2020_download}
 \alias{census2020_download}
-\title{Download Census 2020 data files from FTP by State/DC/PR}
+\title{Download Census 2020 data files by State/DC/PR}
 \usage{
 census2020_download(
   folder = NULL,
@@ -23,7 +23,7 @@ Character vector of 2 letter abbreviations.}
 
 \item{allstates}{Default is same as mystates default.}
 
-\item{baseurl}{Default is the FTP folder with the data}
+\item{baseurl}{Default is the URL of the folder with the data}
 
 \item{urlmiddle}{Default is empty for States info, but
 for Island Areas, urlmiddle = "demographic-and-housing-characteristics-file/"}
@@ -37,11 +37,11 @@ but note it does not check if any existing file is corrupt/size zero/obsolete/et
 Effect is to download and save locally a number of data files.
 }
 \description{
-Download Census 2020 data files from FTP by State/DC/PR
+Download Census 2020 data files by State/DC/PR
 }
 \details{
 Attempts to download some basic data files for specified states/etc.
-from the US Census Bureau's FTP site for Decennial Census file data.
+from the US Census Bureau's site for Decennial Census file data.
 
 see (https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf)
 

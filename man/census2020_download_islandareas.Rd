@@ -2,7 +2,7 @@
 % Please edit documentation in R/census2020_download_islandareas.R
 \name{census2020_download_islandareas}
 \alias{census2020_download_islandareas}
-\title{Download Census 2020 data files from FTP - For Island Areas VI GU MP AS}
+\title{Download Census 2020 data files from Census Bureau - For Island Areas VI GU MP AS}
 \usage{
 census2020_download_islandareas(
   folder = NULL,
@@ -24,7 +24,7 @@ census2020_download_islandareas(
 
 \item{allstates}{Default is VI GU MP AS}
 
-\item{baseurl}{default is the FTP folder with the data}
+\item{baseurl}{default is the URL of the Census Bureau site's folder with the data}
 
 \item{urlmiddle}{Default is empty for States info, but
 for Island Areas, urlmiddle = "demographic-and-housing-characteristics-file/"}
@@ -38,7 +38,7 @@ but note it does not check if any existing file is corrupt/size zero/obsolete/et
 Effect is to download and save locally a number of data files.
 }
 \description{
-Download Census 2020 data files from FTP - For Island Areas VI GU MP AS
+Download Census 2020 data files from Census Bureau - For Island Areas VI GU MP AS
 }
 \examples{
 \dontrun{

@@ -3,7 +3,7 @@
 #' @details
 #'   Not extensively tested.
 #'   Attempts to read files already downloaded and unzipped, data files for specified states
-#'   from the US Census Bureau's FTP site for Decennial Census file data.
+#'   from the US Census Bureau's website for Decennial Census file data.
 #'
 #'   see <https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf>
 #'
