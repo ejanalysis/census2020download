@@ -41,12 +41,21 @@
 #'
 census2020_download <- function(folder = NULL,
                                 mystates = c(state.abb, 'DC', 'PR'),
-                                allstates = c(state.abb, 'DC', 'PR'),
+                                # mystates = c('VI', 'GU', 'MP', 'AS'), # is the island areas version
+                                allstates = c(c(state.abb, 'DC', 'PR'), c('VI', 'GU', 'MP', 'AS')),
+                                # allstates = c('VI', 'GU', 'MP', 'AS'), # is the island areas version
+                                ##   but complete list of valid ones including island areas would be  lookup_states$ST[lookup_states$ST != "US"] # list of valid abbreviations here gets replaced if called from census2020_download_islandareas()
                                 baseurl = "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/",
+                                # baseurl = "https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/", # is the island areas version
                                 urlmiddle = "",
+                                # urlmiddle = "demographic-and-housing-characteristics-file/", # is the island areas version
                                 zipnames_suffix = '2020.pl.zip',
+                                # zipnames_suffix = '2020.dhc.zip' # is island areas version
                                 overwrite = TRUE) {
 
+  oldtimeout = options('timeout')
+  on.exit({options(timeout = oldtimeout)})
+  options(timeout = 180)
   ##################################### #   ##################################### #
 
   # FOLDER ####
@@ -55,7 +64,7 @@ census2020_download <- function(folder = NULL,
     folder = tempdir()
     folder = file.path(folder, "census2020")
   }
-  if (!dir.exists(folder)) {dir.create(folder)}
+  if (!dir.exists(folder)) {dir.create(folder, showWarnings = F)}
   if (!dir.exists(folder)) {stop("failed to find or create folder at", folder)}
   ##################################### #  ##################################### #
 
@@ -63,7 +72,8 @@ census2020_download <- function(folder = NULL,
 
   allstates <- toupper(allstates)
   statelookup <- data.frame(ST = allstates,
-                            statename = c(state.name, 'District_of_Columbia', 'Puerto_Rico'))
+                            statename = lookup_states$statename[match(allstates, lookup_states$ST)] #  c(state.name, 'District_of_Columbia', 'Puerto_Rico')
+                            )
   if (is.null(mystates) || length(mystates) == 0) {
     mystates <- allstates
   } else {
@@ -73,25 +83,44 @@ census2020_download <- function(folder = NULL,
     }
     mystates <- mystates[mystates %in% allstates]
   }
-  mystatenames <- statelookup[match(mystates, statelookup$ST), 'statename']
+  mystatenames <- statelookup[match(mystates, statelookup$ST, nomatch = NA), 'statename']
+  mystatenames <- mystatenames[!is.na(mystatenames)]
   mystatenames <- gsub(' ', '_', mystatenames)
+
+  ## revise the URLs for island areas
+  ## island areas are worded differently though
+  # mystatenames <- gsub('commonwealth-of-the-', '', gsub('\\.', '', gsub(' ', '-', tolower( (mystatenames)))))
+  # c("american-samoa", "guam", "northern-mariana-islands",   "us-virgin-islands")
+  # # "us-minor-outlying-islands", ## not available to download at all
+  mystatenames <- gsub("American_Samoa", "american-samoa", mystatenames)
+  mystatenames <- gsub("Northern_Mariana_Islands", "commonwealth-of-the-northern-mariana-islands", mystatenames)
+  mystatenames <- gsub("U.S._Virgin_Islands", "us-virgin-islands", mystatenames)
+  mystatenames <- gsub("Guam", "guam", mystatenames)
   ##################################### #  ##################################### #
 
   #	URL AND ZIPFILE NAME ######
-
+  # note mystates are the 2-character abbreviation, while mystatenames is the roughly the full name as found in URLs
   zipnames <- paste(tolower(mystates), zipnames_suffix, sep = '')
-  zipfile.fullpaths <- paste(
+  zipfile.urls <- paste(
     baseurl,
     mystatenames, "/", urlmiddle,
     zipnames, sep = "")
 
+  ## revise the URLs for island areas
+  ##   allowing them to be mixed in with US/DC/PR in a single request
+  is_island <- mystatenames %in% c("american-samoa", "guam", "northern-mariana-islands",   "us-virgin-islands")
+  zipfile.urls[is_island] <- gsub(baseurl, "https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/", zipfile.urls[is_island] )
+  zipfile.urls[is_island] <- gsub(urlmiddle, "demographic-and-housing-characteristics-file/", zipfile.urls[is_island] )
+  zipfile.urls[is_island] <- gsub(zipnames_suffix, '2020.dhc.zip', zipfile.urls[is_island] )
+
   files.found <- file.exists(file.path(folder, zipnames))
-  cat("\n", length(zipnames), "files were requested.\n")
+  cat("\n", length(zipnames), "files were requested:\n")
+  cat(paste0(zipfile.urls, collapse="\n"), '\n\n')
   if (overwrite == FALSE) {
     cat(sum(files.found), "of", length(zipnames), "files requested were already in folder, and overwrite = FALSE, so not downloading again:\n", paste0(file.path(folder, zipnames)[files.found], collapse = "\n "), '\n\n')
     stillneed = length(zipnames) - sum(files.found)
     zipnames <- zipnames[!files.found]
-    zipfile.fullpaths <- zipfile.fullpaths[!files.found]
+    zipfile.urls <- zipfile.urls[!files.found]
     if (stillneed == 0) {
       cat("Done - none need to be replaced.\n")
       return(NULL)
@@ -104,7 +133,7 @@ census2020_download <- function(folder = NULL,
 
   # DOWNLOAD ###################
 
-  zpathsinfo <- curl::multi_download(zipfile.fullpaths,
+  zpathsinfo <- curl::multi_download(zipfile.urls,
                                      destfiles = file.path(folder, zipnames))
   problems <- !zpathsinfo$success | is.na(zpathsinfo$success) | !(zpathsinfo$status_code %in% c(200, 206))
   if (!all(problems)) {
@@ -136,8 +165,8 @@ census2020_download <- function(folder = NULL,
   znames_found =  dir(path = folder, pattern = paste0(zipnames_suffix, "$") , full.names = FALSE)
   cat("\n    ", length(znames_found), "", zipnames_suffix, "files found in ", normalizePath(folder), "\n\n")
   print(znames_found)
-  cat(paste0("\nTo explore folder with downloaded files from RStudio: \n      browseURL(   ", "  ) \n        "))
-  print( normalizePath(folder) ); cat('  \n')
+  cat(paste0("\nTo explore folder with downloaded files from RStudio: \n      browseURL('", normalizePath(folder), "') \n        "))
+  cat('  \n')
   ##################################### #   ##################################### #
 
   invisible(zpathsinfo)

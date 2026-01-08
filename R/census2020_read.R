@@ -1,29 +1,29 @@
 #' Compile Census 2020 block data for all US states once downloaded and unzipped
 #' used by [census2020_get_data()]
-#' @details 
+#' @details
 #'   Not extensively tested.
 #'   Attempts to read files already downloaded and unzipped, data files for specified states
 #'   from the US Census Bureau's FTP site for Decennial Census file data.
-#'   
+#'
 #'   see <https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf>
-#'   
-#' @details  Also look at the package [totalcensus](https://github.com/GL-Li/totalcensus) 
+#'
+#' @details  Also look at the package [totalcensus](https://github.com/GL-Li/totalcensus)
 #'   see Census website for list of possible fields etc.
-#'   \preformatted{ 
-#'     for example: 
+#'   \preformatted{
+#'     for example:
 #'  #  AREALAND      Area (Land)
 #'  #  AREAWATR      Area (Water)
-#'  
+#'
 #'  #  BASENAME      Area Base Name
 #'  #  NAME          Area Name-Legal/Statistical Area Description (LSAD) Term-Part Indicator
 #'  #  FUNCSTAT      Functional Status Code
 #'  #  GCUNI         Geographic Change User Note Indicator
-#'  
+#'
 #'  #  POP100        Population Count (100%)
 #'  #  HU100         Housing Unit Count (100%)
 #'  #  INTPTLAT      Internal Point (Latitude)
 #'  #  INTPTLON      Internal Point (Longitude)
-#'  
+#'
 #'  File 1 has Table P1 and
 #'   Table P2. HISPANIC OR LATINO, AND NOT HISPANIC OR LATINO BY RACE
 #'  Universe: Total population
@@ -48,10 +48,13 @@
 #'   File02 has Tables P3, P4, and H1.
 #'   File03 has Table P5.
 #' @param mystates can be vector of 2-letter abbreviations of states
-#' @param sumlev default is 750, for blocks
+#' @param sumlev default is 750, for blocks (but those are not available for Island Areas)
 #' @param best_header_cols default is a few key columns like POP100, GEOCODE (fips), etc.
 #' @param best_data_cols default is key race ethnicity fields
 #' @seealso [census2020_download()] [census2020_unzip()] [census2020_get_data()]
+#'
+#' @aliases census2020_read_islandareas
+#'
 #' @return data.frame of 1 row per block, for example
 #'
 #' @examples \dontrun{
@@ -64,76 +67,79 @@
 #'  head(c2)
 #'  sum(c2$POP100)
 #'  plot(
-#'    c2$INTPTLON[substr(c2$GEOCODE,1,2) == '24'], 
+#'    c2$INTPTLON[substr(c2$GEOCODE,1,2) == '24'],
 #'    c2$INTPTLAT[substr(c2$GEOCODE,1,2) == '24'], pch = '.')
 #'  c2$LOGRECNO <- NULL
 #'  colnames(c2) <- census2020download::census_col_names_map$Rname[
 #'     match(colnames(blocks2020), census2020download::census_col_names_map$ftpname)
 #'     ]
 #'  }
-#'  
-#'  
-census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumlev=750, 
-                            best_header_cols=c("LOGRECNO", "GEOCODE", 
-                                               "AREALAND", "AREAWATR", 
-                                               "POP100", "HU100", 
-                                               "INTPTLAT", "INTPTLON"), 
+#'
+#'
+census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumlev=750,
+                            best_header_cols=c("LOGRECNO", "GEOCODE",
+                                               "AREALAND", "AREAWATR",
+                                               "POP100", "HU100",
+                                               "INTPTLAT", "INTPTLON"),
                             best_data_cols = paste0("P00", (20001:20011))) {
   # Gets census 2020 data
   #  based on code provided by the Census Bureau for reading and merging their raw data files
   if (is.null(folder)) {folder <- getwd()}
   if (is.null(mystates)) {
-    pl_files <- list.files(folder, pattern = 'geo2020.pl')
+    pl_files <- list.files(folder, pattern = 'geo2020.') # .pl or .dhc if US/DC/PR or Island Areas
     mystates <- substr(pl_files,1,2)
   } else {
     mystates <- tolower(mystates)
   }
   mystates <- unique(mystates)
-  
+
   # example of format of unzipped files (for files 1,2,3,geo), for Alabama (al)
   # al000012020.pl
   # al000022020.pl
   # al000032020v
   # algeo2020.pl
-  
-  t1files <- paste0(mystates, '0000', 1, '2020.pl')
-  t2files <- paste0(mystates, '0000', 2, '2020.pl')
-  t3files <- paste0(mystates, '0000', 3, '2020.pl')
-  geofiles <- paste0(mystates, 'geo2020.pl')
-  
-  
+  # .pl or .dhc if US/DC/PR or Island Areas
+  ext <- rep("pl", length(mystates))
+  ext[mystates %in% c("vi", "gu", "mp", "as")] <- "dhc"
+  t1files <- paste0(mystates, '0000', 1, '2020.', ext)
+  t2files <- paste0(mystates, '0000', 2, '2020.', ext)
+  t3files <- paste0(mystates, '0000', 3, '2020.', ext)
+  geofiles <- paste0(mystates, 'geo2020.', ext)
+
   ######## ***SEE pl_all_4_2020_dar.R *** ##############
   header_file_path <- file.path(folder, geofiles) # ;print(header_file_path) #  algeo2020.pl  for alabama  in    al2020.pl.zip
   part1_file_path  <- file.path(folder, t1files)
   part2_file_path  <- file.path(folder, t2files)
   part3_file_path  <- file.path(folder, t3files)
-  
+
   # *** SHOULD CHANGE THIS TO LIMIT IT TO READING ONLY THE NECESSARY COLUMNS, ******************
-  
+
   # ---------------------------- -
   # Assign names to data columns  -from header (geo file) #####
   # ---------------------------- -
   #  FILEID        File Identification
-  
+
   #  STUSAB        State/US-Abbreviation (USPS)
-  
-  #  SUMLEV        Summary Level   750=Census Block pl file
+
+  #  SUMLEV        Summary Level   750=Census Block pl file, 140 and 150 are tract and blockgroup
+
   #  GEOVAR        Geographic Variant
   #  GEOCOMP       Geographic Component
   #  CHARITER      Characteristic Iteration
   #  CIFSN         Characteristic Iteration File Sequence Number
-  
+
   #  LOGRECNO      Logical Record Number
-  
+
   #  GEOID         Geographic Record Identifier
-  
+
   #  GEOCODE       Geographic Code Identifier
   #  REGION        Region
   #  DIVISION      Division
   #  STATE         State (FIPS)
   #  STATENS       State (NS)
-  
+
   #  COUNTY        County (FIPS)
+
   #  COUNTYCC      FIPS County Class Code
   #  COUNTYNS      County (NS)
   #  COUSUB        County Subdivision (FIPS)
@@ -148,12 +154,15 @@ census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumle
   #  CONCIT        Consolidated City (FIPS)
   #  CONCITCC      FIPS Consolidated City Class Code
   #  CONCITNS      Consolidated City (NS)
+
   #  PLACE         Place (FIPS)
   #  PLACECC       FIPS Place Class Code
   #  PLACENS       Place (NS)
+
   #  TRACT         Census Tract
   #  BLKGRP        Block Group
   #  BLOCK         Block
+
   #  AIANHH        American Indian Area/Alaska Native Area/Hawaiian Home Land (Census)
   #  AIHHTLI       American Indian Trust Land/Hawaiian Home Land Indicator
   #  AIANHHFP      American Indian Area/Alaska Native Area/Hawaiian Home Land (FIPS)
@@ -203,26 +212,28 @@ census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumle
   #  SDSEC         School District (Secondary)
   #  SDUNI         School District (Unified)
   #  PUMA          Public Use Microdata Area
-  
+
   #  AREALAND      Area (Land)
   #  AREAWATR      Area (Water)
-  
+
   #  BASENAME      Area Base Name
   #  NAME          Area Name-Legal/Statistical Area Description (LSAD) Term-Part Indicator
   #  FUNCSTAT      Functional Status Code
   #  GCUNI         Geographic Change User Note Indicator
-  
+
   #  POP100        Population Count (100%)
+
   #  HU100         Housing Unit Count (100%)
+
   #  INTPTLAT      Internal Point (Latitude)
   #  INTPTLON      Internal Point (Longitude)
-  
+
   #  LSADC         Legal/Statistical Area Description Code
   #  PARTFLAG      Part Flag
   #  UGA           Urban Growth Area
   # -----------------------------
-  
-  
+
+
   # new functionality in readr::read_   we could use instead of loop below:
   #
   #
@@ -235,7 +246,7 @@ census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumle
   # part1  <- readr::read_delim(part1_file_path, col_names = part1_colnames, show_col_types = FALSE, delim = "|")
   # part1 <- part1[ , colnames(part1) %in% cols_needed]
   # readr::read_delim(files)
-  
+
   header_col_names <- c("FILEID", "STUSAB", "SUMLEV", "GEOVAR", "GEOCOMP", "CHARITER", "CIFSN", "LOGRECNO", "GEOID",
                         "GEOCODE", "REGION", "DIVISION", "STATE", "STATENS",
                         "COUNTY", "COUNTYCC", "COUNTYNS", "COUSUB",
@@ -249,47 +260,65 @@ census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumle
                         "AREAWATR", "BASENAME", "NAME", "FUNCSTAT", "GCUNI", "POP100", "HU100", "INTPTLAT", "INTPTLON",
                         "LSADC", "PARTFLAG", "UGA")
   combinedstates <- NULL
-  
+
   for (i in seq_along(mystates)) {
-    
+
     cat(paste0('Reading ', toupper(mystates[i])), ' geo file... \n')
-    
-    header <- try(readr::read_delim(header_file_path[i], col_names = header_col_names, show_col_types = FALSE, delim = "|"))
+
+    header <- try(readr::read_delim(header_file_path[i], col_names = header_col_names,
+                                    guess_max = 5000,
+                                    show_col_types = FALSE, delim = "|"))
     if ("try-error" %in% class(header)) {print(header_file_path[i]); stop('cannot find or read file')}
     if (NROW(vroom::problems(header)) > 0) {print(cbind(problem_colname = header_col_names[vroom::problems(header)$col], vroom::problems(header)))}
-    
+
     # KEEP ONLY BLOCKS NOT OTHER GEOGRAPHIES LIKE TRACT
-    header <- header[header$SUMLEV == sumlev, ]
-    
+    ## but note island areas do not have summary level 750, blocks, and only have e.g., blockgroup, tract, etc. (150, 140, etc.)
+    # table(header$SUMLEV, useNA = 'always')
+    # header[header$SUMLEV == '040', c(9, 13:16, 30:35)] # state
+    # header[header$SUMLEV == '050', c(9, 13:16, 30:35)] # county?
+    # header[header$SUMLEV == '140', c(9, 13:16, 30:35)] # tract
+    # header[header$SUMLEV == '150', c(9, 13:16, 30:35)] # blockgroup
+
+    header <- header[header$SUMLEV %in% sumlev, ]
+    if (NROW(header) == 0) {warning("sumlev 750 means blocks; no records found for ", toupper(mystates[i])," with sumlev ", paste0(sumlev, collapse = ","))}
+
     # mergebycolnames <- c("LOGRECNO", "STUSAB", "FILEID", "CHARITER")
     mergebycolnames <- "LOGRECNO"
-    
+
     # KEEP ONLY THE CRITICAL COLUMNS
     # cols_to_keep <- unique(c(mergebycolnames, bestcols))
     header <- header[, best_header_cols]
     cols_needed <- c(best_header_cols, best_data_cols)
     list_needed <- list(header[,names(header) != 'CIFSN'])#  list(header) # list(header[,-7]) # cifsn - they left it in table 3 only, but maybe I can keep it in the header only instead
-    
+
     # print(head(header))
     # str(list_needed)
     # stop('that was geo header')
-    
-    if (1 %in% filenumbers) {
+    tryfile2 = FALSE
+    if (1 %in% filenumbers && !file.exists(part1_file_path[i])) {
+      warning('filenumbers 1 specified but file does not exist for ', toupper(mystates[i]))
+      tryfile2 = TRUE
+    }
+    if (1 %in% filenumbers && file.exists(part1_file_path[i])) {. # this file number does not exist for island areas looks like
       cat(paste0('Reading ', toupper(mystates[i])), ' part1 data file... \n')
       part1_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
                           paste0("P00", c(10001:10071, 20001:20073)))
-      part1  <- readr::read_delim(part1_file_path[i], col_names = part1_colnames,show_col_types = FALSE, delim = "|")
+      part1  <- readr::read_delim(part1_file_path[i], col_names = part1_colnames,
+                                  guess_max = 5000,
+                                  show_col_types = FALSE, delim = "|")
       if (NROW(vroom::problems(part1)) > 0) {print(vroom::problems(part1))}
       part1 <- part1[ , colnames(part1) %in% cols_needed]
       # cols_needed <- c(cols_needed, colnames(part1)[!(colnames(part1) %in% c('FILEID', 'STUSAB','CHARITER', "CIFSN" ,   "LOGRECNO" ))])
       list_needed <- c(list_needed, list(part1)) # try leaving that field in here
     }
-    if (2 %in% filenumbers) {
+    if (2 %in% filenumbers || tryfile2) {
       cat(paste0('Reading ', toupper(mystates[i])), ' part2 data file... \n')
       part2_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
                           paste0("P00", c(30001:30071, 40001:40073)),
                           paste0("H00", 10001:10003))
-      part2  <- readr::read_delim(part2_file_path[i], col_names = part2_colnames, show_col_types = FALSE,  delim = "|")
+      part2  <- readr::read_delim(part2_file_path[i], col_names = part2_colnames,
+                                  guess_max = 5000,
+                                  show_col_types = FALSE,  delim = "|")
       if (NROW(vroom::problems(part2)) > 0) {print(vroom::problems(part2))}
       cols_needed <- c(cols_needed, colnames(part2)[!(colnames(part2) %in% c('FILEID', 'STUSAB','CHARITER', "CIFSN" ,   "LOGRECNO"))])
       list_needed <- c(list_needed, list(part2[,names(part2)[!(names(part2) %in% 'CIFSN')]] ))
@@ -298,23 +327,25 @@ census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumle
       cat(paste0('Reading ', toupper(mystates[i])), ' part3 data file... \n')
       part3_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
                           paste0("P00", 50001:50010))
-      part3  <- readr::read_delim(part3_file_path[i], col_names = part3_colnames, show_col_types = FALSE,  delim = "|")
+      part3  <- readr::read_delim(part3_file_path[i], col_names = part3_colnames,
+                                  guess_max = 5000,
+                                  show_col_types = FALSE,  delim = "|")
       if (NROW(vroom::problems(part3)) > 0) {print(vroom::problems(part3))}
       cols_needed <- c(cols_needed, colnames(part3)[!(colnames(part3) %in% c('FILEID', 'STUSAB','CHARITER', "CIFSN" ,   "LOGRECNO"))])
       list_needed <- c(list_needed, list(part3))   #[,names(part3)[!(names(part3) %in% 'CIFSN')]] )) # seems like they did not remove that field from part3
     }
     # print('cols_needed'); print(cols_needed)
     # print('list_needed'); str(list_needed)
-    
+
     # ---------------------------- -
     # Merge the data #######
     # ---------------------------- -
     combine <- Reduce(function(x, y) {
-      merge(x, y, by = mergebycolnames)
+      merge(x, y, by = mergebycolnames) # LOGRECNO
     },
     list_needed
     )
-    
+
     # ---------------------------- -
     # Order the data #########
     # ---------------------------- -

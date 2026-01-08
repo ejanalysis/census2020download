@@ -5,14 +5,14 @@
 \title{unzip Census 2020 zipped files already downloaded, for States and DC, PR}
 \usage{
 census2020_unzip(
-  folder = NULL,
+  zipfolder = NULL,
   folderout = NULL,
   filenumbers = 1,
   mystates = NULL
 )
 }
 \arguments{
-\item{folder}{Default is current working directory. Should contain .zip file(s)}
+\item{zipfolder}{Default is current working directory. Should contain .zip file(s)}
 
 \item{folderout}{path to where you want to put files, created if does not exist}
 
@@ -43,8 +43,8 @@ unzip Census 2020 zipped files already downloaded, for States and DC, PR
  sum(c2$POP100)
  plot(c2$INTPTLON[substr(c2$GEOCODE,1,2)=='24'], c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='24'], pch='.')
  }
- 
- 
+
+
 }
 \seealso{
 \code{\link[=census2020_download]{census2020_download()}} \code{\link[=census2020_read]{census2020_read()}}

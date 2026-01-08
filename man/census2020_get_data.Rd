@@ -2,7 +2,7 @@
 % Please edit documentation in R/census2020_get_data.R
 \name{census2020_get_data}
 \alias{census2020_get_data}
-\title{Download and clean up US States,DC,PR block data Census 2020 (for EJAM)}
+\title{Download and clean up US States,DC,PR, or Island Areas block data Census 2020 (for EJAM)}
 \usage{
 census2020_get_data(
   folder = NULL,
@@ -21,7 +21,15 @@ census2020_get_data(
 
 \item{folderout}{path for assembled results files, default is what folder was set to.}
 
-\item{mystates}{default is DC, PR, and the 50 states -- lacks VI/GU/MP/AS}
+\item{mystates}{default is DC, PR, and the 50 states -- lacks
+the island areas c('VI','GU','MP','AS') --
+but census2020_get_data() can in some cases handle a mix of States/DC/PR
+and/or island areas via helper function \code{\link[=census2020_get_data_islandareas]{census2020_get_data_islandareas()}},
+returning either type of data, or a combined data.table if both are requested.
+But block resolution is not available from these files for island areas,
+so default for those is to get block groups,
+which would not make sense to mix with blocks for states.
+And Table 1 with pop seems unavailable from this source for island areas.}
 
 \item{do_download}{whether to do \code{\link[=census2020_download]{census2020_download()}}}
 
@@ -37,26 +45,32 @@ census2020_get_data(
 }
 \value{
 invisibly returns a data.table of US Census blocks with columns like
-blockid lat lon pop area (area in square meters), or intermediate info
+blockid lat lon pop area (area in square meters), or just intermediate info
 depending on do_read, do_clean, etc.
 }
 \description{
-Download and clean up US States,DC,PR block data Census 2020 (for EJAM)
+Download and clean up US States,DC,PR, or Island Areas block data Census 2020 (for EJAM)
 }
 \details{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{  To create certain data tables used by EJAM,
   EJAM uses scripts like EJAM/data-raw/datacreate_....R
   to do something like this:
-  
-  blocks <- census2020_get_data()
+
+  blocks <- census2020_get_data() # default excludes Island Areas
   mylist <- census2020_save_datasets(blocks)
-  
+
   bgid2fips    = mylist$bgid2fips
   blockid2fips = mylist$blockid2fips
   blockpoints  = mylist$blockpoints
   blockwts     = mylist$blockwts
   quaddata     = mylist$quaddata
 }\if{html}{\out{</div>}}
+}
+\examples{
+ \dontrun{
+ x = census2020_get_data()
+ y = census2020_get_data()
+ }
 }
 \seealso{
 \code{\link[=census2020_save_datasets]{census2020_save_datasets()}} creates individual data.tables,
@@ -66,5 +80,6 @@ after \code{\link[=census2020_get_data]{census2020_get_data()}} has done these:
 \item \code{\link[=census2020_unzip]{census2020_unzip()}}
 \item \code{\link[=census2020_read]{census2020_read()}}
 \item \code{\link[=census2020_clean]{census2020_clean()}}
+. and see \code{\link[=census2020_get_data_islandareas]{census2020_get_data_islandareas()}}
 }
 }

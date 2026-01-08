@@ -2,10 +2,14 @@
 % Please edit documentation in R/census2020_clean.R
 \name{census2020_clean}
 \alias{census2020_clean}
+\alias{census2020_clean_islandareas}
 \title{Start to clean up download block data
 Renames columns, drops most, calculates total area.}
 \usage{
-census2020_clean(x, cols_to_keep = c("blockfips", "lat", "lon", "pop", "area"))
+census2020_clean(
+  x,
+  cols_to_keep = c("blockfips", "lat", "lon", "pop", "pop100", "area")
+)
 }
 \arguments{
 \item{x}{data from \code{\link[=census2020_read]{census2020_read()}}}

@@ -10,7 +10,8 @@ census2020_download_islandareas(
   allstates = c("VI", "GU", "MP", "AS"),
   baseurl = "https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/",
   urlmiddle = "demographic-and-housing-characteristics-file/",
-  zipnames_suffix = "2020.dhc.zip"
+  zipnames_suffix = "2020.dhc.zip",
+  overwrite = TRUE
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ census2020_download_islandareas(
 for Island Areas, urlmiddle = "demographic-and-housing-characteristics-file/"}
 
 \item{zipnames_suffix}{last part of the filenames Census provides - default should work}
+
+\item{overwrite}{set to FALSE to skip download if filename already in folder,
+but note it does not check if any existing file is corrupt/size zero/obsolete/etc.}
 }
 \value{
 Effect is to download and save locally a number of data files.
@@ -38,7 +42,7 @@ Download Census 2020 data files from FTP - For Island Areas VI GU MP AS
 }
 \examples{
 \dontrun{
- #
+  blocks_islandareas <- census2020_download_islandareas()
  }
 
 }

@@ -2,6 +2,7 @@
 % Please edit documentation in R/census2020_read.R
 \name{census2020_read}
 \alias{census2020_read}
+\alias{census2020_read_islandareas}
 \title{Compile Census 2020 block data for all US states once downloaded and unzipped
 used by \code{\link[=census2020_get_data]{census2020_get_data()}}}
 \usage{
@@ -26,7 +27,7 @@ File03 has Table P5.}
 
 \item{mystates}{can be vector of 2-letter abbreviations of states}
 
-\item{sumlev}{default is 750, for blocks}
+\item{sumlev}{default is 750, for blocks (but those are not available for Island Areas)}
 
 \item{best_header_cols}{default is a few key columns like POP100, GEOCODE (fips), etc.}
 
@@ -48,21 +49,21 @@ see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-docum
 
 Also look at the package \href{https://github.com/GL-Li/totalcensus}{totalcensus}
 see Census website for list of possible fields etc.
-\preformatted{ 
-    for example: 
+\preformatted{
+    for example:
  #  AREALAND      Area (Land)
  #  AREAWATR      Area (Water)
- 
+
  #  BASENAME      Area Base Name
  #  NAME          Area Name-Legal/Statistical Area Description (LSAD) Term-Part Indicator
  #  FUNCSTAT      Functional Status Code
  #  GCUNI         Geographic Change User Note Indicator
- 
+
  #  POP100        Population Count (100%)
  #  HU100         Housing Unit Count (100%)
  #  INTPTLAT      Internal Point (Latitude)
  #  INTPTLON      Internal Point (Longitude)
- 
+
  File 1 has Table P1 and
   Table P2. HISPANIC OR LATINO, AND NOT HISPANIC OR LATINO BY RACE
  Universe: Total population
@@ -92,15 +93,15 @@ see Census website for list of possible fields etc.
  head(c2)
  sum(c2$POP100)
  plot(
-   c2$INTPTLON[substr(c2$GEOCODE,1,2) == '24'], 
+   c2$INTPTLON[substr(c2$GEOCODE,1,2) == '24'],
    c2$INTPTLAT[substr(c2$GEOCODE,1,2) == '24'], pch = '.')
  c2$LOGRECNO <- NULL
  colnames(c2) <- census2020download::census_col_names_map$Rname[
     match(colnames(blocks2020), census2020download::census_col_names_map$ftpname)
     ]
  }
- 
- 
+
+
 }
 \seealso{
 \code{\link[=census2020_download]{census2020_download()}} \code{\link[=census2020_unzip]{census2020_unzip()}} \code{\link[=census2020_get_data]{census2020_get_data()}}

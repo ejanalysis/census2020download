@@ -1,6 +1,6 @@
 #' unzip Census 2020 zipped files already downloaded, for States and DC, PR
 #'
-#' @param folder Default is current working directory. Should contain .zip file(s)
+#' @param zipfolder Default is current working directory. Should contain .zip file(s)
 #' @param folderout path to where you want to put files, created if does not exist
 #' @param filenumbers a vector with any or all of 1,2,3 --
 #'   default is file 1.
@@ -23,20 +23,21 @@
 #'  sum(c2$POP100)
 #'  plot(c2$INTPTLON[substr(c2$GEOCODE,1,2)=='24'], c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='24'], pch='.')
 #'  }
-#'  
-#'  
-census2020_unzip <- function(folder = NULL, folderout = NULL, filenumbers = 1, mystates = NULL) {
+#'
+#'
+census2020_unzip <- function(zipfolder = NULL, folderout = NULL,
+                             filenumbers = 1, mystates = NULL) {
   # not filenumbers=1:3
-  
-  if (is.null(folder))    {folder    <- getwd()}
-  if (is.null(folderout)) {folderout <- folder}
-  if (!dir.exists(folder))    {dir.create(folder)}
+
+  if (is.null(zipfolder))    {zipfolder    <- getwd()}
+  if (is.null(folderout)) {folderout <- zipfolder}
+  if (!dir.exists(zipfolder))    {dir.create(zipfolder)}
   if (!dir.exists(folderout)) {dir.create(folderout)}
-  if (!dir.exists(folder))    {stop("failed to find or create folder at", folder)}
+  if (!dir.exists(zipfolder))    {stop("failed to find or create folder at", zipfolder)}
   if (!dir.exists(folderout)) {stop("failed to find or create folder at", folderout)}
-  
+
   if (is.null(mystates)) {
-    zipfiles <- list.files(folder, pattern = '2020.pl.zip')
+    zipfiles <- list.files(zipfolder, pattern = '2020.pl.zip')
     mystates <- substr(zipfiles,1,2)
   } else {
     mystates <- tolower(mystates)
@@ -53,7 +54,7 @@ census2020_unzip <- function(folder = NULL, folderout = NULL, filenumbers = 1, m
     # al000032020.pl
     # algeo2020.pl
 
-    zipfolderfile <- file.path(folder, zipfiles[statenum])
+    zipfolderfile <- file.path(zipfolder, zipfiles[statenum])
     if (!file.exists(zipfolderfile)) {stop(paste0('Cannot find file', zipfolderfile))}
     unzip(zipfolderfile, files = tablefiles, exdir = folderout)
     cat(zipfolderfile, ' has ', paste(tablefiles, collapse = ', '), '\n')
