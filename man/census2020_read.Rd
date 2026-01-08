@@ -7,27 +7,27 @@
 used by \code{\link[=census2020_get_data]{census2020_get_data()}}}
 \usage{
 census2020_read(
-  folder = NULL,
-  filenumbers = 1,
   mystates = NULL,
+  folder = NULL,
   sumlev = 750,
+  filenumbers = 1,
   best_header_cols = c("LOGRECNO", "GEOCODE", "AREALAND", "AREAWATR", "POP100", "HU100",
     "INTPTLAT", "INTPTLON"),
   best_data_cols = paste0("P00", (20001:20011))
 )
 }
 \arguments{
+\item{mystates}{can be vector of 2-letter abbreviations of states}
+
 \item{folder}{path}
+
+\item{sumlev}{default is 750, for blocks (but those are not available for Island Areas)}
 
 \item{filenumbers}{a vector with any or all of 1,2,3 --
 default is file 1.
-File01 has Tables P1 and P2.
+File01 has Tables P1 and P2. Those are the ones with total population count.
 File02 has Tables P3, P4, and H1.
 File03 has Table P5.}
-
-\item{mystates}{can be vector of 2-letter abbreviations of states}
-
-\item{sumlev}{default is 750, for blocks (but those are not available for Island Areas)}
 
 \item{best_header_cols}{default is a few key columns like POP100, GEOCODE (fips), etc.}
 
@@ -42,13 +42,21 @@ used by \code{\link[=census2020_get_data]{census2020_get_data()}}
 }
 \details{
 Not extensively tested.
+
 Attempts to read files already downloaded and unzipped, data files for specified states
 from the US Census Bureau's website for Decennial Census file data.
 
-see \url{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf}
+Technical documentation of the files available from Census Bureau
+and for list of possible fields etc.:
+\itemize{
+\item \href{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/}{Technical Documentation folder}
+\item \href{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf}{Technical Documentation PDF for 2020 Census PL94 171 Redistricting States files}
+\item \href{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020census-demographic-and-housing-characteristics-file-and-demographic-profile-techdoc.pdf}{Technical Documentation PDF for 2020 Census details}
+\item \href{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020-dhc-table-matrix.xlsx}{Table Matrix xlsx }
+\item \href{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf}{Island Areas PDF Tech. Doc. }
+\item \href{https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/2020-iac-dhc-readme.pdf}{Island Areas PDF Readme for American Samoa}
+}
 
-Also look at the package \href{https://github.com/GL-Li/totalcensus}{totalcensus}
-see Census website for list of possible fields etc.
 \preformatted{
     for example:
  #  AREALAND      Area (Land)
@@ -81,6 +89,11 @@ see Census website for list of possible fields etc.
  Population of two or more races: Population of two races: P0020011
 
  }
+
+See the package \href{https://github.com/GL-Li/totalcensus}{totalcensus}
+for another attempt to facilitate downloads of files of data.
+
+See the \href{https://walker-data.com/tidycensus/}{tidycensus package} for using the API to request tabular data.
 }
 \examples{
 \dontrun{

@@ -15,30 +15,33 @@
 #'
 #'
 #'
+#' @param mystates Default is c('VI','GU','MP','AS')
+#'   data were at https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/
+#'   Also see page a-22 in https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/supplemental-demographic-and-housing-characteristics-file/2020census-supplemental-dhc-techdoc.pdf
 #' @param folder For downloaded files. Default is a tempdir. Folder is created if it does not exist.
 #' @param folderout path for assembled results files, default is what folder was set to.
-#' @param mystates Default is c('VI','GU','MP','AS')
 #' @param do_download whether to do [census2020_download_islandareas()]
 #' @param do_unzip    whether to do [census2020_unzip_islandareas()]
 #' @param do_read     whether to do [census2020_read_islandareas()]
 #' @param do_clean    whether to do [census2020_clean_islandareas()]
 #' @param overwrite passed to [census2020_download_islandareas()]
 #' @param sumlev set to 150, meaning blockgroup not block, since no block data for island areas in these files!
-#' @param ... passed to [census2020_read_islandareas()]
 #'
 #' @details
-#' Table 1 with pop seems unavailable from this source for island areas.
+#' Table 1 with pop seems unavailable from this source for island areas
+#'  if trying to use the same approach to reading files as done for the US States.
 #'
+#'   For Island areas, see https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf
+#'   or e.g., (https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/2020-iac-dhc-readme.pdf)
 #'
-#'
-#'
-#'
+#'  For technical details on the files downloaded and tables and variables,
+#'  see the detailed references in the help for [census2020_read()].
 #'
 #'
 #' @examples
 #'  \dontrun{
-#'  x = census2020_get_data()
-#'  y = census2020_get_data_islandareas()
+#'  x = [census2020_get_data()] # States/DC/PR at block resolution
+#'  y = [census2020_get_data_islandareas()] # VI,GU,MP,AS at blockgroup scale
 #'  }
 #' @return invisibly returns a data.table of US Census blocks with columns like
 #'   blockid lat lon pop area (area in square meters), or intermediate info
@@ -46,13 +49,13 @@
 #'
 #'
 #'
-census2020_get_data_islandareas <- function(folder = NULL,# file.path(getwd(), "census2020_islandareas"),
+census2020_get_data_islandareas <- function(mystates = c('VI', 'GU', 'MP', 'AS'),
+                                            folder = NULL,# file.path(getwd(), "census2020_islandareas"),
                                             folderout = NULL,
-                                            mystates = c('VI', 'GU', 'MP', 'AS'),
                                             do_download = TRUE, do_unzip = TRUE, do_read = TRUE, do_clean = TRUE,
                                             overwrite = TRUE,
-                                            sumlev = 150, # block group not block, since no block data for island areas in these files
-                                            ...) {
+                                            sumlev = 150  # block group not block, since no block data for island areas in these files
+                                            ) {
 if (!overwrite) {stop("overwrite FALSE not working yet")}
 
   # census2020_get_data() to some extent can handle a mix of States/DC/PR
@@ -113,7 +116,7 @@ if (!overwrite) {stop("overwrite FALSE not working yet")}
 
   if (do_read) {
     cat("\n -------------------------  READING -------------------------  \n\n")
-    blocks <- census2020_read_islandareas(folder = folderout, mystates = mystates, sumlev = sumlev, ...) # not yet a data.table
+    blocks <- census2020_read_islandareas(folder = folderout, mystates = mystates, sumlev = sumlev) # not yet a data.table
   }
   ############################################### #
 

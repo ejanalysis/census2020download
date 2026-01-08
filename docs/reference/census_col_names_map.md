@@ -7,8 +7,8 @@ names
 
 data.frame: 19 obs. of 3 variables:
 
-\$ ftpname : chr "LOGRECNO" "GEOCODE" "AREALAND" "AREAWATR" ...
+\$ ftpname : chr "LOGRECNO" "GEOCODE" "AREALAND" "AREAWATR" etc
 
-\$ Rname : chr "logrecno" "blockfips" "arealand" "areawater" ...
+\$ Rname : chr "logrecno" "blockfips" "arealand" "areawater" etc
 
-\$ longname: chr "logical record number" "15 digit Census FIPS" etc.
+\$ longname: chr "logical record number" "15 digit Census FIPS" etc

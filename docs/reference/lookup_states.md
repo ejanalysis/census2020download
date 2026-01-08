@@ -6,29 +6,29 @@ FIPS code, name, etc., for each State, DC, PR, and Island Areas
 
 data.frame 58 obs. of 26 variables
 
-\$ statename : chr "Alabama" "Alaska" "Arizona" "Arkansas" ... \$
-FIPS.ST : chr "01" "02" "04" "05" ... \$ ST : chr "AL" "AK" "AZ" "AR"
-... \$ ftpname : chr "Alabama" "Alaska" "Arizona" "Arkansas" ... \$
-REGION : num 4 10 9 6 9 8 1 3 3 4 ... \$ is.usa.plus.pr : logi TRUE TRUE
-TRUE TRUE TRUE TRUE ... \$ is.usa : logi TRUE TRUE TRUE TRUE TRUE TRUE
-... \$ is.state : logi TRUE TRUE TRUE TRUE TRUE TRUE ... \$
-is.contiguous.us: logi TRUE FALSE TRUE TRUE TRUE TRUE ... \$
-is.island.areas : logi FALSE FALSE FALSE FALSE FALSE FALSE ... \$
+\$ statename : chr "Alabama" "Alaska" "Arizona" "Arkansas" etc \$
+FIPS.ST : chr "01" "02" "04" "05" etc \$ ST : chr "AL" "AK" "AZ" "AR"
+etc \$ ftpname : chr "Alabama" "Alaska" "Arizona" "Arkansas" etc \$
+REGION : num 4 10 9 6 9 8 1 3 3 4 etc \$ is.usa.plus.pr : logi TRUE TRUE
+TRUE TRUE TRUE TRUE etc \$ is.usa : logi TRUE TRUE TRUE TRUE TRUE TRUE
+etc \$ is.state : logi TRUE TRUE TRUE TRUE TRUE TRUE etc \$
+is.contiguous.us: logi TRUE FALSE TRUE TRUE TRUE TRUE etc \$
+is.island.areas : logi FALSE FALSE FALSE FALSE FALSE FALSE etc \$
 area.sqmi : int 52420 665384 113990 53179 163695 104094 5543 2489 68
-65758 ... \$ area.sqkm : int 135767 1723337 295234 137732 423967 269601
-14357 6446 177 170312 ... \$ landarea.sqmi : int 50645 570641 113594
-52035 155779 103642 4842 1949 61 53625 ... \$ landarea.sqkm : int 131171
-1477953 294207 134771 403466 268431 12542 5047 158 138887 ... \$
-waterarea.sqmi : int 1775 94743 396 1143 7916 452 701 540 7 12133 ... \$
+65758 etc \$ area.sqkm : int 135767 1723337 295234 137732 423967 269601
+14357 6446 177 170312 etc \$ landarea.sqmi : int 50645 570641 113594
+52035 155779 103642 4842 1949 61 53625 etc \$ landarea.sqkm : int 131171
+1477953 294207 134771 403466 268431 12542 5047 158 138887 etc \$
+waterarea.sqmi : int 1775 94743 396 1143 7916 452 701 540 7 12133 etc \$
 waterarea.sqkm : int 4597 245383 1026 2961 20501 1170 1816 1399 19 31424
-... \$ inland.sqmi : int 1058 19304 396 1143 2833 452 171 91 7 5027 ...
-\$ inland.sqkm : int 2740 49997 1026 2961 7339 1170 443 237 19 13019 ...
-\$ coastal.sqmi : num 517 26119 0 0 245 ... \$ coastal.sqkm : num 1340
-67647 0 0 634 ... \$ greatlakes.sqmi : num 0 0 0 0 0 0 0 0 0 0 ... \$
-greatlakes.sqkm : num 0 0 0 0 0 0 0 0 0 0 ... \$ territorial.sqmi: num
-199 49320 0 0 4837 ... \$ territorial.sqkm: num 516 127739 0 0 12528 ...
-\$ lat : num 32.7 63.3 34.2 34.9 37.1 ... \$ lon : num -86.8 -152.8
--111.6 -92.4 -119.5 ...
+etc \$ inland.sqmi : int 1058 19304 396 1143 2833 452 171 91 7 5027 etc
+\$ inland.sqkm : int 2740 49997 1026 2961 7339 1170 443 237 19 13019 etc
+\$ coastal.sqmi : num 517 26119 0 0 245 etc \$ coastal.sqkm : num 1340
+67647 0 0 634 etc \$ greatlakes.sqmi : num 0 0 0 0 0 0 0 0 0 0 etc \$
+greatlakes.sqkm : num 0 0 0 0 0 0 0 0 0 0 etc \$ territorial.sqmi: num
+199 49320 0 0 4837 etc \$ territorial.sqkm: num 516 127739 0 0 12528 etc
+\$ lat : num 32.7 63.3 34.2 34.9 37.1 etc \$ lon : num -86.8 -152.8
+-111.6 -92.4 -119.5 etc
 
 ## Examples
 

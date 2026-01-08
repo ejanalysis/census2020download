@@ -8,10 +8,10 @@ unzipped used by
 
 ``` r
 census2020_read(
-  folder = NULL,
-  filenumbers = 1,
   mystates = NULL,
+  folder = NULL,
   sumlev = 750,
+  filenumbers = 1,
   best_header_cols = c("LOGRECNO", "GEOCODE", "AREALAND", "AREAWATR", "POP100", "HU100",
     "INTPTLAT", "INTPTLON"),
   best_data_cols = paste0("P00", (20001:20011))
@@ -20,24 +20,24 @@ census2020_read(
 
 ## Arguments
 
-- folder:
-
-  path
-
-- filenumbers:
-
-  a vector with any or all of 1,2,3 – default is file 1. File01 has
-  Tables P1 and P2. File02 has Tables P3, P4, and H1. File03 has Table
-  P5.
-
 - mystates:
 
   can be vector of 2-letter abbreviations of states
+
+- folder:
+
+  path
 
 - sumlev:
 
   default is 750, for blocks (but those are not available for Island
   Areas)
+
+- filenumbers:
+
+  a vector with any or all of 1,2,3 – default is file 1. File01 has
+  Tables P1 and P2. Those are the ones with total population count.
+  File02 has Tables P3, P4, and H1. File03 has Table P5.
 
 - best_header_cols:
 
@@ -53,16 +53,33 @@ data.frame of 1 row per block, for example
 
 ## Details
 
-Not extensively tested. Attempts to read files already downloaded and
-unzipped, data files for specified states from the US Census Bureau's
-website for Decennial Census file data.
+Not extensively tested.
 
-see
-<https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf>
+Attempts to read files already downloaded and unzipped, data files for
+specified states from the US Census Bureau's website for Decennial
+Census file data.
 
-Also look at the package
-[totalcensus](https://github.com/GL-Li/totalcensus) see Census website
-for list of possible fields etc.
+Technical documentation of the files available from Census Bureau and
+for list of possible fields etc.:
+
+- [Technical Documentation
+  folder](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/)
+
+- [Technical Documentation PDF for 2020 Census PL94 171 Redistricting
+  States
+  files](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf)
+
+- [Technical Documentation PDF for 2020 Census
+  details](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020census-demographic-and-housing-characteristics-file-and-demographic-profile-techdoc.pdf)
+
+- [Table Matrix
+  xlsx](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020-dhc-table-matrix.xlsx)
+
+- [Island Areas PDF Tech.
+  Doc.](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf)
+
+- [Island Areas PDF Readme for American
+  Samoa](https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/2020-iac-dhc-readme.pdf)
 
         for example:
      #  AREALAND      Area (Land)
@@ -95,6 +112,12 @@ for list of possible fields etc.
      Population of two or more races: Population of two races: P0020011
 
      
+
+See the package [totalcensus](https://github.com/GL-Li/totalcensus) for
+another attempt to facilitate downloads of files of data.
+
+See the [tidycensus package](https://walker-data.com/tidycensus/) for
+using the API to request tabular data.
 
 ## See also
 

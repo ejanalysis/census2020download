@@ -42,10 +42,10 @@ used by <code><a href="census2020_get_data.html">census2020_get_data()</a></code
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">census2020_read</span><span class="op">(</span></span>
-<span>  folder <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  filenumbers <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  mystates <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  folder <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sumlev <span class="op">=</span> <span class="fl">750</span>,</span>
+<span>  filenumbers <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  best_header_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LOGRECNO"</span>, <span class="st">"GEOCODE"</span>, <span class="st">"AREALAND"</span>, <span class="st">"AREAWATR"</span>, <span class="st">"POP100"</span>, <span class="st">"HU100"</span>,</span>
 <span>    <span class="st">"INTPTLAT"</span>, <span class="st">"INTPTLON"</span><span class="op">)</span>,</span>
 <span>  best_data_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"P00"</span>, <span class="op">(</span><span class="fl">20001</span><span class="op">:</span><span class="fl">20011</span><span class="op">)</span><span class="op">)</span></span>
@@ -56,24 +56,24 @@ used by <code><a href="census2020_get_data.html">census2020_get_data()</a></code
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-folder">folder<a class="anchor" aria-label="anchor" href="#arg-folder"></a></dt>
+<dl><dt id="arg-mystates">mystates<a class="anchor" aria-label="anchor" href="#arg-mystates"></a></dt>
+<dd><p>can be vector of 2-letter abbreviations of states</p></dd>
+
+
+<dt id="arg-folder">folder<a class="anchor" aria-label="anchor" href="#arg-folder"></a></dt>
 <dd><p>path</p></dd>
+
+
+<dt id="arg-sumlev">sumlev<a class="anchor" aria-label="anchor" href="#arg-sumlev"></a></dt>
+<dd><p>default is 750, for blocks (but those are not available for Island Areas)</p></dd>
 
 
 <dt id="arg-filenumbers">filenumbers<a class="anchor" aria-label="anchor" href="#arg-filenumbers"></a></dt>
 <dd><p>a vector with any or all of 1,2,3 –
 default is file 1.
-File01 has Tables P1 and P2.
+File01 has Tables P1 and P2. Those are the ones with total population count.
 File02 has Tables P3, P4, and H1.
 File03 has Table P5.</p></dd>
-
-
-<dt id="arg-mystates">mystates<a class="anchor" aria-label="anchor" href="#arg-mystates"></a></dt>
-<dd><p>can be vector of 2-letter abbreviations of states</p></dd>
-
-
-<dt id="arg-sumlev">sumlev<a class="anchor" aria-label="anchor" href="#arg-sumlev"></a></dt>
-<dd><p>default is 750, for blocks (but those are not available for Island Areas)</p></dd>
 
 
 <dt id="arg-best-header-cols">best_header_cols<a class="anchor" aria-label="anchor" href="#arg-best-header-cols"></a></dt>
@@ -90,12 +90,17 @@ File03 has Table P5.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Not extensively tested.
-Attempts to read files already downloaded and unzipped, data files for specified states
+    <p>Not extensively tested.</p>
+<p>Attempts to read files already downloaded and unzipped, data files for specified states
 from the US Census Bureau's website for Decennial Census file data.</p>
-<p>see <a href="https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf" class="external-link">https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf</a></p>
-<p>Also look at the package <a href="https://github.com/GL-Li/totalcensus" class="external-link">totalcensus</a>
-see Census website for list of possible fields etc.</p><div class="sourceCode"><pre><code>
+<p>Technical documentation of the files available from Census Bureau
+and for list of possible fields etc.:</p><ul><li><p><a href="https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/" class="external-link">Technical Documentation folder</a></p></li>
+<li><p><a href="https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf" class="external-link">Technical Documentation PDF for 2020 Census PL94 171 Redistricting States files</a></p></li>
+<li><p><a href="https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020census-demographic-and-housing-characteristics-file-and-demographic-profile-techdoc.pdf" class="external-link">Technical Documentation PDF for 2020 Census details</a></p></li>
+<li><p><a href="https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020-dhc-table-matrix.xlsx" class="external-link">Table Matrix xlsx </a></p></li>
+<li><p><a href="https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf" class="external-link">Island Areas PDF Tech. Doc. </a></p></li>
+<li><p><a href="https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/2020-iac-dhc-readme.pdf" class="external-link">Island Areas PDF Readme for American Samoa</a></p></li>
+</ul><div class="sourceCode"><pre><code>
     for example:
  #  AREALAND      Area (Land)
  #  AREAWATR      Area (Water)
@@ -128,6 +133,9 @@ see Census website for list of possible fields etc.</p><div class="sourceCode"><
 
  </code></pre></div>
 
+<p>See the package <a href="https://github.com/GL-Li/totalcensus" class="external-link">totalcensus</a>
+for another attempt to facilitate downloads of files of data.</p>
+<p>See the <a href="https://walker-data.com/tidycensus/" class="external-link">tidycensus package</a> for using the API to request tabular data.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

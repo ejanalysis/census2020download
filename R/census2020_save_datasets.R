@@ -169,7 +169,7 @@ census2020_save_datasets <- function(x,
       # for (i in seq_along(metadata)) {
       #   attr(x, which = names(metadata)[i]) <- metadata[[i]]
       # }
-      cat("ADDING METADATA... doing EJAM:::metadata_add() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
+      cat("ADDING METADATA, doing EJAM:::metadata_add() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
 
       bgid2fips     <-  EJAM:::metadata_add( bgid2fips ) # use defaults for metadata
       blockid2fips  <-  EJAM:::metadata_add( blockid2fips )
@@ -213,7 +213,7 @@ census2020_save_datasets <- function(x,
   if (save_as_data_for_package) {
 
     # use_data() ####
-    cat("SAVING AS PACKAGE DATASETS... doing use_data() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
+    cat("SAVING AS PACKAGE DATASETS, doing use_data() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
     usethis::use_data(   bgid2fips,  overwrite = TRUE)
     usethis::use_data(blockid2fips,  overwrite = TRUE)
     usethis::use_data(blockpoints,   overwrite = TRUE)

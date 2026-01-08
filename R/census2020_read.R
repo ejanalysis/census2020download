@@ -2,13 +2,21 @@
 #' used by [census2020_get_data()]
 #' @details
 #'   Not extensively tested.
+#'
 #'   Attempts to read files already downloaded and unzipped, data files for specified states
 #'   from the US Census Bureau's website for Decennial Census file data.
 #'
-#'   see <https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf>
+#'  Technical documentation of the files available from Census Bureau
+#'  and for list of possible fields etc.:
 #'
-#' @details  Also look at the package [totalcensus](https://github.com/GL-Li/totalcensus)
-#'   see Census website for list of possible fields etc.
+#'   - [Technical Documentation folder](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/)
+#'   - [Technical Documentation PDF for 2020 Census PL94 171 Redistricting States files](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf)
+#'   - [Technical Documentation PDF for 2020 Census details](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020census-demographic-and-housing-characteristics-file-and-demographic-profile-techdoc.pdf)
+#'   - [Table Matrix xlsx ](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020-dhc-table-matrix.xlsx)
+#'   - [Island Areas PDF Tech. Doc. ](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf)
+#'   - [Island Areas PDF Readme for American Samoa](https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/2020-iac-dhc-readme.pdf)
+#'
+#'
 #'   \preformatted{
 #'     for example:
 #'  #  AREALAND      Area (Land)
@@ -41,14 +49,20 @@
 #'  Population of two or more races: Population of two races: P0020011
 #'
 #'  }
+#'
+#'  See the package [totalcensus](https://github.com/GL-Li/totalcensus)
+#'  for another attempt to facilitate downloads of files of data.
+#'
+#'  See the [tidycensus package](https://walker-data.com/tidycensus/) for using the API to request tabular data.
+#'
+#' @param mystates can be vector of 2-letter abbreviations of states
 #' @param folder path
+#' @param sumlev default is 750, for blocks (but those are not available for Island Areas)
 #' @param filenumbers a vector with any or all of 1,2,3 --
 #'   default is file 1.
-#'   File01 has Tables P1 and P2.
+#'   File01 has Tables P1 and P2. Those are the ones with total population count.
 #'   File02 has Tables P3, P4, and H1.
 #'   File03 has Table P5.
-#' @param mystates can be vector of 2-letter abbreviations of states
-#' @param sumlev default is 750, for blocks (but those are not available for Island Areas)
 #' @param best_header_cols default is a few key columns like POP100, GEOCODE (fips), etc.
 #' @param best_data_cols default is key race ethnicity fields
 #' @seealso [census2020_download()] [census2020_unzip()] [census2020_get_data()]
@@ -76,8 +90,11 @@
 #'  }
 #'
 #'
-census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumlev=750,
-                            best_header_cols=c("LOGRECNO", "GEOCODE",
+census2020_read <- function(mystates = NULL,
+                            folder = NULL,
+                            sumlev = 750,
+                            filenumbers = 1,
+                            best_header_cols = c("LOGRECNO", "GEOCODE",
                                                "AREALAND", "AREAWATR",
                                                "POP100", "HU100",
                                                "INTPTLAT", "INTPTLON"),
@@ -263,10 +280,10 @@ census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumle
 
   for (i in seq_along(mystates)) {
 
-    cat(paste0('Reading ', toupper(mystates[i])), ' geo file... \n')
+    cat(paste0('Reading ', toupper(mystates[i])), ' geo file . . . \n')
 
     header <- try(readr::read_delim(header_file_path[i], col_names = header_col_names,
-                                    guess_max = 5000,
+                                    guess_max = 10000, # GEOCODE is chr not dbl, BLOCK is chr or integer not logical, etc.
                                     show_col_types = FALSE, delim = "|"))
     if ("try-error" %in% class(header)) {print(header_file_path[i]); stop('cannot find or read file')}
     if (NROW(vroom::problems(header)) > 0) {print(cbind(problem_colname = header_col_names[vroom::problems(header)$col], vroom::problems(header)))}
@@ -299,8 +316,8 @@ census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumle
       warning('filenumbers 1 specified but file does not exist for ', toupper(mystates[i]))
       tryfile2 = TRUE
     }
-    if (1 %in% filenumbers && file.exists(part1_file_path[i])) {. # this file number does not exist for island areas looks like
-      cat(paste0('Reading ', toupper(mystates[i])), ' part1 data file... \n')
+    if (1 %in% filenumbers && file.exists(part1_file_path[i])) { # this file number does not exist for island areas looks like
+      cat(paste0('Reading ', toupper(mystates[i])), ' part1 data file . . . \n')
       part1_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
                           paste0("P00", c(10001:10071, 20001:20073)))
       part1  <- readr::read_delim(part1_file_path[i], col_names = part1_colnames,
@@ -312,7 +329,7 @@ census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumle
       list_needed <- c(list_needed, list(part1)) # try leaving that field in here
     }
     if (2 %in% filenumbers || tryfile2) {
-      cat(paste0('Reading ', toupper(mystates[i])), ' part2 data file... \n')
+      cat(paste0('Reading ', toupper(mystates[i])), ' part2 data file . . . \n')
       part2_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
                           paste0("P00", c(30001:30071, 40001:40073)),
                           paste0("H00", 10001:10003))
@@ -324,7 +341,7 @@ census2020_read <- function(folder = NULL, filenumbers=1, mystates = NULL, sumle
       list_needed <- c(list_needed, list(part2[,names(part2)[!(names(part2) %in% 'CIFSN')]] ))
     }
     if (3 %in% filenumbers) {
-      cat(paste0('Reading ', toupper(mystates[i])), ' part3 data file... \n')
+      cat(paste0('Reading ', toupper(mystates[i])), ' part3 data file . . . \n')
       part3_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
                           paste0("P00", 50001:50010))
       part3  <- readr::read_delim(part3_file_path[i], col_names = part3_colnames,

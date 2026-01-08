@@ -32,10 +32,10 @@ Columns:
 
       Classes ‘data.table’ and 'data.frame':    8174955 obs. of  4 variables:
 
-       $ BLOCK_X: num  205 205 204 204 204 ...
-       $ BLOCK_Z: num  2125 2125 2125 2126 2126 ...
-       $ BLOCK_Y: num  -3334 -3334 -3334 -3334 -3334 ...
-       $ blockid: int  1 2 3 4 5 6 7 8 9 10 ...
+       $ BLOCK_X: num  205 205 204 204 204 etc
+       $ BLOCK_Z: num  2125 2125 2125 2126 2126 etc
+       $ BLOCK_Y: num  -3334 -3334 -3334 -3334 -3334 etc
+       $ blockid: int  1 2 3 4 5 6 7 8 9 10 etc
 
          - attr(*, ".internal.selfref")=<externalptr>
          - attr(*, "sorted")= chr "blockid"

@@ -7,20 +7,26 @@ Download and clean up VI,GU,MP,AS Island Areas block data Census 2020
 
 ``` r
 census2020_get_data_islandareas(
+  mystates = c("VI", "GU", "MP", "AS"),
   folder = NULL,
   folderout = NULL,
-  mystates = c("VI", "GU", "MP", "AS"),
   do_download = TRUE,
   do_unzip = TRUE,
   do_read = TRUE,
   do_clean = TRUE,
   overwrite = TRUE,
-  sumlev = 150,
-  ...
+  sumlev = 150
 )
 ```
 
 ## Arguments
+
+- mystates:
+
+  Default is c('VI','GU','MP','AS') data were at
+  https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/
+  Also see page a-22 in
+  https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/supplemental-demographic-and-housing-characteristics-file/2020census-supplemental-dhc-techdoc.pdf
 
 - folder:
 
@@ -30,10 +36,6 @@ census2020_get_data_islandareas(
 - folderout:
 
   path for assembled results files, default is what folder was set to.
-
-- mystates:
-
-  Default is c('VI','GU','MP','AS')
 
 - do_download:
 
@@ -65,11 +67,6 @@ census2020_get_data_islandareas(
   set to 150, meaning blockgroup not block, since no block data for
   island areas in these files!
 
-- ...:
-
-  passed to
-  [`census2020_read_islandareas()`](https://github.com/ejanalysis/census2020download/reference/census2020_read.md)
-
 ## Value
 
 invisibly returns a data.table of US Census blocks with columns like
@@ -78,13 +75,17 @@ depending on do_read, do_clean, etc.
 
 ## Details
 
-Table 1 with pop seems unavailable from this source for island areas.
+Table 1 with pop seems unavailable from this source for island areas if
+trying to use the same approach to reading files as done for the US
+States.
+
+For Island areas, see
+https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf
+or e.g.,
+(https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/2020-iac-dhc-readme.pdf)
+
+For technical details on the files downloaded and tables and variables,
+see the detailed references in the help for
+[`census2020_read()`](https://github.com/ejanalysis/census2020download/reference/census2020_read.md).
 
 ## Examples
-
-``` r
- if (FALSE) { # \dontrun{
- x = census2020_get_data()
- y = census2020_get_data_islandareas()
- } # }
-```
