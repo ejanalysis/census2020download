@@ -41,7 +41,10 @@ However, note this from Census Bureau:
 "With this release of the 2020 IAC Demographic and Housing Characteristics Summary File,
 the Census Bureau provides additional demographic
 and housing characteristics for the Island Areas
-down to the block, block group, and census tract levels."}
+down to the block, block group, and census tract levels."
+Despite this, it appears that H1 (housing) table data are provided
+at block resolution, but P1 (population count) is only at block group, tract, etc.
+according to page 3 of the \href{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf}{Island Areas Tech. Doc.}}
 }
 \value{
 invisibly returns a data.table of US Census units with columns like

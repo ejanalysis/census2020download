@@ -41,6 +41,20 @@ table into NULL.
 ``` r
   passed_dt <- data.table::data.table(a = 1:10)
   x <- add_block_radius_miles_to_dt(passed_dt, 9001:9010)
+#> Error in add_block_radius_miles_to_dt(passed_dt, 9001:9010): could not find function "add_block_radius_miles_to_dt"
   is.null(x)
+#> Error: object 'x' not found
   passed_dt
+#>         a
+#>     <int>
+#>  1:     1
+#>  2:     2
+#>  3:     3
+#>  4:     4
+#>  5:     5
+#>  6:     6
+#>  7:     7
+#>  8:     8
+#>  9:     9
+#> 10:    10
 ```

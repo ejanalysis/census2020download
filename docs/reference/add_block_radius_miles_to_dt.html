@@ -74,11 +74,26 @@ That would just turn the table into NULL.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span>  <span class="va">passed_dt</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
-<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">add_block_radius_miles_to_dt</span><span class="op">(</span><span class="va">passed_dt</span>, <span class="fl">9001</span><span class="op">:</span><span class="fl">9010</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span>  <span class="va">passed_dt</span></span>
-<span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>  <span class="va">passed_dt</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">add_block_radius_miles_to_dt</span><span class="op">(</span><span class="va">passed_dt</span>, <span class="fl">9001</span><span class="op">:</span><span class="fl">9010</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in add_block_radius_miles_to_dt(passed_dt, 9001:9010):</span> could not find function "add_block_radius_miles_to_dt"</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'x' not found</span>
+<span class="r-in"><span>  <span class="va">passed_dt</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1:     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5:     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:     6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7:     7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8:     8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:     9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10:    10</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

@@ -18,3 +18,4 @@ reference:
   - area_sqmi_from_area_sqmeters
   - census_col_names_map
   - radius_miles_from_area_sqmi
+  - starts_with("census_col_names_map_")

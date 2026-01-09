@@ -11,7 +11,8 @@ census2020_save_datasets(
   metadata = NULL,
   add_metadata = TRUE,
   save_as_data_for_package = FALSE,
-  overwrite = TRUE
+  overwrite = TRUE,
+  keep_pop = FALSE
 )
 ```
 
@@ -41,6 +42,12 @@ census2020_save_datasets(
 - overwrite:
 
   default is TRUE, but only relevant if usethis = TRUE
+
+- keep_pop:
+
+  set to TRUE to keep the blockpop (population counts) column, but it is
+  not used by EJAM except here to create the weights before it is
+  dropped by default.
 
 ## Value
 

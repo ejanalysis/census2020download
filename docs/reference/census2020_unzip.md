@@ -57,4 +57,5 @@ if (FALSE) { # \dontrun{
  sum(c2$POP100)
  plot(c2$INTPTLON[substr(c2$GEOCODE,1,2)=='24'], c2$INTPTLAT[substr(c2$GEOCODE,1,2)=='24'], pch='.')
  } # }
+
 ```

@@ -69,10 +69,14 @@ for list of possible fields etc.:
   States
   files](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf)
 
-- [Technical Documentation PDF for 2020 Census
+- [Technical Documentation PDF for 2020 Census PL94 171 Redistricting
+  National, see pg
+  6-26](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_NationalTechDoc.pdf)
+
+- [DHC Technical Documentation PDF for 2020 Census
   details](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020census-demographic-and-housing-characteristics-file-and-demographic-profile-techdoc.pdf)
 
-- [Table Matrix
+- [DHC Table Matrix
   xlsx](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020-dhc-table-matrix.xlsx)
 
 - [Island Areas PDF Tech.
@@ -80,6 +84,27 @@ for list of possible fields etc.:
 
 - [Island Areas PDF Readme for American
   Samoa](https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/2020-iac-dhc-readme.pdf)
+
+- [Island Areas table/file
+  details](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf):
+  "For a layout of the individual tables for each file, refer to Chapter
+  3, Subject Locator, List of Tables, and Table Matrixes and Chapter 4,
+  Data Dictionary for Fields in the Geographic Header File in the 2020
+  Island Areas Censuses Demographic and Housing Characteristics Summary
+  File Technical Documentation." – Census Bureau e.g., table P1 is in
+  segment 9.
+
+  - [American Samoa Table
+    Matrix](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-american-samoa-table-matrix.xlsx)
+
+  - [Commonwealth of the Northern Mariana Islands Table
+    Matrix](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-cnmi-table-matrix.xlsx)
+
+  - [Guam Table
+    Matrix](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-guam-table-matrix.xlsx)
+
+  - [United States Virgin Islands Table
+    Matrix](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-usvi-table-matrix.xlsx)
 
         for example:
      #  AREALAND      Area (Land)
@@ -141,8 +166,9 @@ if (FALSE) { # \dontrun{
    c2$INTPTLON[substr(c2$GEOCODE,1,2) == '24'],
    c2$INTPTLAT[substr(c2$GEOCODE,1,2) == '24'], pch = '.')
  c2$LOGRECNO <- NULL
- colnames(c2) <- census2020download::census_col_names_map$Rname[
+ colnames(c2) <- census2020download::census_col_names_map$rname[
     match(colnames(blocks2020), census2020download::census_col_names_map$ftpname)
     ]
  } # }
+
 ```

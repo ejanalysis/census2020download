@@ -8,13 +8,22 @@ Renames columns, drops most, calculates total area.}
 \usage{
 census2020_clean(
   x,
-  cols_to_keep = c("blockfips", "lat", "lon", "pop", "pop100", "area")
+  cols_to_keep = c("blockfips", "lat", "lon", "pop", "area"),
+  sumlev = 750,
+  mystates,
+  census_col_names_defined = census_col_names_map
 )
 }
 \arguments{
 \item{x}{data from \code{\link[=census2020_read]{census2020_read()}}}
 
-\item{cols_to_keep}{optional, which (renamed) columns to retain and return}
+\item{cols_to_keep}{optional, which (renamed or not) columns to retain and return.
+"all' means keep them all. They will be renamed via census_col_names_map
+even if listed in cols_to_keep in the un-renamed form, like P0020002 vs hisp.}
+
+\item{sumlev}{just used by \code{\link[=census2020_get_data]{census2020_get_data()}} to correctly name the fips column.}
+
+\item{mystates}{just used by \code{\link[=census2020_get_data]{census2020_get_data()}} to correctly rename the data columns.}
 }
 \value{
 data.table with these columns by default:  blockfips lat lon pop area
@@ -24,8 +33,9 @@ Start to clean up download block data
 Renames columns, drops most, calculates total area.
 }
 \details{
-Renames and drops columns based on names in
-\link{census_col_names_map} and the parameter cols_to_keep,
+Renames and drops columns based on names in census_col_names_defined
+such as in \link{census_col_names_map} for the US/DC/PR (or island area specific versions)
+and the parameter cols_to_keep,
 but see census_col_names_map for what could be retained.
 
 Returns table in data.table format.

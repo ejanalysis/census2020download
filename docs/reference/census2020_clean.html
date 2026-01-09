@@ -43,7 +43,10 @@ Renames columns, drops most, calculates total area.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">census2020_clean</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
-<span>  cols_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blockfips"</span>, <span class="st">"lat"</span>, <span class="st">"lon"</span>, <span class="st">"pop"</span>, <span class="st">"pop100"</span>, <span class="st">"area"</span><span class="op">)</span></span>
+<span>  cols_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blockfips"</span>, <span class="st">"lat"</span>, <span class="st">"lon"</span>, <span class="st">"pop"</span>, <span class="st">"area"</span><span class="op">)</span>,</span>
+<span>  sumlev <span class="op">=</span> <span class="fl">750</span>,</span>
+<span>  <span class="va">mystates</span>,</span>
+<span>  census_col_names_defined <span class="op">=</span> <span class="va">census_col_names_map</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -56,7 +59,17 @@ Renames columns, drops most, calculates total area.</p>
 
 
 <dt id="arg-cols-to-keep">cols_to_keep<a class="anchor" aria-label="anchor" href="#arg-cols-to-keep"></a></dt>
-<dd><p>optional, which (renamed) columns to retain and return</p></dd>
+<dd><p>optional, which (renamed or not) columns to retain and return.
+"all' means keep them all. They will be renamed via census_col_names_map
+even if listed in cols_to_keep in the un-renamed form, like P0020002 vs hisp.</p></dd>
+
+
+<dt id="arg-sumlev">sumlev<a class="anchor" aria-label="anchor" href="#arg-sumlev"></a></dt>
+<dd><p>just used by <code><a href="census2020_get_data.html">census2020_get_data()</a></code> to correctly name the fips column.</p></dd>
+
+
+<dt id="arg-mystates">mystates<a class="anchor" aria-label="anchor" href="#arg-mystates"></a></dt>
+<dd><p>just used by <code><a href="census2020_get_data.html">census2020_get_data()</a></code> to correctly rename the data columns.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -65,8 +78,9 @@ Renames columns, drops most, calculates total area.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Renames and drops columns based on names in
-<a href="census_col_names_map.html">census_col_names_map</a> and the parameter cols_to_keep,
+    <p>Renames and drops columns based on names in census_col_names_defined
+such as in <a href="census_col_names_map.html">census_col_names_map</a> for the US/DC/PR (or island area specific versions)
+and the parameter cols_to_keep,
 but see census_col_names_map for what could be retained.</p>
 <p>Returns table in data.table format.</p>
 <p>area is in square meters and is sum of land and water areas.</p>

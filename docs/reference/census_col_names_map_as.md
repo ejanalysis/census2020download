@@ -1,7 +1,7 @@
-# Table that maps some Census variable names to short friendly variable names
+# Table that maps some Census variable names to short friendly variable names - AMERICAN SAMOA
 
 Table that maps some Census variable names to short friendly variable
-names
+names - AMERICAN SAMOA
 
 ## Details
 

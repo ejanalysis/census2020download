@@ -13,7 +13,8 @@ census2020_get_data(
   do_read = TRUE,
   do_clean = TRUE,
   overwrite = TRUE,
-  sumlev = 750
+  sumlev = 750,
+  cols_to_keep
 )
 }
 \arguments{
@@ -30,7 +31,10 @@ However, note this from Census Bureau:
 "With this release of the 2020 IAC Demographic and Housing Characteristics Summary File,
 the Census Bureau provides additional demographic
 and housing characteristics for the Island Areas
-down to the block, block group, and census tract levels."}
+down to the block, block group, and census tract levels."
+Despite this, it appears that H1 (housing) table data are provided
+at block resolution, but P1 (population count) is only at block group, tract, etc.
+according to page 3 of the \href{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf}{Island Areas Tech. Doc.}}
 
 \item{folder}{For downloaded files. Default is a tempdir. Folder is created if it does not exist.}
 
@@ -57,7 +61,16 @@ However, note this from Census Bureau:
 "With this release of the 2020 IAC Demographic and Housing Characteristics Summary File,
 the Census Bureau provides additional demographic
 and housing characteristics for the Island Areas
-down to the block, block group, and census tract levels."}
+down to the block, block group, and census tract levels."
+Despite this, it appears that H1 (housing) table data are provided
+at block resolution, but P1 (population count) is only at block group, tract, etc.
+according to page 3 of the \href{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf}{Island Areas Tech. Doc.}}
+
+\item{cols_to_keep}{omit to use the default in \code{\link[=census2020_clean]{census2020_clean()}}.
+Otherwise can be a vector of colnames like would be seen
+after census2020_get_data(do_clean = F) which would keep them all
+and also not rename them (usually done, via census_col_names_map table).
+cols_to_keep = "all" means keep them all.}
 }
 \value{
 invisibly returns a data.table of US Census blocks with columns like
@@ -74,8 +87,8 @@ Download and clean up US States,DC,PR, or Island Areas block data Census 2020 (f
   used scripts like EJAM/data-raw/datacreate_ . . . .R
   to do something like this:
 
-  blocks <- [census2020_get_data()] # default excludes Island Areas
-  mylist <- [census2020_save_datasets(blocks)]
+  blocks <- census2020_get_data() # default excludes Island Areas
+  mylist <- census2020_save_datasets(blocks)
 
   bgid2fips    = mylist$bgid2fips
   blockid2fips = mylist$blockid2fips
@@ -89,10 +102,12 @@ see the detailed references in the help for \code{\link[=census2020_read]{census
 }
 \examples{
  \dontrun{
- x = census2020_get_data(mystates="RI")
+ # Get race/ethnicity counts by block:
+ x = census2020_get_data(c('DE', 'CT'), cols_to_keep = 'all')
+ table(x$pop == rowSums(x[,c('hisp', 'nhwa',  'nhba', 'nhaiana',  'nhaa', 'nhnhpia', 'nhotheralone', 'nhmulti')] ))
 
- y = [census2020_get_data()] # All States/DC/PR at block resolution
- z = [census2020_get_data_islandareas()] # VI,GU,MP,AS at blockgroup scale
+ y = census2020_get_data() # All States/DC/PR at block resolution
+ z = census2020_get_data_islandareas() # VI,GU,MP,AS at blockgroup scale
  }
 }
 \seealso{

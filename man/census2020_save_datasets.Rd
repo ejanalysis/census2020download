@@ -10,7 +10,8 @@ census2020_save_datasets(
   metadata = NULL,
   add_metadata = TRUE,
   save_as_data_for_package = FALSE,
-  overwrite = TRUE
+  overwrite = TRUE,
+  keep_pop = FALSE
 )
 }
 \arguments{
@@ -24,6 +25,9 @@ with colnames blockfips, pop, area, lat, lon}
 \item{save_as_data_for_package}{logical, whether to do \code{\link[usethis:use_data]{usethis::use_data()}} here}
 
 \item{overwrite}{default is TRUE, but only relevant if usethis = TRUE}
+
+\item{keep_pop}{set to TRUE to keep the blockpop (population counts) column,
+but it is not used by EJAM except here to create the weights before it is dropped by default.}
 }
 \value{
 A named list of these huge data.tables for the EJAM package:
