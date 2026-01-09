@@ -8,8 +8,8 @@
 #'       used scripts like EJAM/data-raw/datacreate_ . . . .R
 #'       to do something like this:
 #'
-#'       blocks <- [census2020_get_data()] # default excludes Island Areas
-#'       mylist <- [census2020_save_datasets(blocks)]
+#'       blocks <- census2020_get_data() # default excludes Island Areas
+#'       mylist <- census2020_save_datasets(blocks)
 #'
 #'       bgid2fips    = mylist$bgid2fips
 #'       blockid2fips = mylist$blockid2fips
@@ -34,6 +34,9 @@
 #'  the Census Bureau provides additional demographic
 #'  and housing characteristics for the Island Areas
 #'  down to the block, block group, and census tract levels."
+#'  Despite this, it appears that H1 (housing) table data are provided
+#'  at block resolution, but P1 (population count) is only at block group, tract, etc.
+#'  according to page 3 of the [Island Areas Tech. Doc.](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf)
 #'
 #' @param folder For downloaded files. Default is a tempdir. Folder is created if it does not exist.
 #' @param folderout path for assembled results files, default is what folder was set to.
@@ -55,7 +58,14 @@
 #'  the Census Bureau provides additional demographic
 #'  and housing characteristics for the Island Areas
 #'  down to the block, block group, and census tract levels."
-#'
+#'  Despite this, it appears that H1 (housing) table data are provided
+#'  at block resolution, but P1 (population count) is only at block group, tract, etc.
+#'  according to page 3 of the [Island Areas Tech. Doc.](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf)
+#' @param cols_to_keep omit to use the default in [census2020_clean()].
+#'   Otherwise can be a vector of colnames like would be seen
+#'   after census2020_get_data(do_clean = F) which would keep them all
+#'    and also not rename them (usually done, via census_col_names_map table).
+#'    cols_to_keep = "all" means keep them all.
 #' @seealso [census2020_save_datasets()] creates individual data.tables,
 #'  after [census2020_get_data()] has done these:
 #'  - [census2020_download()]
@@ -66,10 +76,12 @@
 #'
 #' @examples
 #'  \dontrun{
-#'  x = census2020_get_data(mystates="RI")
+#'  # Get race/ethnicity counts by block:
+#'  x = census2020_get_data(c('DE', 'CT'), cols_to_keep = 'all')
+#'  table(x$pop == rowSums(x[,c('hisp', 'nhwa',  'nhba', 'nhaiana',  'nhaa', 'nhnhpia', 'nhotheralone', 'nhmulti')] ))
 #'
-#'  y = [census2020_get_data()] # All States/DC/PR at block resolution
-#'  z = [census2020_get_data_islandareas()] # VI,GU,MP,AS at blockgroup scale
+#'  y = census2020_get_data() # All States/DC/PR at block resolution
+#'  z = census2020_get_data_islandareas() # VI,GU,MP,AS at blockgroup scale
 #'  }
 #' @return invisibly returns a data.table of US Census blocks with columns like
 #'   blockid lat lon pop area (area in square meters), or just intermediate info
@@ -82,7 +94,8 @@ census2020_get_data <- function(mystates = c(state.abb, "DC", "PR"),
                                 folderout = NULL, # "~/../Downloads/census2020out",
                                 do_download = TRUE, do_unzip = TRUE, do_read = TRUE, do_clean = TRUE,
                                 overwrite = TRUE,
-                                sumlev = 750
+                                sumlev = 750,
+                                cols_to_keep
 ) {
   if (!overwrite) {stop("overwrite FALSE not working yet")}
 
@@ -150,7 +163,7 @@ census2020_get_data <- function(mystates = c(state.abb, "DC", "PR"),
 
     if (do_read) {
       cat("\n -------------------------  READING -------------------------  \n\n")
-      blocks <- census2020_read(folder = folderout, mystates = mystates, sumlev = sumlev) # not yet a data.table
+      blocks <- census2020_read(folder = folderout, mystates = mystates, sumlev = sumlev) # data.frame but not yet a data.table
     }
     ############################################### #
 
@@ -158,7 +171,11 @@ census2020_get_data <- function(mystates = c(state.abb, "DC", "PR"),
 
     if (do_clean && do_read) {
       cat("\n -------------------------  CLEANING -------------------------  \n\n")
-      blocks <- census2020_clean(blocks) # returns a data.table with all the info
+      if (missing(cols_to_keep) || is.null(cols_to_keep)) {
+        blocks <- census2020_clean(blocks, sumlev = sumlev, mystates = mystates) # returns a data.table with all the info
+      } else {
+        blocks <- census2020_clean(blocks, cols_to_keep = cols_to_keep, sumlev = sumlev, mystates = mystates) # returns a data.table
+      }
     }
     ############################################### #
     cat("\n -------------------------  DONE -------------------------  \n\n")
@@ -193,7 +210,9 @@ census2020_get_data <- function(mystates = c(state.abb, "DC", "PR"),
   ############################################### #
   if (is.data.frame(islandareas_data) || is.data.frame(nonisland_data)) {
     # looks  like do_read = T
+    if (is.data.frame(islandareas_data) && is.data.frame(nonisland_data)) {
     cat("\n Combining island areas data with non-island areas data \n\n")
+      }
     return(rbind(
       islandareas_data,
       nonisland_data

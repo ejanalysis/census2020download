@@ -32,6 +32,9 @@
 #'  the Census Bureau provides additional demographic
 #'  and housing characteristics for the Island Areas
 #'  down to the block, block group, and census tract levels."
+#'  Despite this, it appears that H1 (housing) table data are provided
+#'  at block resolution, but P1 (population count) is only at block group, tract, etc.
+#'  according to page 3 of the [Island Areas Tech. Doc.](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf)
 #'
 #' @details
 #' Table 1 with pop seems unavailable from this source for island areas
@@ -130,8 +133,26 @@ if (!overwrite) {stop("overwrite FALSE not working yet")}
   # CLEAN ####
 
   if (do_clean) {
+
+    ST = lookup_states$ST[match(substr(blocks$GEOCODE,1,2), lookup_states$FIPS.ST)]
     cat("\n -------------------------  CLEANING -------------------------  \n\n")
-    blocks <- census2020_clean_islandareas(blocks) # returns a data.table
+    # rename each island area columns separately since they use different codes for a given variable
+    mystates = toupper(mystates)
+    x = list()
+    for (i in seq_along(mystates)) {
+
+      if (mystates[i] %in% 'VI') {this <- census_col_names_map_vi}
+      if (mystates[i] %in% 'AS') {this <- census_col_names_map_as}
+      if (mystates[i] %in% 'GU') {this <- census_col_names_map_gu}
+      if (mystates[i] %in% 'MP') {this <- census_col_names_map_mp}
+
+      x[[i]] <- blocks[ST %in% mystates[i],]
+      x[[i]] <- census2020_clean_islandareas(x[[i]], sumlev = sumlev, mystates = mystates[i],
+                                             census_col_names_defined = this)
+      # returns a data.table
+    }
+    blocks <- data.table::rbindlist(x)
+
     if (sumlev == 150) {
     names(blocks) <- gsub("blockfips", "bgfips", names(blocks)) # since no block data for island areas, only block group
     }

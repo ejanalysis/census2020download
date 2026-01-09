@@ -11,10 +11,17 @@
 #'
 #'   - [Technical Documentation folder](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/)
 #'   - [Technical Documentation PDF for 2020 Census PL94 171 Redistricting States files](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf)
-#'   - [Technical Documentation PDF for 2020 Census details](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020census-demographic-and-housing-characteristics-file-and-demographic-profile-techdoc.pdf)
-#'   - [Table Matrix xlsx ](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020-dhc-table-matrix.xlsx)
+#'   - [Technical Documentation PDF for 2020 Census PL94 171 Redistricting National, see pg 6-26](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_NationalTechDoc.pdf)
+#'   - [DHC Technical Documentation PDF for 2020 Census details](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020census-demographic-and-housing-characteristics-file-and-demographic-profile-techdoc.pdf)
+#'   - [DHC Table Matrix xlsx ](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/demographic-and-housing-characteristics-file-and-demographic-profile/2020-dhc-table-matrix.xlsx)
 #'   - [Island Areas PDF Tech. Doc. ](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf)
 #'   - [Island Areas PDF Readme for American Samoa](https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/2020-iac-dhc-readme.pdf)
+#'   - [Island Areas table/file details](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf): "For a layout of the individual tables for each file, refer to Chapter 3, Subject Locator, List of Tables, and Table Matrixes and Chapter 4, Data Dictionary for Fields in the Geographic Header File in the 2020 Island Areas Censuses Demographic and Housing Characteristics Summary File
+#'  Technical Documentation." -- Census Bureau e.g., table P1 is in segment 9.
+#'     - [American Samoa Table Matrix](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-american-samoa-table-matrix.xlsx)
+#'     - [Commonwealth of the Northern Mariana Islands Table Matrix](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-cnmi-table-matrix.xlsx)
+#'     - [Guam Table Matrix](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-guam-table-matrix.xlsx)
+#'     - [United States Virgin Islands Table Matrix](https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-usvi-table-matrix.xlsx)
 #'
 #'
 #'   \preformatted{
@@ -84,7 +91,7 @@
 #'    c2$INTPTLON[substr(c2$GEOCODE,1,2) == '24'],
 #'    c2$INTPTLAT[substr(c2$GEOCODE,1,2) == '24'], pch = '.')
 #'  c2$LOGRECNO <- NULL
-#'  colnames(c2) <- census2020download::census_col_names_map$Rname[
+#'  colnames(c2) <- census2020download::census_col_names_map$rname[
 #'     match(colnames(blocks2020), census2020download::census_col_names_map$ftpname)
 #'     ]
 #'  }
@@ -115,22 +122,46 @@ census2020_read <- function(mystates = NULL,
   # al000022020.pl
   # al000032020v
   # algeo2020.pl
-  # .pl or .dhc if US/DC/PR or Island Areas
+  # .pl or .dhc if US/DC/PR or Island Areas #####  ISLAND AREAS
   ext <- rep("pl", length(mystates))
   ext[mystates %in% c("vi", "gu", "mp", "as")] <- "dhc"
+  islandfiles <- paste0(mystates, '0000', 9, '2020.', ext) #####  ISLAND AREAS
   t1files <- paste0(mystates, '0000', 1, '2020.', ext)
   t2files <- paste0(mystates, '0000', 2, '2020.', ext)
   t3files <- paste0(mystates, '0000', 3, '2020.', ext)
+
   geofiles <- paste0(mystates, 'geo2020.', ext)
 
   ######## ***SEE pl_all_4_2020_dar.R *** ##############
-  header_file_path <- file.path(folder, geofiles) # ;print(header_file_path) #  algeo2020.pl  for alabama  in    al2020.pl.zip
+
   part1_file_path  <- file.path(folder, t1files)
   part2_file_path  <- file.path(folder, t2files)
   part3_file_path  <- file.path(folder, t3files)
+  part9_file_path  <- file.path(folder, islandfiles) #####  ISLAND AREAS:
+
+  header_file_path <- file.path(folder, geofiles) # ;print(header_file_path) #  algeo2020.pl  for alabama  in    al2020.pl.zip
 
   # *** SHOULD CHANGE THIS TO LIMIT IT TO READING ONLY THE NECESSARY COLUMNS, ******************
 
+  # DATA - island areas
+  ## island areas have these in every data file:
+  #  FILEID        File Identification
+  #  STUSAB        State/US-Abbreviation (USPS)
+  #  CHARITER      Characteristic Iteration
+  #  CIFSN         Characteristic Iteration File Sequence Number
+  #  LOGRECNO      Logical Record Number
+## then the data from given table
+
+# GEO - island areas
+#   The Geographic Header Record for the 2020 IAC can be found at the following links:
+#     • American Samoa, Guam, Commonwealth of the Northern Mariana Islands.
+  # https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-geographic-header-record-as-cnmi-guam.xlsx
+#   • United States Virgin Islands.
+  # https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-geographic-header-record-usvi.xlsx
+  # per https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf
+
+
+  # GEO - STATES/DC/PR
   # ---------------------------- -
   # Assign names to data columns  -from header (geo file) #####
   # ---------------------------- -
@@ -265,16 +296,23 @@ census2020_read <- function(mystates = NULL,
   # readr::read_delim(files)
 
   header_col_names <- c("FILEID", "STUSAB", "SUMLEV", "GEOVAR", "GEOCOMP", "CHARITER", "CIFSN", "LOGRECNO", "GEOID",
-                        "GEOCODE", "REGION", "DIVISION", "STATE", "STATENS",
-                        "COUNTY", "COUNTYCC", "COUNTYNS", "COUSUB",
-                        "COUSUBCC", "COUSUBNS", "SUBMCD", "SUBMCDCC", "SUBMCDNS", "ESTATE", "ESTATECC", "ESTATENS",
-                        "CONCIT", "CONCITCC", "CONCITNS", "PLACE", "PLACECC", "PLACENS", "TRACT", "BLKGRP", "BLOCK",
+                        "GEOCODE", "REGION", "DIVISION",
+                        "STATE", "STATENS",
+                        "COUNTY", "COUNTYCC", "COUNTYNS", "COUSUB", "COUSUBCC", "COUSUBNS",
+                        "SUBMCD", "SUBMCDCC", "SUBMCDNS",
+                        "ESTATE", "ESTATECC", "ESTATENS",
+                        "CONCIT", "CONCITCC", "CONCITNS",
+                        "PLACE", "PLACECC", "PLACENS",
+                        "TRACT", "BLKGRP", "BLOCK",
                         "AIANHH", "AIHHTLI", "AIANHHFP", "AIANHHCC", "AIANHHNS", "AITS", "AITSFP", "AITSCC", "AITSNS",
                         "TTRACT", "TBLKGRP", "ANRC", "ANRCCC", "ANRCNS", "CBSA", "MEMI", "CSA", "METDIV", "NECTA",
                         "NMEMI", "CNECTA", "NECTADIV", "CBSAPCI", "NECTAPCI", "UA", "UATYPE", "UR", "CD116", "CD118",
                         "CD119", "CD120", "CD121", "SLDU18", "SLDU22", "SLDU24", "SLDU26", "SLDU28", "SLDL18", "SLDL22",
-                        "SLDL24", "SLDL26", "SLDL28", "VTD", "VTDI", "ZCTA", "SDELM", "SDSEC", "SDUNI", "PUMA", "AREALAND",
-                        "AREAWATR", "BASENAME", "NAME", "FUNCSTAT", "GCUNI", "POP100", "HU100", "INTPTLAT", "INTPTLON",
+                        "SLDL24", "SLDL26", "SLDL28", "VTD", "VTDI", "ZCTA", "SDELM", "SDSEC", "SDUNI", "PUMA",
+                        "AREALAND", "AREAWATR",
+                        "BASENAME", "NAME", "FUNCSTAT", "GCUNI",
+                        "POP100", "HU100",
+                        "INTPTLAT", "INTPTLON",
                         "LSADC", "PARTFLAG", "UGA")
   combinedstates <- NULL
 
@@ -311,11 +349,7 @@ census2020_read <- function(mystates = NULL,
     # print(head(header))
     # str(list_needed)
     # stop('that was geo header')
-    tryfile2 = FALSE
-    if (1 %in% filenumbers && !file.exists(part1_file_path[i])) {
-      warning('filenumbers 1 specified but file does not exist for ', toupper(mystates[i]))
-      tryfile2 = TRUE
-    }
+
     if (1 %in% filenumbers && file.exists(part1_file_path[i])) { # this file number does not exist for island areas looks like
       cat(paste0('Reading ', toupper(mystates[i])), ' part1 data file . . . \n')
       part1_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
@@ -328,7 +362,7 @@ census2020_read <- function(mystates = NULL,
       # cols_needed <- c(cols_needed, colnames(part1)[!(colnames(part1) %in% c('FILEID', 'STUSAB','CHARITER', "CIFSN" ,   "LOGRECNO" ))])
       list_needed <- c(list_needed, list(part1)) # try leaving that field in here
     }
-    if (2 %in% filenumbers || tryfile2) {
+    if (2 %in% filenumbers) {
       cat(paste0('Reading ', toupper(mystates[i])), ' part2 data file . . . \n')
       part2_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
                           paste0("P00", c(30001:30071, 40001:40073)),
@@ -351,8 +385,40 @@ census2020_read <- function(mystates = NULL,
       cols_needed <- c(cols_needed, colnames(part3)[!(colnames(part3) %in% c('FILEID', 'STUSAB','CHARITER', "CIFSN" ,   "LOGRECNO"))])
       list_needed <- c(list_needed, list(part3))   #[,names(part3)[!(names(part3) %in% 'CIFSN')]] )) # seems like they did not remove that field from part3
     }
-    # print('cols_needed'); print(cols_needed)
-    # print('list_needed'); str(list_needed)
+    ########################################################################################################################################### #
+    #####  ISLAND AREAS:
+
+    if (any(mystates %in% c("vi", "gu", "mp", "as"))) {
+      # need file 9 for P1
+      cat(paste0('Reading ', toupper(mystates[i])), ' part9 data file with Island Areas info . . . \n')
+
+      ## formats differ among island areas !!
+
+      if (mystates[i] == "mp") {
+        part9_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
+                            # see chapter 3 of https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf
+                            paste0("P00", c(10001, 20001:20003, 30001:30032, 40001:40032, 50001:50034, 60001:60034, 70001:70007, 80001:80039, paste0("other", 1:39 ))))
+      }
+      if (mystates[i] == "gu") {
+        part9_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
+                            # see chapter 3 of https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf
+                            paste0("P00", c(10001, 20001:20003, 30001:30034, 40001:40034, 50001:50036, 60001:60036, 70001:70007, 80001:80039, paste0("other", 1:39 ))))
+      }
+      if (mystates[i] %in% c("vi", "as")) {
+        part9_colnames <- c("FILEID", "STUSAB", "CHARITER", "CIFSN", "LOGRECNO",
+                            ## field names here are based on 2020-iac-dhc-american-samoa-table-matrix.xlsx at https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-american-samoa-table-matrix.xlsx
+                            # as linked from chapter 3 of https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf
+                            paste0("P00", c(10001, 20001:20003, 30001:30030, 40001:40030, 50001:50032, 60001:60032, 70001:70007, 80001:80039, paste0("other", 1:39 ))))
+      }
+
+      part9  <- readr::read_delim(part9_file_path[i], col_names = part9_colnames,
+                                  guess_max = 5000,
+                                  show_col_types = FALSE,  delim = "|")
+      if (NROW(vroom::problems(part9)) > 0) {print(vroom::problems(part9))}
+      cols_needed <- c(cols_needed, colnames(part9)[!(colnames(part9) %in% c('FILEID', 'STUSAB','CHARITER', "CIFSN" ,   "LOGRECNO"))])
+      list_needed <- c(list_needed, list(part9[,names(part9)[!(names(part9) %in% 'CIFSN')]] ))
+    }
+    ########################################################################################################################################### #
 
     # ---------------------------- -
     # Merge the data #######
@@ -363,12 +429,17 @@ census2020_read <- function(mystates = NULL,
     list_needed
     )
 
+#  dim(combine) # *224* columns for VI and AS,  but  *240* cols for GU  and *232* for MP.
+# GU: LOGRECNO GEOCODE AREALAND AREAWATR POP100 HU100 INTPTLAT INTPTLON FILEID STUSAB CHARITER P0010001 .."X219"  .. "X234"  ???
+# VI: LOGRECNO GEOCODE AREALAND AREAWATR POP100 HU100 INTPTLAT INTPTLON FILEID STUSAB CHARITER P0010001. .. "P00other39"
     # ---------------------------- -
     # Order the data #########
     # ---------------------------- -
     combine <- combine[order(combine$LOGRECNO) , ]
     rownames(combine) <- NULL
-    combinedstates <- rbind(combinedstates, combine)
+    combinedstates <- data.table::rbindlist(list(combinedstates, combine), fill = TRUE) # uses NA values if
+    data.table::setDF(combinedstates)
+    # combinedstates <- rbind(combinedstates, combine) # fails for island areas since they have differing sets of indicators
     # end of 1 state
   }
   return(combinedstates) # a SINGLE data.frame compilation of states and filenumbers

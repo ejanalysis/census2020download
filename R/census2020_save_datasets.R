@@ -6,6 +6,8 @@
 #' @param add_metadata logical, whether to add EJAM-related metadata about date and version
 #' @param save_as_data_for_package logical, whether to do [usethis::use_data()] here
 #' @param overwrite default is TRUE, but only relevant if usethis = TRUE
+#' @param keep_pop set to TRUE to keep the blockpop (population counts) column,
+#'   but it is not used by EJAM except here to create the weights before it is dropped by default.
 #' @import data.table
 #' @return A named list of these huge data.tables for the EJAM package:
 #'   - [bgid2fips](https://ejanalysis.github.io/EJAM/reference/bgid2fips.html)
@@ -27,7 +29,8 @@ census2020_save_datasets <- function(x,
                                      metadata = NULL,
                                      add_metadata = TRUE,
                                      save_as_data_for_package = FALSE,
-                                     overwrite = TRUE) {
+                                     overwrite = TRUE,
+                                     keep_pop = FALSE) {
 
   cat("CREATING INDIVIDUAL TABLES\n")
 
@@ -59,8 +62,11 @@ census2020_save_datasets <- function(x,
   }
   blocks[is.na(blockwt), blockwt := 0]
 
+  if (keep_pop) {
+    data.table::setcolorder(blocks, neworder = c('blockfips', 'bgfips', 'blockwt', 'blockpop', 'bgpop', 'area', 'lat', 'lon' )) #
+  } else {
   data.table::setcolorder(blocks, neworder = c('blockfips', 'bgfips', 'blockwt', 'area', 'lat', 'lon' )) # , 'blockpop', 'bgpop')) # pop is used only to create blockwt
-
+}
   # Census Bureau explanation of FIPS:
   # blockid: 15-character code that is the concatenation of fields consisting of the
   # 2-character state FIPS code, the
@@ -83,7 +89,11 @@ census2020_save_datasets <- function(x,
   blockid2fips <- data.table::copy(blocks[ , .(blockid, blockfips)])
   blockpoints  <- data.table::copy(blocks[ , .(blockid, lat, lon)])
 
-  blockwts     <- data.table::copy(blocks[ , .(blockid, bgfips, blockwt, area) ])
+  if (keep_pop) {
+    blockwts     <- data.table::copy(blocks[ , .(blockid, bgfips, blockwt, blockpop, bgpop, area) ])
+  } else {
+    blockwts     <- data.table::copy(blocks[ , .(blockid, bgfips, blockwt, area) ])
+  }
   blockwts[ , bgid := .GRP, by = bgfips] # sorted so bgid starts at 1 with first bgfips in sort by bgfips
   bgid2fips <- data.table::copy(blockwts)
   bgid2fips <-  unique(bgid2fips[ , .(bgid, bgfips)])
@@ -170,7 +180,7 @@ census2020_save_datasets <- function(x,
       #   attr(x, which = names(metadata)[i]) <- metadata[[i]]
       # }
       cat("ADDING METADATA, doing EJAM:::metadata_add() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
-
+require(EJAM)
       bgid2fips     <-  EJAM:::metadata_add( bgid2fips ) # use defaults for metadata
       blockid2fips  <-  EJAM:::metadata_add( blockid2fips )
       blockpoints   <-  EJAM:::metadata_add( blockpoints )
