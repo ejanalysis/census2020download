@@ -20,13 +20,13 @@ knitr::opts_chunk$set(
 ## What this package does
 
 `census2020download` is a small set of helper functions used by the
-[EJAM](https://ejanalysis.com/EJAM) package. It downloads the 2020 Census
+[EJAM](https://ejanalysis.com/ejamdocs) package. It downloads the 2020 Census
 redistricting (PL94-171) files for US states, DC, and Puerto Rico — plus the
 Demographic and Housing Characteristics (DHC) files for the Island Areas
 (VI, GU, MP, AS) — then unzips, reads, and reshapes them into compact
 `data.table`s.
 
-The full pipeline is four steps, wrapped by a single function:
+The full pipeline has four steps, wrapped by the single function `census2020_get_data()`:
 
 1. `census2020_download()` — fetch the zip files from the Census Bureau
 2. `census2020_unzip()` — unzip the data and geographic header files
@@ -39,7 +39,7 @@ library(census2020download)
 
 ## The one-call pipeline
 
-`census2020_get_data()` runs all four steps. Start with a couple of small
+`census2020_get_data()` runs all four steps. Try it with a couple of small
 states so the download is quick:
 
 ```{r}

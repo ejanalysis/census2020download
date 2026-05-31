@@ -4,16 +4,18 @@
 [![R-CMD-check](https://github.com/ejanalysis/census2020download/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ejanalysis/census2020download/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-This package is just a set of helper functions used by the [EJAM](https://ejanalysis.com/EJAM) package.
+This package is mainly a set of helper functions used by the [EJAM](https://ejanalysis.com/ejamdocs) package,
+but it can be used apart from EJAM to download nationwide Census 2020 data.
+This does not require having a Census API key.
 
 It creates block datasets (and some blockgroup tables) for use in the EJAM package.
 It has basic functions for downloading from Census Bureau, 
-unzipping, reading the 2020 Census data for some or all US States
-into data.table format. Also some limited tools for Island Areas (VI,GU,MP,AS).
+unzipping, reading the 2020 Census data for some or all US states, DC, and Puerto Rico
+into data.table format. It also has some tools for Island Areas (VI,GU,MP,AS).
 
 It can retain a few key variables like 
 
-- lat and lon of block internal point
+- lat and lon of block internal point (similar to a centroid)
 - FIPS codes
 - population count or weight
 - area (or effective radius)
@@ -36,17 +38,17 @@ blocks <- census2020_get_data(c("DE", "DC"), cols_to_keep = "all")
 dim(blocks)
 head(blocks)
 
-# Race/ethnicity subgroup counts add up to the total block population:
+# Race/ethnicity subgroup counts that add up to the total block population:
 groups <- c("hisp", "nhwa", "nhba", "nhaiana", "nhaa",
             "nhnhpia", "nhotheralone", "nhmulti")
 all.equal(blocks$pop, rowSums(blocks[, ..groups]))
 
-# Split into the individual data.tables used by EJAM
+# Split the data into the individual data.tables used by EJAM
 # (blockwts, blockpoints, blockid2fips, bgid2fips, quaddata):
 tables <- census2020_save_datasets(blocks)
 names(tables)
 
-# Island Areas (VI, GU, MP, AS) come at block-group resolution:
+# Island Areas (VI, GU, MP, AS) come at blockgroup (not block) resolution:
 islands <- census2020_get_data_islandareas()
 ```
 
@@ -57,7 +59,7 @@ downloaded there.
 For more information see 
 
 - [census2020download package documentation](https://ejanalysis.github.io/census2020download/reference/census2020download.html)
-- [EJAM package documentation](https://ejanalysis.com/docs)
+- [EJAM package documentation](https://ejanalysis.com/ejamdocs)
 - [Census vs ACS geos info](https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html)
 
 

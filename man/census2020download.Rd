@@ -31,7 +31,7 @@ For more information see
 \itemize{
 \item \href{https://ejanalysis.github.io/census2020download/reference/census2020download.html}{census2020download package documentation}
 \item \href{https://github.com/ejanalysis/census2020download}{census2020download package github repository}
-\item \href{https://ejanalysis.com/EJAM}{EJAM package}
+\item \href{https://ejanalysis.com/ejamdocs}{EJAM package}
 \item \href{https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html}{Census vs ACS geos info}
 }
 

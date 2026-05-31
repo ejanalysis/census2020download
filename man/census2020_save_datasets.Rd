@@ -18,7 +18,7 @@ census2020_save_datasets(
 \item{x}{a single data.table called blocks that is from \code{\link[=census2020_get_data]{census2020_get_data()}},
 with colnames blockfips, pop, area, lat, lon}
 
-\item{metadata}{default is Census 2020 related, tries to use \href{https://ejanalysis.com/ejam-code}{EJAM package}}
+\item{metadata}{default is Census 2020 related, tries to use \href{https://ejanalysis.com/ejamdocs}{EJAM package}}
 
 \item{add_metadata}{logical, whether to add EJAM-related metadata about date and version}
 

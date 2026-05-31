@@ -41,6 +41,29 @@ test_that("cols_to_keep = 'all' keeps every mapped column", {
                     "arealand", "areawater", "pop100", "housingunits") %in% names(out)))
 })
 
+test_that("cols_to_keep = 'all' includes the derived area column (regression)", {
+  # area is computed from arealand + areawater and is not in census_col_names_map,
+  # so 'all' must be resolved after area is created, not before.
+  out <- census2020download:::census2020_clean(fake_read_output(), cols_to_keep = "all")
+  expect_true("area" %in% names(out))
+  expect_equal(out$area, c(1010, 2000))
+  # 'all' should be a superset of the default selection
+  default_cols <- names(census2020download:::census2020_clean(fake_read_output()))
+  expect_true(all(default_cols %in% names(out)))
+})
+
+test_that("mixing friendly and FTP names does not warn and resolves both", {
+  # blockfips (friendly) + GEOCODE (its FTP form) + pop (friendly): all available,
+  # so no warning should fire and GEOCODE should collapse onto blockfips.
+  expect_no_warning(
+    out <- census2020download:::census2020_clean(
+      fake_read_output(),
+      cols_to_keep = c("blockfips", "GEOCODE", "pop")
+    )
+  )
+  expect_setequal(names(out), c("blockfips", "pop"))
+})
+
 test_that("non-block sumlev renames blockfips to fips", {
   out <- census2020download:::census2020_clean(fake_read_output(), sumlev = 150)
   expect_true("fips" %in% names(out))

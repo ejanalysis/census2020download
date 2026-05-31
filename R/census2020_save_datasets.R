@@ -2,7 +2,7 @@
 #' This is just done when Census FIPS or bounds or points change.
 #' @param x a single data.table called blocks that is from [census2020_get_data()],
 #'   with colnames blockfips, pop, area, lat, lon
-#' @param metadata default is Census 2020 related, tries to use [EJAM package](https://ejanalysis.com/ejam-code)
+#' @param metadata default is Census 2020 related, tries to use [EJAM package](https://ejanalysis.com/ejamdocs)
 #' @param add_metadata logical, whether to add EJAM-related metadata about date and version
 #' @param save_as_data_for_package logical, whether to do [usethis::use_data()] here
 #' @param overwrite default is TRUE, but only relevant if usethis = TRUE
