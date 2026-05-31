@@ -1,4 +1,0 @@
-# License
-
-    YEAR: 2021
-    COPYRIGHT HOLDER: census2020download authors
