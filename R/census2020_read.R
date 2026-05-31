@@ -388,8 +388,10 @@ census2020_read <- function(mystates = NULL,
     ########################################################################################################################################### #
     #####  ISLAND AREAS:
 
-    if (any(mystates %in% c("vi", "gu", "mp", "as"))) {
-      # need file 9 for P1
+    if (mystates[i] %in% c("vi", "gu", "mp", "as") && file.exists(part9_file_path[i])) {
+      # need file 9 for P1. Test the current state (not any()) so that a mix of
+      # mainland states and Island Areas in one call does not try to read a
+      # non-existent file 9 (with an undefined part9_colnames) for the mainland.
       cat(paste0('Reading ', toupper(mystates[i])), ' part9 data file with Island Areas info . . . \n')
 
       ## formats differ among island areas !!

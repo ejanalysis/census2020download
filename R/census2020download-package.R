@@ -52,7 +52,7 @@
 #'
 "_PACKAGE"
 ## usethis namespace: start
-#' @importFrom utils download.file
+#' @importFrom stats addmargins
 #' @importFrom utils unzip
 ## usethis namespace: end
 NULL

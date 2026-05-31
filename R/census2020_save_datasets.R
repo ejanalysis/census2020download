@@ -174,18 +174,18 @@ census2020_save_datasets <- function(x,
 
   if (add_metadata) {
 
-    if (requireNamespace('EJAM') &&  isNamespaceLoaded('EJAM') ) {
+    if (requireNamespace("EJAM", quietly = TRUE) && isNamespaceLoaded("EJAM")) {
 
-      # for (i in seq_along(metadata)) {
-      #   attr(x, which = names(metadata)[i]) <- metadata[[i]]
-      # }
-      cat("ADDING METADATA, doing EJAM:::metadata_add() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
-require(EJAM)
-      bgid2fips     <-  EJAM:::metadata_add( bgid2fips ) # use defaults for metadata
-      blockid2fips  <-  EJAM:::metadata_add( blockid2fips )
-      blockpoints   <-  EJAM:::metadata_add( blockpoints )
-      blockwts      <-  EJAM:::metadata_add( blockwts )
-      quaddata      <-  EJAM:::metadata_add( quaddata )
+      # metadata_add() is an unexported EJAM helper; fetch it without a ':::'
+      # call so this Suggested-package dependency stays optional.
+      metadata_add <- get("metadata_add", envir = asNamespace("EJAM"))
+
+      cat("ADDING METADATA via EJAM metadata_add() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
+      bgid2fips     <-  metadata_add( bgid2fips ) # use defaults for metadata
+      blockid2fips  <-  metadata_add( blockid2fips )
+      blockpoints   <-  metadata_add( blockpoints )
+      blockwts      <-  metadata_add( blockwts )
+      quaddata      <-  metadata_add( quaddata )
 
       attr(   bgid2fips, "download_date") <- Sys.Date()
       attr(blockid2fips, "download_date") <- Sys.Date()
@@ -222,6 +222,9 @@ require(EJAM)
   }
   if (save_as_data_for_package) {
 
+    if (!requireNamespace("usethis", quietly = TRUE)) {
+      stop("save_as_data_for_package = TRUE requires the 'usethis' package; install it or set save_as_data_for_package = FALSE.")
+    }
     # use_data() ####
     cat("SAVING AS PACKAGE DATASETS, doing use_data() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
     usethis::use_data(   bgid2fips,  overwrite = TRUE)

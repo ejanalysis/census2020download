@@ -5,7 +5,7 @@
 \title{Download and clean up US States,DC,PR, or Island Areas block data Census 2020 (for EJAM)}
 \usage{
 census2020_get_data(
-  mystates = c(state.abb, "DC", "PR"),
+  mystates = c(datasets::state.abb, "DC", "PR"),
   folder = NULL,
   folderout = NULL,
   do_download = TRUE,

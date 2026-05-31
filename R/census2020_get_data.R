@@ -89,7 +89,7 @@
 #'
 #' @export
 #'
-census2020_get_data <- function(mystates = c(state.abb, "DC", "PR"),
+census2020_get_data <- function(mystates = c(datasets::state.abb, "DC", "PR"),
                                 folder = NULL,   # "~/../Downloads/census2020zip",
                                 folderout = NULL, # "~/../Downloads/census2020out",
                                 do_download = TRUE, do_unzip = TRUE, do_read = TRUE, do_clean = TRUE,

@@ -16,8 +16,13 @@
 #'   even if listed in cols_to_keep in the un-renamed form, like P0020002 vs hisp.
 #' @param sumlev just used by [census2020_get_data()] to correctly name the fips column.
 #' @param mystates just used by [census2020_get_data()] to correctly rename the data columns.
+#' @param census_col_names_defined data.frame mapping Census FTP column names to
+#'   short friendly names, with columns `ftpname` and `rname`. Default is
+#'   [census_col_names_map]; the Island Area helpers pass area-specific maps
+#'   such as [census_col_names_map_vi].
 #' @return data.table with these columns by default:  blockfips lat lon pop area
 #' @import data.table
+#' @keywords internal
 #'
 #' @aliases census2020_clean_islandareas
 #'

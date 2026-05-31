@@ -58,6 +58,7 @@ Useful links:
 \itemize{
   \item \url{https://github.com/ejanalysis/census2020download}
   \item \url{https://ejanalysis.github.io/census2020download/}
+  \item Report bugs at \url{https://github.com/ejanalysis/census2020download/issues}
 }
 
 }

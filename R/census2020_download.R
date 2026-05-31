@@ -41,9 +41,9 @@
 #' @export
 #'
 census2020_download <- function(folder = NULL,
-                                mystates = c(state.abb, 'DC', 'PR'),
+                                mystates = c(datasets::state.abb, 'DC', 'PR'),
                                 # mystates = c('VI', 'GU', 'MP', 'AS'), # is the island areas version
-                                allstates = c(c(state.abb, 'DC', 'PR'), c('VI', 'GU', 'MP', 'AS')),
+                                allstates = c(c(datasets::state.abb, 'DC', 'PR'), c('VI', 'GU', 'MP', 'AS')),
                                 # allstates = c('VI', 'GU', 'MP', 'AS'), # is the island areas version
                                 ##   but complete list of valid ones including island areas would be  lookup_states$ST[lookup_states$ST != "US"] # list of valid abbreviations here gets replaced if called from census2020_download_islandareas()
                                 baseurl = "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/",

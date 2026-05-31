@@ -14,13 +14,14 @@
 #'   without this function needing to return anything.
 #' @examples
 #'   passed_dt <- data.table::data.table(a = 1:10)
-#'   x <- add_block_radius_miles_to_dt(passed_dt, 9001:9010)
+#'   x <- census2020download:::add_block_radius_miles_to_dt(passed_dt, 9001:9010)
 #'   is.null(x)
 #'   passed_dt
 #'
 #' @seealso  [radius_miles_from_area_sqmi()]
-#' 
-#' 
+#' @keywords internal
+#'
+#'
 add_block_radius_miles_to_dt <- function(dt, area_sqmi) {
 
   # if needed, note that
