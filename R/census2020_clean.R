@@ -120,9 +120,14 @@ census2020_clean <- function(x, cols_to_keep = c("blockfips", "lat", "lon", "pop
   # x[ , arealand := NULL]
   # x[ , areawater := NULL]
   if ('all' %in% cols_to_keep) {cols_to_keep <- colnames(x)}
-  if (!all(cols_to_keep %in% colnames(x))) {
-    cat("While doing census2020_clean(), missing these column names: ", paste0(setdiff(cols_to_keep, colnames(x)), collapse=", "), "\n")
-  warning("Some of column names specified by cols_to_keep are not available. Check census2020download::census_col_names_map and columns added in this source code")
+  # Names supplied in the original FTP form (e.g. "GEOCODE") were translated to
+  # their friendly form above, so they are not "missing" - exclude them before
+  # warning about genuinely unavailable columns.
+  unavailable <- setdiff(cols_to_keep, colnames(x))
+  unavailable <- setdiff(unavailable, census_col_names_defined$ftpname)
+  if (length(unavailable) > 0) {
+    cat("While doing census2020_clean(), missing these column names: ", paste0(unavailable, collapse = ", "), "\n")
+    warning("Some of column names specified by cols_to_keep are not available. Check census2020download::census_col_names_map and columns added in this source code")
   }
   cols_to_keep_found = cols_to_keep[cols_to_keep %in% colnames(x)]
   x <- x[ , ..cols_to_keep_found]
