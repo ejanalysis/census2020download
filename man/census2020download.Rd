@@ -64,4 +64,9 @@ Useful links:
 \author{
 \strong{Maintainer}: Mark Corrales \email{info@ejanalysis.com}
 
+Authors:
+\itemize{
+  \item Mark Corrales \email{info@ejanalysis.com}
+}
+
 }

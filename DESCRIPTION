@@ -23,8 +23,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 NeedsCompilation: no
 Author: Mark Corrales [aut, cre] 
 Maintainer: Mark Corrales <info@ejanalysis.com>
 URL: https://github.com/ejanalysis/census2020download, https://ejanalysis.github.io/census2020download/
+Config/roxygen2/version: 8.0.0
