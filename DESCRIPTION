@@ -27,6 +27,8 @@ Suggests:
     SearchTrees,
     testthat (>= 3.0.0),
     usethis
+Remotes:
+    github::ejanalysis/EJAM
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
