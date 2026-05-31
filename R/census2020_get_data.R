@@ -45,7 +45,10 @@
 #' @param do_unzip    whether to do [census2020_unzip()]
 #' @param do_read     whether to do [census2020_read()]
 #' @param do_clean    whether to do [census2020_clean()]
-#' @param overwrite passed to [census2020_download()]
+#' @param overwrite passed to [census2020_download()]. When FALSE, zip files
+#'   already present in `folder` are not downloaded again.
+#' @param timeout seconds before an individual download times out; passed to
+#'   [census2020_download()].
 #' @param sumlev Generally should not be changed from defaults.
 #'  Value of 750 means blocks, the only option likely to work here.
 #'  150 would mean blockgroups as for Island Areas since they seemed to lack block data here.
@@ -95,27 +98,43 @@ census2020_get_data <- function(mystates = c(datasets::state.abb, "DC", "PR"),
                                 do_download = TRUE, do_unzip = TRUE, do_read = TRUE, do_clean = TRUE,
                                 overwrite = TRUE,
                                 sumlev = 750,
-                                cols_to_keep
+                                cols_to_keep,
+                                timeout = 180
 ) {
-  if (!overwrite) {stop("overwrite FALSE not working yet")}
+  # input validation
+  if (is.null(mystates) || length(mystates) == 0 || !is.character(mystates)) {
+    stop("mystates must be a non-empty character vector of 2-letter abbreviations")
+  }
+  mystates <- toupper(mystates)
+  if (length(sumlev) != 1 || !(sumlev %in% c(40, 50, 140, 150, 750))) {
+    stop("sumlev must be one of 40 (state), 50 (county), 140 (tract), 150 (block group), or 750 (block)")
+  }
 
-  if (any(mystates %in% c('VI', 'GU', 'MP', 'AS'))) {
-    mystates_islandareas = mystates[mystates %in% c('VI', 'GU', 'MP', 'AS')]
+  island_codes <- c('VI', 'GU', 'MP', 'AS')
+  if (any(mystates %in% island_codes)) {
+    mystates_islandareas = mystates[mystates %in% island_codes]
     islandareas_data =  census2020_get_data_islandareas(mystates = mystates_islandareas,
                                                         folder = folder,
                                                         folderout = folderout,
                                                         do_download = do_download, do_unzip = do_unzip, do_read = do_read, do_clean = do_clean,
                                                         overwrite = overwrite,
-                                                        sumlev = gsub("750", "150", sumlev) # cannot be 750, blocks, if island area
+                                                        sumlev = if (sumlev == 750) 150 else sumlev, # cannot be 750, blocks, if island area
+                                                        timeout = timeout
     )
-    mystates = mystates[!(mystates %in% c('VI', 'GU', 'MP', 'AS'))]
+    mystates = mystates[!(mystates %in% island_codes)]
   } else {
     mystates_islandareas <- NULL
     islandareas_data <- NULL
   }
-  if (!any(!(mystates %in% c('VI', 'GU', 'MP', 'AS')))) {
+  if (length(mystates) == 0) {
+    # only Island Areas were requested; nothing to do in the mainland pipeline
     nonisland_data <- NULL
   } else {
+
+    # values that may or may not be produced below, depending on the do_* flags
+    paths     <- NULL
+    allfiles  <- NULL
+    blocks    <- NULL
 
     ############################################### #
 
@@ -130,6 +149,7 @@ census2020_get_data <- function(mystates = c(datasets::state.abb, "DC", "PR"),
     if (is.null(folderout)) {
       folderout <- folder
     }
+    zipfolder <- folder
     ##################################### #  ##################################### #
 
     # DOWNLOAD ####
@@ -139,15 +159,10 @@ census2020_get_data <- function(mystates = c(datasets::state.abb, "DC", "PR"),
 
     if (do_download) {
       cat("\n -------------------------  DOWNLOADING -------------------------  \n\n")
-      zpathsinfo <- census2020_download( folder = folder,    mystates = mystates, overwrite = overwrite) #
+      zpathsinfo <- census2020_download( folder = folder, mystates = mystates, overwrite = overwrite, timeout = timeout)
       paths <- zpathsinfo$destfile
-      zipfolder <- dirname(zpathsinfo$destfile)[1]
-      # zurls <- zpathsinfo$url
-      # zpathslocal <- file.path(folder, basename(zurls))
     } else {
-      # zpathslocal <- folder # ?
-      zipfolder <- folder
-      paths <- list.files(zipfolder, pattern = '2020.*.zip', full.names = T)
+      paths <- list.files(zipfolder, pattern = '2020.*.zip', full.names = TRUE)
     }
     ############################################### #
 
@@ -200,12 +215,15 @@ census2020_get_data <- function(mystates = c(datasets::state.abb, "DC", "PR"),
 
       \n")
     ############################################### #
-    # depending on do_download, do_unzip,  do_read and do_clean, return what is available
-    if (exists("blocks")) {nonisland_data <- blocks} else {
-      if (exists("allfiles")) {nonisland_data <- allfiles} else {
-        if (exists("paths")) {nonisland_data <- paths} else {
-          nonisland_data <- NULL}
-      } }
+    # depending on do_download, do_unzip, do_read and do_clean, return the most
+    # processed result available (cleaned/read blocks > unzipped files > zip paths)
+    nonisland_data <- if (!is.null(blocks)) {
+      blocks
+    } else if (!is.null(allfiles)) {
+      allfiles
+    } else {
+      paths
+    }
   }
   ############################################### #
   if (is.data.frame(islandareas_data) || is.data.frame(nonisland_data)) {

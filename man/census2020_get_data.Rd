@@ -14,7 +14,8 @@ census2020_get_data(
   do_clean = TRUE,
   overwrite = TRUE,
   sumlev = 750,
-  cols_to_keep
+  cols_to_keep,
+  timeout = 180
 )
 }
 \arguments{
@@ -48,7 +49,8 @@ according to page 3 of the \href{https://www2.census.gov/programs-surveys/decenn
 
 \item{do_clean}{whether to do \code{\link[=census2020_clean]{census2020_clean()}}}
 
-\item{overwrite}{passed to \code{\link[=census2020_download]{census2020_download()}}}
+\item{overwrite}{passed to \code{\link[=census2020_download]{census2020_download()}}. When FALSE, zip files
+already present in \code{folder} are not downloaded again.}
 
 \item{sumlev}{Generally should not be changed from defaults.
 Value of 750 means blocks, the only option likely to work here.
@@ -71,6 +73,9 @@ Otherwise can be a vector of colnames like would be seen
 after census2020_get_data(do_clean = F) which would keep them all
 and also not rename them (usually done, via census_col_names_map table).
 cols_to_keep = "all" means keep them all.}
+
+\item{timeout}{seconds before an individual download times out; passed to
+\code{\link[=census2020_download]{census2020_download()}}.}
 }
 \value{
 invisibly returns a data.table of US Census blocks with columns like

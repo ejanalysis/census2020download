@@ -13,7 +13,8 @@ census2020_get_data_islandareas(
   do_read = TRUE,
   do_clean = TRUE,
   overwrite = TRUE,
-  sumlev = 150
+  sumlev = 150,
+  timeout = 180
 )
 }
 \arguments{
@@ -45,6 +46,9 @@ down to the block, block group, and census tract levels."
 Despite this, it appears that H1 (housing) table data are provided
 at block resolution, but P1 (population count) is only at block group, tract, etc.
 according to page 3 of the \href{https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/island-areas-tech-docs/dhc/2020-iac-dhc-technical-documentation.pdf}{Island Areas Tech. Doc.}}
+
+\item{timeout}{seconds before an individual download times out; passed to
+\code{\link[=census2020_download_islandareas]{census2020_download_islandareas()}}.}
 }
 \value{
 invisibly returns a data.table of US Census units with columns like

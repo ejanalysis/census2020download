@@ -25,6 +25,8 @@
 #' @param do_read     whether to do [census2020_read_islandareas()]
 #' @param do_clean    whether to do [census2020_clean_islandareas()]
 #' @param overwrite passed to [census2020_download_islandareas()]
+#' @param timeout seconds before an individual download times out; passed to
+#'   [census2020_download_islandareas()].
 #' @param sumlev set to 150, meaning blockgroup not block.
 #'
 #'  However, note this from Census Bureau:
@@ -64,9 +66,14 @@ census2020_get_data_islandareas <- function(mystates = c('VI', 'GU', 'MP', 'AS')
                                             folderout = NULL,
                                             do_download = TRUE, do_unzip = TRUE, do_read = TRUE, do_clean = TRUE,
                                             overwrite = TRUE,
-                                            sumlev = 150  # block group not block, since no block data for island areas in these files
+                                            sumlev = 150,  # block group not block, since no block data for island areas in these files
+                                            timeout = 180
                                             ) {
-if (!overwrite) {stop("overwrite FALSE not working yet")}
+
+  # values that may or may not be produced below, depending on the do_* flags
+  paths    <- NULL
+  allfiles <- NULL
+  blocks   <- NULL
 
   # census2020_get_data() to some extent can handle a mix of States/DC/PR
   # and/or island areas (VI,GU,MP,AS) via helper function census2020_get_data_islandareas(),
@@ -104,12 +111,12 @@ if (!overwrite) {stop("overwrite FALSE not working yet")}
 
   if (do_download) {
     cat("\n -------------------------  DOWNLOADING -------------------------  \n\n")
-    zpathsinfo <- census2020_download_islandareas(folder = folder, mystates = mystates, overwrite = overwrite)
-    if (!is.null(zpathsinfo)) {
+    zpathsinfo <- census2020_download_islandareas(folder = folder, mystates = mystates, overwrite = overwrite, timeout = timeout)
     paths <- zpathsinfo$destfile
-    zurls <- zpathsinfo$url
-    zpathslocal <- file.path(folder, basename(paths)) # census2020_unzip_islandareas() unlike census2020_unzip() needs path to file, not just the folder name
-}else{ zpathslocal <- folder}    } else {
+    # census2020_unzip_islandareas() unlike census2020_unzip() needs the path to
+    # each file, not just the folder name
+    zpathslocal <- file.path(folder, basename(paths))
+  } else {
     zpathslocal <- folder
   }
   ############################################### #
@@ -132,7 +139,7 @@ if (!overwrite) {stop("overwrite FALSE not working yet")}
 
   # CLEAN ####
 
-  if (do_clean) {
+  if (do_clean && do_read) {
 
     ST = lookup_states$ST[match(substr(blocks$GEOCODE,1,2), lookup_states$FIPS.ST)]
     cat("\n -------------------------  CLEANING -------------------------  \n\n")
@@ -180,10 +187,14 @@ if (!overwrite) {stop("overwrite FALSE not working yet")}
 
 
   ############################################### #
-  # depending on do_download, do_unzip,  do_read and do_clean, return what is available
-  if (exists("blocks")) {invisible(blocks)} else {
-    if (exists("allfiles")) {invisible(allfiles)} else {
-      if (exists("paths")) {invisible(paths)} else {
-        return(NULL)}
-    } }
+  # depending on do_download, do_unzip, do_read and do_clean, return the most
+  # processed result available (cleaned/read blocks > unzipped files > zip paths)
+  result <- if (!is.null(blocks)) {
+    blocks
+  } else if (!is.null(allfiles)) {
+    allfiles
+  } else {
+    paths
+  }
+  invisible(result)
 }

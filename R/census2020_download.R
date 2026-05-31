@@ -21,6 +21,8 @@
 #' @param overwrite set to FALSE to skip download if filename already in folder,
 #'   but note it does not check if any existing file is corrupt/size zero/obsolete/etc.
 #' @param zipnames_suffix last part of the filenames Census provides - default should work
+#' @param timeout seconds before an individual download times out. The R option
+#'   `timeout` is set to this value for the duration of the call and restored on exit.
 #' @seealso [census2020_get_data()] [census2020_download_islandareas()]
 #' @return Effect is to download and save locally a number of data files.
 #' @examples \dontrun{
@@ -52,11 +54,12 @@ census2020_download <- function(folder = NULL,
                                 # urlmiddle = "demographic-and-housing-characteristics-file/", # is the island areas version
                                 zipnames_suffix = '2020.pl.zip',
                                 # zipnames_suffix = '2020.dhc.zip' # is island areas version
-                                overwrite = TRUE) {
+                                overwrite = TRUE,
+                                timeout = 180) {
 
   oldtimeout = options('timeout')
   on.exit({options(timeout = oldtimeout)})
-  options(timeout = 180)
+  options(timeout = timeout)
   ##################################### #   ##################################### #
 
   # FOLDER ####
@@ -115,6 +118,7 @@ census2020_download <- function(folder = NULL,
   zipfile.urls[is_island] <- gsub(zipnames_suffix, '2020.dhc.zip', zipfile.urls[is_island] )
 
   files.found <- file.exists(file.path(folder, zipnames))
+  all_requested_destfiles <- file.path(folder, zipnames)
   cat("\n", length(zipnames), "files were requested:\n")
   cat(paste0(zipfile.urls, collapse="\n"), '\n\n')
   if (overwrite == FALSE) {
@@ -124,7 +128,14 @@ census2020_download <- function(folder = NULL,
     zipfile.urls <- zipfile.urls[!files.found]
     if (stillneed == 0) {
       cat("Done - none need to be replaced.\n")
-      return(NULL)
+      # Return a consistent data.frame (not NULL) so callers can rely on
+      # $destfile even when nothing was downloaded.
+      return(invisible(data.frame(
+        destfile    = all_requested_destfiles,
+        success     = TRUE,
+        status_code = NA_integer_,
+        stringsAsFactors = FALSE
+      )))
       }
   } else {
     cat(sum(files.found), "of", length(zipnames), "files requested were already in folder, but overwrite = TRUE, so will try to download again and overwrite:\n", paste0(file.path(folder, zipnames)[files.found], collapse = "\n "), '\n\n')
@@ -136,7 +147,12 @@ census2020_download <- function(folder = NULL,
 
   zpathsinfo <- curl::multi_download(zipfile.urls,
                                      destfiles = file.path(folder, zipnames))
-  problems <- !zpathsinfo$success | is.na(zpathsinfo$success) | !(zpathsinfo$status_code %in% c(200, 206))
+  # A request can "succeed" with a 200 yet save an error page or a truncated
+  # file. Treat missing or empty files on disk as problems too.
+  ondisk_size <- file.size(zpathsinfo$destfile)
+  empty_or_missing <- is.na(ondisk_size) | ondisk_size == 0
+  problems <- !zpathsinfo$success | is.na(zpathsinfo$success) |
+    !(zpathsinfo$status_code %in% c(200, 206)) | empty_or_missing
   if (!all(problems)) {
     cat("\nSuccessfully downloaded from: \n",  paste0(zpathsinfo$url[!problems], collapse = "\n "), '\n')
   }

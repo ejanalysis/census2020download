@@ -11,7 +11,8 @@ census2020_download_islandareas(
   baseurl = "https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/",
   urlmiddle = "demographic-and-housing-characteristics-file/",
   zipnames_suffix = "2020.dhc.zip",
-  overwrite = TRUE
+  overwrite = TRUE,
+  timeout = 180
 )
 }
 \arguments{
@@ -33,6 +34,8 @@ for Island Areas, urlmiddle = "demographic-and-housing-characteristics-file/"}
 
 \item{overwrite}{set to FALSE to skip download if filename already in folder,
 but note it does not check if any existing file is corrupt/size zero/obsolete/etc.}
+
+\item{timeout}{seconds before a download times out; passed to \code{\link[=census2020_download]{census2020_download()}}.}
 }
 \value{
 Effect is to download and save locally a number of data files.
