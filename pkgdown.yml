@@ -1,0 +1,9 @@
+pandoc: 3.8.3
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  census2020download: census2020download.html
+last_built: 2026-05-31T15:14Z
+urls:
+  reference: https://github.com/ejanalysis/census2020download/reference
+  article: https://github.com/ejanalysis/census2020download/articles
