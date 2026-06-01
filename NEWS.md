@@ -1,3 +1,19 @@
+# census2020download (development version)
+
+## Documentation and site
+
+* Fixed the pkgdown home page: the README was committed as `README.MD`, which
+  the case-sensitive CI runner did not recognize, so the published site showed
+  an empty `index.html`. Renamed to `README.md`.
+* Added the author's ORCID and middle initial ("Mark A. Corrales") to package
+  metadata, so it now appears in the package documentation.
+* Updated `LICENSE` (year 2026, copyright holder Mark A. Corrales).
+* Corrected several documentation errors found while proofreading, including a
+  wrong default-column name in `census2020_get_data()`'s return value
+  (`blockfips`, not `blockid`), a parameter description in
+  `census2020_save_datasets()` that referenced a nonexistent argument, broken
+  cross-references, and example code that would not run as written.
+
 # census2020download 2.4.0
 
 ## Bug fixes
