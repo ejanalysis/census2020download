@@ -3,8 +3,7 @@
 \name{census2020_clean}
 \alias{census2020_clean}
 \alias{census2020_clean_islandareas}
-\title{Start to clean up download block data
-Renames columns, drops most, calculates total area.}
+\title{Start to clean up download block data}
 \usage{
 census2020_clean(
   x,
@@ -18,7 +17,7 @@ census2020_clean(
 \item{x}{data from \code{\link[=census2020_read]{census2020_read()}}}
 
 \item{cols_to_keep}{optional, which (renamed or not) columns to retain and return.
-"all' means keep them all. They will be renamed via census_col_names_map
+"all" means keep them all. They will be renamed via census_col_names_map
 even if listed in cols_to_keep in the un-renamed form, like P0020002 vs hisp.}
 
 \item{sumlev}{just used by \code{\link[=census2020_get_data]{census2020_get_data()}} to correctly name the fips column.}
@@ -34,7 +33,6 @@ such as \link{census_col_names_map_vi}.}
 data.table with these columns by default:  blockfips lat lon pop area
 }
 \description{
-Start to clean up download block data
 Renames columns, drops most, calculates total area.
 }
 \details{

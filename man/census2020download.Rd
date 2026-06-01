@@ -63,11 +63,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Mark Corrales \email{info@ejanalysis.com}
+\strong{Maintainer}: Mark A. Corrales \email{info@ejanalysis.com} (\href{https://orcid.org/0000-0002-1696-5638}{ORCID})
 
 Authors:
 \itemize{
-  \item Mark Corrales \email{info@ejanalysis.com}
+  \item Mark A. Corrales \email{info@ejanalysis.com} (\href{https://orcid.org/0000-0002-1696-5638}{ORCID})
 }
 
 }

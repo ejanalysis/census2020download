@@ -79,7 +79,7 @@ cols_to_keep = "all" means keep them all.}
 }
 \value{
 invisibly returns a data.table of US Census blocks with columns like
-blockid lat lon pop area (area in square meters), or just intermediate info
+blockfips lat lon pop area (area in square meters), or just intermediate info
 depending on do_read, do_clean, etc.
 }
 \description{
@@ -88,7 +88,7 @@ Download and clean up US States,DC,PR, or Island Areas block data Census 2020 (f
 \details{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{  To create certain data tables used by the EJAM package,
   which provides reports for EJSCREEN,
-  EJAM relied on the census2020_download package, and
+  EJAM relied on the census2020download package, and
   used scripts like EJAM/data-raw/datacreate_ . . . .R
   to do something like this:
 
@@ -123,6 +123,6 @@ after \code{\link[=census2020_get_data]{census2020_get_data()}} has done these:
 \item \code{\link[=census2020_unzip]{census2020_unzip()}}
 \item \code{\link[=census2020_read]{census2020_read()}}
 \item \code{\link[=census2020_clean]{census2020_clean()}}
-. and see \code{\link[=census2020_get_data_islandareas]{census2020_get_data_islandareas()}}
+and see \code{\link[=census2020_get_data_islandareas]{census2020_get_data_islandareas()}}
 }
 }

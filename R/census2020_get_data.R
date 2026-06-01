@@ -4,7 +4,7 @@
 #' @details
 #'       To create certain data tables used by the EJAM package,
 #'       which provides reports for EJSCREEN,
-#'       EJAM relied on the census2020_download package, and
+#'       EJAM relied on the census2020download package, and
 #'       used scripts like EJAM/data-raw/datacreate_ . . . .R
 #'       to do something like this:
 #'
@@ -75,7 +75,7 @@
 #'  - [census2020_unzip()]
 #'  - [census2020_read()]
 #'  - [census2020_clean()]
-#'. and see [census2020_get_data_islandareas()]
+#'  and see [census2020_get_data_islandareas()]
 #'
 #' @examples
 #'  \dontrun{
@@ -87,7 +87,7 @@
 #'  z = census2020_get_data_islandareas() # VI,GU,MP,AS at blockgroup scale
 #'  }
 #' @return invisibly returns a data.table of US Census blocks with columns like
-#'   blockid lat lon pop area (area in square meters), or just intermediate info
+#'   blockfips lat lon pop area (area in square meters), or just intermediate info
 #'   depending on do_read, do_clean, etc.
 #'
 #' @export

@@ -1,4 +1,5 @@
 #' Start to clean up download block data
+#'
 #' Renames columns, drops most, calculates total area.
 #' @details
 #'   Renames and drops columns based on names in census_col_names_defined
@@ -12,7 +13,7 @@
 #'
 #' @param x data from [census2020_read()]
 #' @param cols_to_keep optional, which (renamed or not) columns to retain and return.
-#'   "all' means keep them all. They will be renamed via census_col_names_map
+#'   "all" means keep them all. They will be renamed via census_col_names_map
 #'   even if listed in cols_to_keep in the un-renamed form, like P0020002 vs hisp.
 #' @param sumlev just used by [census2020_get_data()] to correctly name the fips column.
 #' @param mystates just used by [census2020_get_data()] to correctly rename the data columns.

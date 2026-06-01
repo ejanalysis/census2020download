@@ -29,8 +29,10 @@
 #'
 #' @param zpathslocal zip file paths with filename, unlike in [census2020_unzip()]
 #' @param folderout  see [census2020_unzip()]
-#' @param filegeogrep  see [census2020_unzip()]
-#' @param filedatagrep  see [census2020_unzip()]
+#' @param filegeogrep regular expression matching the geographic header file names
+#'   to list after unzipping (default matches the `geo2020.dhc` files)
+#' @param filedatagrep regular expression matching the data file names
+#'   to list after unzipping (default matches the `2020.dhc` data files)
 #'
 #' @returns see [census2020_unzip()]
 #'

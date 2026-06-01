@@ -2,8 +2,7 @@
 % Please edit documentation in R/census2020_save_datasets.R
 \name{census2020_save_datasets}
 \alias{census2020_save_datasets}
-\title{Create separate data.tables, and optionally save them in the EJAM package
-This is just done when Census FIPS or bounds or points change.}
+\title{Create separate data.tables, and optionally save them in the EJAM package}
 \usage{
 census2020_save_datasets(
   x,
@@ -24,7 +23,7 @@ with colnames blockfips, pop, area, lat, lon}
 
 \item{save_as_data_for_package}{logical, whether to do \code{\link[usethis:use_data]{usethis::use_data()}} here}
 
-\item{overwrite}{default is TRUE, but only relevant if usethis = TRUE}
+\item{overwrite}{default is TRUE, but only relevant if save_as_data_for_package = TRUE}
 
 \item{keep_pop}{set to TRUE to keep the blockpop (population counts) column,
 but it is not used by EJAM except here to create the weights before it is dropped by default.}
@@ -42,7 +41,6 @@ topic for its columns:
 }
 }
 \description{
-Create separate data.tables, and optionally save them in the EJAM package
 This is just done when Census FIPS or bounds or points change.
 }
 \seealso{

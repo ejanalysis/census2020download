@@ -1,4 +1,5 @@
 #' Compile Census 2020 block data for all US states once downloaded and unzipped
+#'
 #' used by [census2020_get_data()]
 #' @details
 #'   Not extensively tested.
@@ -92,7 +93,7 @@
 #'    c2$INTPTLAT[substr(c2$GEOCODE,1,2) == '24'], pch = '.')
 #'  c2$LOGRECNO <- NULL
 #'  colnames(c2) <- census2020download::census_col_names_map$rname[
-#'     match(colnames(blocks2020), census2020download::census_col_names_map$ftpname)
+#'     match(colnames(c2), census2020download::census_col_names_map$ftpname)
 #'     ]
 #'  }
 #'

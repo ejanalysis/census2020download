@@ -16,9 +16,11 @@ census2020_unzip_islandareas(
 
 \item{folderout}{see \code{\link[=census2020_unzip]{census2020_unzip()}}}
 
-\item{filegeogrep}{see \code{\link[=census2020_unzip]{census2020_unzip()}}}
+\item{filegeogrep}{regular expression matching the geographic header file names
+to list after unzipping (default matches the \code{geo2020.dhc} files)}
 
-\item{filedatagrep}{see \code{\link[=census2020_unzip]{census2020_unzip()}}}
+\item{filedatagrep}{regular expression matching the data file names
+to list after unzipping (default matches the \verb{2020.dhc} data files)}
 }
 \value{
 see \code{\link[=census2020_unzip]{census2020_unzip()}}

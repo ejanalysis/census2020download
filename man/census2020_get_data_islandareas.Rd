@@ -70,8 +70,8 @@ see the detailed references in the help for \code{\link[=census2020_read]{census
 }
 \examples{
  \dontrun{
- x = [census2020_get_data()] # States/DC/PR at block resolution
- y = [census2020_get_data_islandareas()] # VI,GU,MP,AS (at blockgroup scale)
+ x = census2020_get_data() # States/DC/PR at block resolution
+ y = census2020_get_data_islandareas() # VI,GU,MP,AS (at blockgroup scale)
  }
 }
 \keyword{internal}

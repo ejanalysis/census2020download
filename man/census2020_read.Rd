@@ -3,8 +3,7 @@
 \name{census2020_read}
 \alias{census2020_read}
 \alias{census2020_read_islandareas}
-\title{Compile Census 2020 block data for all US states once downloaded and unzipped
-used by \code{\link[=census2020_get_data]{census2020_get_data()}}}
+\title{Compile Census 2020 block data for all US states once downloaded and unzipped}
 \usage{
 census2020_read(
   mystates = NULL,
@@ -37,7 +36,6 @@ File03 has Table P5.}
 data.frame of 1 row per block, for example
 }
 \description{
-Compile Census 2020 block data for all US states once downloaded and unzipped
 used by \code{\link[=census2020_get_data]{census2020_get_data()}}
 }
 \details{
@@ -119,7 +117,7 @@ See the \href{https://walker-data.com/tidycensus/}{tidycensus package} for using
    c2$INTPTLAT[substr(c2$GEOCODE,1,2) == '24'], pch = '.')
  c2$LOGRECNO <- NULL
  colnames(c2) <- census2020download::census_col_names_map$rname[
-    match(colnames(blocks2020), census2020download::census_col_names_map$ftpname)
+    match(colnames(c2), census2020download::census_col_names_map$ftpname)
     ]
  }
 

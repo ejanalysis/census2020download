@@ -1,6 +1,7 @@
 
 
 #' helper - just calculates radius from area
+#'
 #' Just the square root of (area/pi)
 #' @param area_sqmi vector of areas of blocks in square miles.
 #' 
@@ -13,7 +14,7 @@
 #' 
 #'   radius <- radius_miles_from_area_sqmi(area_sqmi)
 #'   
-#' @seealso [add_block_radius_miles_to_dt()] [add_block_radius_miles_to_dt()]
+#' @seealso [add_block_radius_miles_to_dt()] [area_sqmi_from_area_sqmeters()]
 #' @return vector of numbers same shape as input
 #' 
 #'

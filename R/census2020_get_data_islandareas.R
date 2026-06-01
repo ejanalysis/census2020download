@@ -51,8 +51,8 @@
 #'
 #' @examples
 #'  \dontrun{
-#'  x = [census2020_get_data()] # States/DC/PR at block resolution
-#'  y = [census2020_get_data_islandareas()] # VI,GU,MP,AS (at blockgroup scale)
+#'  x = census2020_get_data() # States/DC/PR at block resolution
+#'  y = census2020_get_data_islandareas() # VI,GU,MP,AS (at blockgroup scale)
 #'  }
 #' @return invisibly returns a data.table of US Census units with columns like
 #'   the id, lat lon pop area (area in square meters), or intermediate info

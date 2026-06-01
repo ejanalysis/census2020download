@@ -2,8 +2,7 @@
 % Please edit documentation in R/block_radius_miles_from_area_sq_mi.R
 \name{radius_miles_from_area_sqmi}
 \alias{radius_miles_from_area_sqmi}
-\title{helper - just calculates radius from area
-Just the square root of (area/pi)}
+\title{helper - just calculates radius from area}
 \usage{
 radius_miles_from_area_sqmi(area_sqmi)
 }
@@ -23,9 +22,8 @@ radius <- radius_miles_from_area_sqmi(area_sqmi)}
 vector of numbers same shape as input
 }
 \description{
-helper - just calculates radius from area
 Just the square root of (area/pi)
 }
 \seealso{
-\code{\link[=add_block_radius_miles_to_dt]{add_block_radius_miles_to_dt()}} \code{\link[=add_block_radius_miles_to_dt]{add_block_radius_miles_to_dt()}}
+\code{\link[=add_block_radius_miles_to_dt]{add_block_radius_miles_to_dt()}} \code{\link[=area_sqmi_from_area_sqmeters]{area_sqmi_from_area_sqmeters()}}
 }
