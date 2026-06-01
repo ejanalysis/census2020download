@@ -1,7 +1,6 @@
-# Compile Census 2020 block data for all US states once downloaded and unzipped used by [`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
+# Compile Census 2020 block data for all US states once downloaded and unzipped
 
-Compile Census 2020 block data for all US states once downloaded and
-unzipped used by
+used by
 [`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
 
 ## Usage
@@ -168,7 +167,7 @@ if (FALSE) { # \dontrun{
    c2$INTPTLAT[substr(c2$GEOCODE,1,2) == '24'], pch = '.')
  c2$LOGRECNO <- NULL
  colnames(c2) <- census2020download::census_col_names_map$rname[
-    match(colnames(blocks2020), census2020download::census_col_names_map$ftpname)
+    match(colnames(c2), census2020download::census_col_names_map$ftpname)
     ]
  } # }
 

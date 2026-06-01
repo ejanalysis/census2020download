@@ -27,13 +27,13 @@ census2020_unzip_islandareas(
 
 - filegeogrep:
 
-  see
-  [`census2020_unzip()`](https://ejanalysis.github.io/census2020download/reference/census2020_unzip.md)
+  regular expression matching the geographic header file names to list
+  after unzipping (default matches the `geo2020.dhc` files)
 
 - filedatagrep:
 
-  see
-  [`census2020_unzip()`](https://ejanalysis.github.io/census2020download/reference/census2020_unzip.md)
+  regular expression matching the data file names to list after
+  unzipping (default matches the `2020.dhc` data files)
 
 ## Value
 

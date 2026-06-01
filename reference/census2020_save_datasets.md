@@ -1,7 +1,6 @@
-# Create separate data.tables, and optionally save them in the EJAM package This is just done when Census FIPS or bounds or points change.
+# Create separate data.tables, and optionally save them in the EJAM package
 
-Create separate data.tables, and optionally save them in the EJAM
-package This is just done when Census FIPS or bounds or points change.
+This is just done when Census FIPS or bounds or points change.
 
 ## Usage
 
@@ -39,7 +38,7 @@ census2020_save_datasets(
 
 - overwrite:
 
-  default is TRUE, but only relevant if usethis = TRUE
+  default is TRUE, but only relevant if save_as_data_for_package = TRUE
 
 - keep_pop:
 

@@ -7,7 +7,7 @@
   Census 2020 (for EJAM)
 - [`census2020_save_datasets()`](https://ejanalysis.github.io/census2020download/reference/census2020_save_datasets.md)
   : Create separate data.tables, and optionally save them in the EJAM
-  package This is just done when Census FIPS or bounds or points change.
+  package
 
 ## Block data tables (created at run time, not bundled)
 

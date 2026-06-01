@@ -74,8 +74,10 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Mark Corrales <info@ejanalysis.com>
+**Maintainer**: Mark A. Corrales <info@ejanalysis.com>
+([ORCID](https://orcid.org/0000-0002-1696-5638))
 
 Authors:
 
-- Mark Corrales <info@ejanalysis.com>
+- Mark A. Corrales <info@ejanalysis.com>
+  ([ORCID](https://orcid.org/0000-0002-1696-5638))

@@ -1,7 +1,6 @@
-# helper - just calculates radius from area Just the square root of (area/pi)
+# helper - just calculates radius from area
 
-helper - just calculates radius from area Just the square root of
-(area/pi)
+Just the square root of (area/pi)
 
 ## Usage
 
@@ -32,4 +31,4 @@ vector of numbers same shape as input
 ## See also
 
 [`add_block_radius_miles_to_dt()`](https://ejanalysis.github.io/census2020download/reference/add_block_radius_miles_to_dt.md)
-[`add_block_radius_miles_to_dt()`](https://ejanalysis.github.io/census2020download/reference/add_block_radius_miles_to_dt.md)
+[`area_sqmi_from_area_sqmeters()`](https://ejanalysis.github.io/census2020download/reference/area_sqmi_from_area_sqmeters.md)

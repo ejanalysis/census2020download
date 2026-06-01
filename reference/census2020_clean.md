@@ -1,7 +1,6 @@
-# Start to clean up download block data Renames columns, drops most, calculates total area.
+# Start to clean up download block data
 
-Start to clean up download block data Renames columns, drops most,
-calculates total area.
+Renames columns, drops most, calculates total area.
 
 ## Usage
 
@@ -24,7 +23,7 @@ census2020_clean(
 
 - cols_to_keep:
 
-  optional, which (renamed or not) columns to retain and return. "all'
+  optional, which (renamed or not) columns to retain and return. "all"
   means keep them all. They will be renamed via census_col_names_map
   even if listed in cols_to_keep in the un-renamed form, like P0020002
   vs hisp.

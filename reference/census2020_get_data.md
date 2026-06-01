@@ -119,14 +119,14 @@ census2020_get_data(
 ## Value
 
 invisibly returns a data.table of US Census blocks with columns like
-blockid lat lon pop area (area in square meters), or just intermediate
+blockfips lat lon pop area (area in square meters), or just intermediate
 info depending on do_read, do_clean, etc.
 
 ## Details
 
       To create certain data tables used by the EJAM package,
       which provides reports for EJSCREEN,
-      EJAM relied on the census2020_download package, and
+      EJAM relied on the census2020download package, and
       used scripts like EJAM/data-raw/datacreate_ . . . .R
       to do something like this:
 
@@ -156,7 +156,7 @@ these:
 - [`census2020_read()`](https://ejanalysis.github.io/census2020download/reference/census2020_read.md)
 
 - [`census2020_clean()`](https://ejanalysis.github.io/census2020download/reference/census2020_clean.md)
-  . and see
+  and see
   [`census2020_get_data_islandareas()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data_islandareas.md)
 
 ## Examples
