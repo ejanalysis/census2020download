@@ -16,6 +16,11 @@
   is given using the original Census FTP column names (e.g. `"GEOCODE"`).
 * The Island Areas cleaning step is guarded on `do_read` to avoid a NULL
   dereference when `do_clean = TRUE` but `do_read = FALSE`.
+* Corrected two lower-case `ftpname` entries (`p0050027`, `p0050028`) in
+  `census_col_names_map_mp`. Because column matching is case-sensitive, MP
+  (Northern Mariana Islands) data previously dropped its `nhotheralone` and
+  `nhmulti` (Some Other Race alone; Two or more races) columns. A new test
+  guards every column map against lower-case ftpnames.
 
 ## New features and improvements
 
