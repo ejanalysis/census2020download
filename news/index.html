@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">census2020download</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.4.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,16 @@
       <small>Source: <a href="https://github.com/ejanalysis/census2020download/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="census2020download-development-version">census2020download (development version)<a class="anchor" aria-label="anchor" href="#census2020download-development-version"></a></h2>
+<div class="section level3">
+<h3 id="documentation-and-site-development-version">Documentation and site<a class="anchor" aria-label="anchor" href="#documentation-and-site-development-version"></a></h3>
+<ul><li>Fixed the pkgdown home page: the README was committed as <code>README.MD</code>, which the case-sensitive CI runner did not recognize, so the published site showed an empty <code>index.html</code>. Renamed to <code>README.md</code>.</li>
+<li>Added the author’s ORCID and middle initial (“Mark A. Corrales”) to package metadata, so it now appears in the package documentation.</li>
+<li>Updated <code>LICENSE</code> (year 2026, copyright holder Mark A. Corrales).</li>
+<li>Corrected several documentation errors found while proofreading, including a wrong default-column name in <code><a href="../reference/census2020_get_data.html">census2020_get_data()</a></code>’s return value (<code>blockfips</code>, not <code>blockid</code>), a parameter description in <code><a href="../reference/census2020_save_datasets.html">census2020_save_datasets()</a></code> that referenced a nonexistent argument, broken cross-references, and example code that would not run as written.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.4.0" id="census2020download-240">census2020download 2.4.0<a class="anchor" aria-label="anchor" href="#census2020download-240"></a></h2>
 <div class="section level3">
