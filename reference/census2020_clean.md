@@ -20,7 +20,7 @@ census2020_clean(
 - x:
 
   data from
-  [`census2020_read()`](https://github.com/ejanalysis/census2020download/reference/census2020_read.md)
+  [`census2020_read()`](https://ejanalysis.github.io/census2020download/reference/census2020_read.md)
 
 - cols_to_keep:
 
@@ -32,22 +32,22 @@ census2020_clean(
 - sumlev:
 
   just used by
-  [`census2020_get_data()`](https://github.com/ejanalysis/census2020download/reference/census2020_get_data.md)
+  [`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
   to correctly name the fips column.
 
 - mystates:
 
   just used by
-  [`census2020_get_data()`](https://github.com/ejanalysis/census2020download/reference/census2020_get_data.md)
+  [`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
   to correctly rename the data columns.
 
 - census_col_names_defined:
 
   data.frame mapping Census FTP column names to short friendly names,
   with columns `ftpname` and `rname`. Default is
-  [census_col_names_map](https://github.com/ejanalysis/census2020download/reference/census_col_names_map.md);
+  [census_col_names_map](https://ejanalysis.github.io/census2020download/reference/census_col_names_map.md);
   the Island Area helpers pass area-specific maps such as
-  [census_col_names_map_vi](https://github.com/ejanalysis/census2020download/reference/census_col_names_map_vi.md).
+  [census_col_names_map_vi](https://ejanalysis.github.io/census2020download/reference/census_col_names_map_vi.md).
 
 ## Value
 
@@ -57,7 +57,7 @@ data.table with these columns by default: blockfips lat lon pop area
 
 Renames and drops columns based on names in census_col_names_defined
 such as in
-[census_col_names_map](https://github.com/ejanalysis/census2020download/reference/census_col_names_map.md)
+[census_col_names_map](https://ejanalysis.github.io/census2020download/reference/census_col_names_map.md)
 for the US/DC/PR (or island area specific versions) and the parameter
 cols_to_keep, but see census_col_names_map for what could be retained.
 

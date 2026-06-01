@@ -31,33 +31,33 @@ For more information see
 - [census2020download package github
   repository](https://github.com/ejanalysis/census2020download)
 
-- [EJAM package](https://ejanalysis.com/EJAM)
+- [EJAM package](https://ejanalysis.com/ejamdocs)
 
 - [Census vs ACS geos
   info](https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html)
 
 *Key functions and data.tables created include*
 
-- [`census2020_get_data()`](https://github.com/ejanalysis/census2020download/reference/census2020_get_data.md)
+- [`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
   Download/ Unzip/ Read/ Clean data on all US Census blocks
 
-- [`census2020_save_datasets()`](https://github.com/ejanalysis/census2020download/reference/census2020_save_datasets.md)
+- [`census2020_save_datasets()`](https://ejanalysis.github.io/census2020download/reference/census2020_save_datasets.md)
   Use the data to create separate data.tables, and save for use in the
   EJAM package.
 
 *Key data.table objects created:*
 
-- [blockid2fips](https://github.com/ejanalysis/census2020download/reference/blockid2fips.md) -
+- [blockid2fips](https://ejanalysis.github.io/census2020download/reference/blockid2fips.md) -
   data.table with FIPS code to blockid lookup
 
-- [blockpoints](https://github.com/ejanalysis/census2020download/reference/blockpoints.md) -
+- [blockpoints](https://ejanalysis.github.io/census2020download/reference/blockpoints.md) -
   data.table with latitude and longitude of internal points
 
-- [quaddata](https://github.com/ejanalysis/census2020download/reference/quaddata.md) -
+- [quaddata](https://ejanalysis.github.io/census2020download/reference/quaddata.md) -
   data.table with xyz format locations of blocks, used to create spatial
   index of blocks in the EJAM package.
 
-- [blockwts](https://github.com/ejanalysis/census2020download/reference/blockwts.md) -
+- [blockwts](https://ejanalysis.github.io/census2020download/reference/blockwts.md) -
   data.table with Census 2020 population-based weight as fraction of
   parent block group population, and size of block
 

@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Getting started with census2020download • census2020download</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting started with census2020download">
 </head>
@@ -37,7 +37,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item"><a class="nav-link" href="https://github.com/ejanalysis/census2020download/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/ejanalysis/census2020download/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -54,7 +54,7 @@
       <h1>Getting started with census2020download</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/ejanalysis/census2020download/blob/HEAD/vignettes/census2020download.Rmd"><code>vignettes/census2020download.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ejanalysis/census2020download/blob/master/vignettes/census2020download.Rmd" class="external-link"><code>vignettes/census2020download.Rmd</code></a></small>
       <div class="d-none name"><code>census2020download.Rmd</code></div>
     </div>
 
@@ -64,12 +64,14 @@
 <h2 id="what-this-package-does">What this package does<a class="anchor" aria-label="anchor" href="#what-this-package-does"></a>
 </h2>
 <p><code>census2020download</code> is a small set of helper functions
-used by the <a href="https://ejanalysis.com/EJAM" class="external-link">EJAM</a> package. It
-downloads the 2020 Census redistricting (PL94-171) files for US states,
-DC, and Puerto Rico — plus the Demographic and Housing Characteristics
-(DHC) files for the Island Areas (VI, GU, MP, AS) — then unzips, reads,
-and reshapes them into compact <code>data.table</code>s.</p>
-<p>The full pipeline is four steps, wrapped by a single function:</p>
+used by the <a href="https://ejanalysis.com/ejamdocs" class="external-link">EJAM</a> package.
+It downloads the 2020 Census redistricting (PL94-171) files for US
+states, DC, and Puerto Rico — plus the Demographic and Housing
+Characteristics (DHC) files for the Island Areas (VI, GU, MP, AS) — then
+unzips, reads, and reshapes them into compact
+<code>data.table</code>s.</p>
+<p>The full pipeline has four steps, wrapped by the single function
+<code><a href="../reference/census2020_get_data.html">census2020_get_data()</a></code>:</p>
 <ol style="list-style-type: decimal">
 <li>
 <code><a href="../reference/census2020_download.html">census2020_download()</a></code> — fetch the zip files from the
@@ -85,12 +87,12 @@ files</li>
 area, subset</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ejanalysis/census2020download">census2020download</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ejanalysis/census2020download" class="external-link">census2020download</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="the-one-call-pipeline">The one-call pipeline<a class="anchor" aria-label="anchor" href="#the-one-call-pipeline"></a>
 </h2>
-<p><code><a href="../reference/census2020_get_data.html">census2020_get_data()</a></code> runs all four steps. Start with a
+<p><code><a href="../reference/census2020_get_data.html">census2020_get_data()</a></code> runs all four steps. Try it with a
 couple of small states so the download is quick:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">blocks</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/census2020_get_data.html">census2020_get_data</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DE"</span>, <span class="st">"DC"</span><span class="op">)</span><span class="op">)</span></span>

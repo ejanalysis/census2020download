@@ -1,8 +1,8 @@
-# Compile Census 2020 block data for all US states once downloaded and unzipped used by [`census2020_get_data()`](https://github.com/ejanalysis/census2020download/reference/census2020_get_data.md)
+# Compile Census 2020 block data for all US states once downloaded and unzipped used by [`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
 
 Compile Census 2020 block data for all US states once downloaded and
 unzipped used by
-[`census2020_get_data()`](https://github.com/ejanalysis/census2020download/reference/census2020_get_data.md)
+[`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
 
 ## Usage
 
@@ -147,9 +147,9 @@ using the API to request tabular data.
 
 ## See also
 
-[`census2020_download()`](https://github.com/ejanalysis/census2020download/reference/census2020_download.md)
-[`census2020_unzip()`](https://github.com/ejanalysis/census2020download/reference/census2020_unzip.md)
-[`census2020_get_data()`](https://github.com/ejanalysis/census2020download/reference/census2020_get_data.md)
+[`census2020_download()`](https://ejanalysis.github.io/census2020download/reference/census2020_download.md)
+[`census2020_unzip()`](https://ejanalysis.github.io/census2020download/reference/census2020_unzip.md)
+[`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
 
 ## Examples
 

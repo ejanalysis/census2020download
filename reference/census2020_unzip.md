@@ -39,8 +39,8 @@ Vector of filenames of unzipped contents
 
 ## See also
 
-[`census2020_download()`](https://github.com/ejanalysis/census2020download/reference/census2020_download.md)
-[`census2020_read()`](https://github.com/ejanalysis/census2020download/reference/census2020_read.md)
+[`census2020_download()`](https://ejanalysis.github.io/census2020download/reference/census2020_download.md)
+[`census2020_read()`](https://ejanalysis.github.io/census2020download/reference/census2020_read.md)
 
 ## Examples
 

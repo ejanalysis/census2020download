@@ -41,27 +41,27 @@ census2020_get_data_islandareas(
 - do_download:
 
   whether to do
-  [`census2020_download_islandareas()`](https://github.com/ejanalysis/census2020download/reference/census2020_download_islandareas.md)
+  [`census2020_download_islandareas()`](https://ejanalysis.github.io/census2020download/reference/census2020_download_islandareas.md)
 
 - do_unzip:
 
   whether to do
-  [`census2020_unzip_islandareas()`](https://github.com/ejanalysis/census2020download/reference/census2020_unzip_islandareas.md)
+  [`census2020_unzip_islandareas()`](https://ejanalysis.github.io/census2020download/reference/census2020_unzip_islandareas.md)
 
 - do_read:
 
   whether to do
-  [`census2020_read_islandareas()`](https://github.com/ejanalysis/census2020download/reference/census2020_read.md)
+  [`census2020_read_islandareas()`](https://ejanalysis.github.io/census2020download/reference/census2020_read.md)
 
 - do_clean:
 
   whether to do
-  [`census2020_clean_islandareas()`](https://github.com/ejanalysis/census2020download/reference/census2020_clean.md)
+  [`census2020_clean_islandareas()`](https://ejanalysis.github.io/census2020download/reference/census2020_clean.md)
 
 - overwrite:
 
   passed to
-  [`census2020_download_islandareas()`](https://github.com/ejanalysis/census2020download/reference/census2020_download_islandareas.md)
+  [`census2020_download_islandareas()`](https://ejanalysis.github.io/census2020download/reference/census2020_download_islandareas.md)
 
 - sumlev:
 
@@ -80,7 +80,7 @@ census2020_get_data_islandareas(
 - timeout:
 
   seconds before an individual download times out; passed to
-  [`census2020_download_islandareas()`](https://github.com/ejanalysis/census2020download/reference/census2020_download_islandareas.md).
+  [`census2020_download_islandareas()`](https://ejanalysis.github.io/census2020download/reference/census2020_download_islandareas.md).
 
 ## Value
 
@@ -101,6 +101,6 @@ or e.g.,
 
 For technical details on the files downloaded and tables and variables,
 see the detailed references in the help for
-[`census2020_read()`](https://github.com/ejanalysis/census2020download/reference/census2020_read.md).
+[`census2020_read()`](https://ejanalysis.github.io/census2020download/reference/census2020_read.md).
 
 ## Examples

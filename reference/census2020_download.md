@@ -78,8 +78,8 @@ or e.g.,
 
 ## See also
 
-[`census2020_get_data()`](https://github.com/ejanalysis/census2020download/reference/census2020_get_data.md)
-[`census2020_download_islandareas()`](https://github.com/ejanalysis/census2020download/reference/census2020_download_islandareas.md)
+[`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
+[`census2020_download_islandareas()`](https://ejanalysis.github.io/census2020download/reference/census2020_download_islandareas.md)
 
 ## Examples
 

@@ -3,21 +3,22 @@
 ## What this package does
 
 `census2020download` is a small set of helper functions used by the
-[EJAM](https://ejanalysis.com/EJAM) package. It downloads the 2020
+[EJAM](https://ejanalysis.com/ejamdocs) package. It downloads the 2020
 Census redistricting (PL94-171) files for US states, DC, and Puerto Rico
 — plus the Demographic and Housing Characteristics (DHC) files for the
 Island Areas (VI, GU, MP, AS) — then unzips, reads, and reshapes them
 into compact `data.table`s.
 
-The full pipeline is four steps, wrapped by a single function:
+The full pipeline has four steps, wrapped by the single function
+[`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md):
 
-1.  [`census2020_download()`](https://github.com/ejanalysis/census2020download/reference/census2020_download.md)
+1.  [`census2020_download()`](https://ejanalysis.github.io/census2020download/reference/census2020_download.md)
     — fetch the zip files from the Census Bureau
-2.  [`census2020_unzip()`](https://github.com/ejanalysis/census2020download/reference/census2020_unzip.md)
+2.  [`census2020_unzip()`](https://ejanalysis.github.io/census2020download/reference/census2020_unzip.md)
     — unzip the data and geographic header files
-3.  [`census2020_read()`](https://github.com/ejanalysis/census2020download/reference/census2020_read.md)
+3.  [`census2020_read()`](https://ejanalysis.github.io/census2020download/reference/census2020_read.md)
     — read and merge the pipe-delimited files
-4.  [`census2020_clean()`](https://github.com/ejanalysis/census2020download/reference/census2020_clean.md)
+4.  [`census2020_clean()`](https://ejanalysis.github.io/census2020download/reference/census2020_clean.md)
     — rename columns, compute total area, subset
 
 ``` r
@@ -27,9 +28,9 @@ library(census2020download)
 
 ## The one-call pipeline
 
-[`census2020_get_data()`](https://github.com/ejanalysis/census2020download/reference/census2020_get_data.md)
-runs all four steps. Start with a couple of small states so the download
-is quick:
+[`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
+runs all four steps. Try it with a couple of small states so the
+download is quick:
 
 ``` r
 
@@ -72,7 +73,7 @@ blocks <- census2020_get_data(
 
 ## Building the EJAM data tables
 
-[`census2020_save_datasets()`](https://github.com/ejanalysis/census2020download/reference/census2020_save_datasets.md)
+[`census2020_save_datasets()`](https://ejanalysis.github.io/census2020download/reference/census2020_save_datasets.md)
 splits the cleaned blocks into the five tables EJAM uses, and computes
 each block’s population weight within its parent block group:
 
@@ -93,13 +94,13 @@ at block-group resolution via a dedicated helper:
 islands <- census2020_get_data_islandareas()  # VI, GU, MP, AS
 ```
 
-[`census2020_get_data()`](https://github.com/ejanalysis/census2020download/reference/census2020_get_data.md)
+[`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
 can also accept a mix of mainland states and Island Areas and will
 dispatch each to the appropriate reader.
 
 ## Technical references
 
 See the help for
-[`?census2020_read`](https://github.com/ejanalysis/census2020download/reference/census2020_read.md)
+[`?census2020_read`](https://ejanalysis.github.io/census2020download/reference/census2020_read.md)
 for links to the Census Bureau technical documentation describing the
 files, tables, and variables.

@@ -18,24 +18,24 @@ census2020_unzip_islandareas(
 - zpathslocal:
 
   zip file paths with filename, unlike in
-  [`census2020_unzip()`](https://github.com/ejanalysis/census2020download/reference/census2020_unzip.md)
+  [`census2020_unzip()`](https://ejanalysis.github.io/census2020download/reference/census2020_unzip.md)
 
 - folderout:
 
   see
-  [`census2020_unzip()`](https://github.com/ejanalysis/census2020download/reference/census2020_unzip.md)
+  [`census2020_unzip()`](https://ejanalysis.github.io/census2020download/reference/census2020_unzip.md)
 
 - filegeogrep:
 
   see
-  [`census2020_unzip()`](https://github.com/ejanalysis/census2020download/reference/census2020_unzip.md)
+  [`census2020_unzip()`](https://ejanalysis.github.io/census2020download/reference/census2020_unzip.md)
 
 - filedatagrep:
 
   see
-  [`census2020_unzip()`](https://github.com/ejanalysis/census2020download/reference/census2020_unzip.md)
+  [`census2020_unzip()`](https://ejanalysis.github.io/census2020download/reference/census2020_unzip.md)
 
 ## Value
 
 see
-[`census2020_unzip()`](https://github.com/ejanalysis/census2020download/reference/census2020_unzip.md)
+[`census2020_unzip()`](https://ejanalysis.github.io/census2020download/reference/census2020_unzip.md)

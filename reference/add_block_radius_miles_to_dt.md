@@ -34,7 +34,7 @@ table into NULL.
 
 ## See also
 
-[`radius_miles_from_area_sqmi()`](https://github.com/ejanalysis/census2020download/reference/radius_miles_from_area_sqmi.md)
+[`radius_miles_from_area_sqmi()`](https://ejanalysis.github.io/census2020download/reference/radius_miles_from_area_sqmi.md)
 
 ## Examples
 

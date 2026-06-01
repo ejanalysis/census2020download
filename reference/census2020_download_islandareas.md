@@ -57,7 +57,7 @@ census2020_download_islandareas(
 - timeout:
 
   seconds before a download times out; passed to
-  [`census2020_download()`](https://github.com/ejanalysis/census2020download/reference/census2020_download.md).
+  [`census2020_download()`](https://ejanalysis.github.io/census2020download/reference/census2020_download.md).
 
 ## Value
 
@@ -65,8 +65,8 @@ Effect is to download and save locally a number of data files.
 
 ## See also
 
-[`census2020_get_data()`](https://github.com/ejanalysis/census2020download/reference/census2020_get_data.md)
-[`census2020_download()`](https://github.com/ejanalysis/census2020download/reference/census2020_download.md)
+[`census2020_get_data()`](https://ejanalysis.github.io/census2020download/reference/census2020_get_data.md)
+[`census2020_download()`](https://ejanalysis.github.io/census2020download/reference/census2020_download.md)
 
 ## Examples
 

@@ -31,5 +31,5 @@ vector of numbers same shape as input
 
 ## See also
 
-[`add_block_radius_miles_to_dt()`](https://github.com/ejanalysis/census2020download/reference/add_block_radius_miles_to_dt.md)
-[`add_block_radius_miles_to_dt()`](https://github.com/ejanalysis/census2020download/reference/add_block_radius_miles_to_dt.md)
+[`add_block_radius_miles_to_dt()`](https://ejanalysis.github.io/census2020download/reference/add_block_radius_miles_to_dt.md)
+[`add_block_radius_miles_to_dt()`](https://ejanalysis.github.io/census2020download/reference/add_block_radius_miles_to_dt.md)
