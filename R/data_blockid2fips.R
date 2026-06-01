@@ -1,7 +1,8 @@
 #' @name blockid2fips
 #' @docType data
 #' @title Census FIPS code of each US Census 2020 block
-#' @description data.table for use in EJAM
+#' @description data.table created at run time for use in the EJAM package
+#'   (not bundled with this package).
 #' @details See EJAM package for more info.
 #' 
 #'   Created by [census2020_get_data()] and [census2020_save_datasets()]

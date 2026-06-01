@@ -5,7 +5,8 @@
 \alias{blockpoints}
 \title{lat/lon location of internal point of each Census 2020 block, used in EJAM package}
 \description{
-data.table for use in EJAM
+data.table created at run time for use in the EJAM package
+(not bundled with this package).
 }
 \details{
 See EJAM package for more info.

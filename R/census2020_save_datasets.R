@@ -9,12 +9,14 @@
 #' @param keep_pop set to TRUE to keep the blockpop (population counts) column,
 #'   but it is not used by EJAM except here to create the weights before it is dropped by default.
 #' @import data.table
-#' @return A named list of these huge data.tables for the EJAM package:
-#'   - [bgid2fips](https://ejanalysis.github.io/EJAM/reference/bgid2fips.html)
-#'   - [blockid2fips]https://ejanalysis.github.io/EJAM/reference/blockid2fips.html
-#'   - [blockpoints]https://ejanalysis.github.io/EJAM/reference/blockpoints.html
-#'   - [blockwts]https://ejanalysis.github.io/EJAM/reference/blockwts.html
-#'   - [quaddata]https://ejanalysis.github.io/EJAM/reference/quaddata.html
+#' @return A named list of these (large) data.tables for the EJAM package. They
+#'   are created at run time and are not bundled with this package; see each help
+#'   topic for its columns:
+#'   - [bgid2fips]
+#'   - [blockid2fips]
+#'   - [blockpoints]
+#'   - [blockwts]
+#'   - [quaddata]
 #'
 #' @seealso [census2020_save_datasets()] creates individual data.tables,
 #'  after [census2020_get_data()] has done these:
