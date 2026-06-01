@@ -33,7 +33,11 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, local::.
+          # Skip Suggests (notably the heavy non-CRAN EJAM) when installing the
+          # package; the vignette chunks are eval = FALSE so EJAM is not needed
+          # to build the site. knitr/rmarkdown are added for article rendering.
+          dependencies: '"hard"'
+          extra-packages: any::pkgdown, any::knitr, any::rmarkdown, local::.
           needs: website
 
       - name: Build site

@@ -29,6 +29,10 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      # EJAM (a non-CRAN Suggests) and the other optional Suggests are not
+      # installed in CI (see setup-r-dependencies below), so do not fail the
+      # check just because suggested packages are unavailable.
+      _R_CHECK_FORCE_SUGGESTS_: false
 
     steps:
       - uses: actions/checkout@v4
@@ -43,7 +47,11 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          # Install only hard dependencies plus the light tools the check needs;
+          # skip Suggests so the heavy non-CRAN EJAM (and SearchTrees/usethis,
+          # which are only used in optional, guarded code paths) are not built.
+          dependencies: '"hard"'
+          extra-packages: any::rcmdcheck, any::testthat, any::knitr, any::rmarkdown
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
