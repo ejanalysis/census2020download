@@ -47,8 +47,78 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-Creates block datasets (and some blockgroup tables) for use in the EJAM package. Has basic functions for downloading files from Census Bureau, unzipping, and reading the 2020 Census data for some or all US States/DC/PR into data.table format. Also some limited tools for Island Areas (VI,GU,MP,AS).
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="download-all-census-2020-blocks-to-use-in-ejam">Download all Census 2020 blocks to use in EJAM<a class="anchor" aria-label="anchor" href="#download-all-census-2020-blocks-to-use-in-ejam"></a>
+</h1></div>
+<!-- badges: start -->
+
+<p>This package is mainly a set of helper functions used by the <a href="https://ejanalysis.com/ejamdocs" class="external-link">EJAM</a> package, but it can be used apart from EJAM to download nationwide Census 2020 data. This does not require having a Census API key.</p>
+<p>It creates block datasets (and some blockgroup tables) for use in the EJAM package. It has basic functions for downloading from Census Bureau, unzipping, reading the 2020 Census data for some or all US states, DC, and Puerto Rico into data.table format. It also has some tools for Island Areas (VI,GU,MP,AS).</p>
+<p>It can retain a few key variables like</p>
+<ul>
+<li>lat and lon of block internal point (similar to a centroid)</li>
+<li>FIPS codes</li>
+<li>population count or weight</li>
+<li>area (or effective radius)</li>
+</ul>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ejanalysis/census2020download"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ejanalysis/census2020download" class="external-link">census2020download</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Download / unzip / read / clean a couple of small states' block data.</span></span>
+<span><span class="co"># (Downloads files from the Census Bureau, so it needs internet access.)</span></span>
+<span><span class="va">blocks</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/census2020_get_data.html">census2020_get_data</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DE"</span>, <span class="st">"DC"</span><span class="op">)</span>, cols_to_keep <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">blocks</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">blocks</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Race/ethnicity subgroup counts that add up to the total block population:</span></span>
+<span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hisp"</span>, <span class="st">"nhwa"</span>, <span class="st">"nhba"</span>, <span class="st">"nhaiana"</span>, <span class="st">"nhaa"</span>,</span>
+<span>            <span class="st">"nhnhpia"</span>, <span class="st">"nhotheralone"</span>, <span class="st">"nhmulti"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">blocks</span><span class="op">$</span><span class="va">pop</span>, <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">blocks</span><span class="op">[</span>, <span class="va">..groups</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Split the data into the individual data.tables used by EJAM</span></span>
+<span><span class="co"># (blockwts, blockpoints, blockid2fips, bgid2fips, quaddata):</span></span>
+<span><span class="va">tables</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/census2020_save_datasets.html">census2020_save_datasets</a></span><span class="op">(</span><span class="va">blocks</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tables</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Island Areas (VI, GU, MP, AS) come at blockgroup (not block) resolution:</span></span>
+<span><span class="va">islands</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/census2020_get_data_islandareas.html">census2020_get_data_islandareas</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>By default <code><a href="reference/census2020_get_data.html">census2020_get_data()</a></code> downloads to a temporary folder; pass <code>folder =</code> to keep the files, and <code>overwrite = FALSE</code> to reuse files already downloaded there.</p>
+<p>For more information see</p>
+<ul>
+<li><a href="https://ejanalysis.github.io/census2020download/reference/census2020download.html">census2020download package documentation</a></li>
+<li><a href="https://ejanalysis.com/ejamdocs" class="external-link">EJAM package documentation</a></li>
+<li><a href="https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html" class="external-link">Census vs ACS geos info</a></li>
+</ul>
+<p><em>Key functions and data.tables created include</em></p>
+<ul>
+<li>
+<code><a href="reference/census2020_get_data.html">census2020_get_data()</a></code> Download/ Unzip/ Read/ Clean data on all US Census blocks</li>
+<li>
+<code><a href="reference/census2020_save_datasets.html">census2020_save_datasets()</a></code> Use the data to create separate data.tables, and save for use in the EJAM package.</li>
+</ul>
+<p><em>Key data.table objects created:</em></p>
+<ul>
+<li>
+<code>blockid2fips</code> - data.table with FIPS code to blockid lookup</li>
+<li>
+<code>blockpoints</code> - data.table with latitude and longitude of internal points</li>
+<li>
+<code>quaddata</code> - data.table with xyz format locations of blocks, used to create spatial index of blocks in the EJAM package.</li>
+<li>
+<code>blockwts</code> - data.table with Census 2020 population-based weight as fraction of parent block group population, and size of block</li>
+</ul>
+</div>
+</div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -77,18 +147,23 @@ Creates block datasets (and some blockgroup tables) for use in the EJAM package.
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Mark Corrales <br><small class="roles"> Author, maintainer </small>   </li>
+<li>Mark A. Corrales <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1696-5638" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/ejanalysis/census2020download/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/ejanalysis/census2020download/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Mark Corrales.</p>
+  <p>Developed by Mark A. Corrales.</p>
 </div>
 
 <div class="pkgdown-footer-right">
