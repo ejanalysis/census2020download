@@ -29,7 +29,7 @@
 #'
 #' - [census2020download package github repository](https://github.com/ejanalysis/census2020download)
 #'
-#' - [EJAM package](https://ejanalysis.com/EJAM)
+#' - [EJAM package](https://ejanalysis.com/ejamdocs)
 #'
 #' - [Census vs ACS geos info](https://www.census.gov/programs-surveys/acs/geography-acs/geography-boundaries-by-year.html)
 #'
@@ -52,7 +52,7 @@
 #'
 "_PACKAGE"
 ## usethis namespace: start
-#' @importFrom utils download.file
+#' @importFrom stats addmargins
 #' @importFrom utils unzip
 ## usethis namespace: end
 NULL

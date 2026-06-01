@@ -5,7 +5,8 @@
 \alias{blockwts}
 \title{2020 Census block weights (population as share of overall block group)}
 \description{
-data.table for use in EJAM
+data.table created at run time for use in the EJAM package
+(not bundled with this package).
 }
 \details{
 See EJAM package for more info.

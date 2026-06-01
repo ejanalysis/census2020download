@@ -1,6 +1,6 @@
 Package: census2020download
 Title: 2020 Census Blocks and Tools to Download from Census Bureau
-Version: 2.3.0
+Version: 2.4.0
 Authors@R: 
     person(given = "Mark",
            family = "Corrales",
@@ -12,19 +12,32 @@ Description: Creates block datasets (and some blockgroup tables)
   unzipping, and reading the 2020 Census data for some or all US States/DC/PR 
   into data.table format. Also some limited tools for Island Areas (VI,GU,MP,AS).
 Depends: R (>= 3.6.1)
-Imports: 
+Imports:
+    curl,
     data.table,
-    SearchTrees,
-    usethis,
-    readr,
     datasets,
-    utils
+    readr,
+    stats,
+    utils,
+    vroom
+Suggests:
+    EJAM,
+    knitr,
+    rmarkdown,
+    SearchTrees,
+    testthat (>= 3.0.0),
+    usethis
+Remotes:
+    github::ejanalysis/EJAM
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 NeedsCompilation: no
-Author: Mark Corrales [aut, cre] 
+Author: Mark Corrales [aut, cre]
 Maintainer: Mark Corrales <info@ejanalysis.com>
 URL: https://github.com/ejanalysis/census2020download, https://ejanalysis.github.io/census2020download/
+BugReports: https://github.com/ejanalysis/census2020download/issues
+VignetteBuilder: knitr
+Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0

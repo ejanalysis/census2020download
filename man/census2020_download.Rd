@@ -6,13 +6,14 @@
 \usage{
 census2020_download(
   folder = NULL,
-  mystates = c(state.abb, "DC", "PR"),
-  allstates = c(c(state.abb, "DC", "PR"), c("VI", "GU", "MP", "AS")),
+  mystates = c(datasets::state.abb, "DC", "PR"),
+  allstates = c(c(datasets::state.abb, "DC", "PR"), c("VI", "GU", "MP", "AS")),
   baseurl =
     "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/",
   urlmiddle = "",
   zipnames_suffix = "2020.pl.zip",
-  overwrite = TRUE
+  overwrite = TRUE,
+  timeout = 180
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ for Island Areas, urlmiddle = "demographic-and-housing-characteristics-file/"}
 
 \item{overwrite}{set to FALSE to skip download if filename already in folder,
 but note it does not check if any existing file is corrupt/size zero/obsolete/etc.}
+
+\item{timeout}{seconds before an individual download times out. The R option
+\code{timeout} is set to this value for the duration of the call and restored on exit.}
 }
 \value{
 Effect is to download and save locally a number of data files.

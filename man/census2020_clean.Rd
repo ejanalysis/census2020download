@@ -24,6 +24,11 @@ even if listed in cols_to_keep in the un-renamed form, like P0020002 vs hisp.}
 \item{sumlev}{just used by \code{\link[=census2020_get_data]{census2020_get_data()}} to correctly name the fips column.}
 
 \item{mystates}{just used by \code{\link[=census2020_get_data]{census2020_get_data()}} to correctly rename the data columns.}
+
+\item{census_col_names_defined}{data.frame mapping Census FTP column names to
+short friendly names, with columns \code{ftpname} and \code{rname}. Default is
+\link{census_col_names_map}; the Island Area helpers pass area-specific maps
+such as \link{census_col_names_map_vi}.}
 }
 \value{
 data.table with these columns by default:  blockfips lat lon pop area
@@ -42,3 +47,4 @@ Returns table in data.table format.
 
 area is in square meters and is sum of land and water areas.
 }
+\keyword{internal}

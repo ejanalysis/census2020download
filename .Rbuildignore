@@ -8,3 +8,8 @@
 ^inst/docs$
 ^\.positai$
 ^\.claude$
+^\.git$
+^\.gitattributes$
+^LICENSE\.md$
+^README\.Rmd$
+^\.lintr$

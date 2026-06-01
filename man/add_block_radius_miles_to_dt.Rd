@@ -28,7 +28,7 @@ That would just turn the table into NULL.
 }
 \examples{
   passed_dt <- data.table::data.table(a = 1:10)
-  x <- add_block_radius_miles_to_dt(passed_dt, 9001:9010)
+  x <- census2020download:::add_block_radius_miles_to_dt(passed_dt, 9001:9010)
   is.null(x)
   passed_dt
 
@@ -36,3 +36,4 @@ That would just turn the table into NULL.
 \seealso{
 \code{\link[=radius_miles_from_area_sqmi]{radius_miles_from_area_sqmi()}}
 }
+\keyword{internal}

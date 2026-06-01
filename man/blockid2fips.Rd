@@ -5,7 +5,8 @@
 \alias{blockid2fips}
 \title{Census FIPS code of each US Census 2020 block}
 \description{
-data.table for use in EJAM
+data.table created at run time for use in the EJAM package
+(not bundled with this package).
 }
 \details{
 See EJAM package for more info.

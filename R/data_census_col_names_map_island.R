@@ -1,6 +1,13 @@
-#' @name census_col_names_map_vi
+#' @name census_col_names_map_island
 #' @docType data
-#' @title Table that maps some Census variable names to short friendly variable names - VIRGIN ISLANDS
+#' @title Generic Census variable name map for Island Areas
+#' @description
+#'   A column-name lookup table (the same shape as [census_col_names_map])
+#'   kept for the Island Areas. The per-area maps
+#'   [census_col_names_map_vi], [census_col_names_map_as],
+#'   [census_col_names_map_gu], and [census_col_names_map_mp] are used in
+#'   preference to this generic version, because the Island Areas encode the
+#'   same variable with different Census field codes.
 #' @details
 #'
 #'  data.frame:	19 obs. of  3 variables:
@@ -20,7 +27,4 @@
 #'  P0050005 in the VI DHC data, and
 #'
 #'  P0050027 in the Guam DHC data
-#'
-#' @seealso [census_col_names_map_island]
-#'
 NULL

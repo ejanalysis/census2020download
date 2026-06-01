@@ -20,6 +20,7 @@
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
+vignettes/*.R
 
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
@@ -35,8 +36,8 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# pkgdown site
-#docs/
+# pkgdown site (built and deployed to the gh-pages branch by CI, not tracked here)
+docs/
 
 # translation temp files
 po/*~

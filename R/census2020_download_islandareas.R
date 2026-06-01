@@ -10,6 +10,7 @@
 #' @param zipnames_suffix last part of the filenames Census provides - default should work
 #' @param overwrite set to FALSE to skip download if filename already in folder,
 #'   but note it does not check if any existing file is corrupt/size zero/obsolete/etc.
+#' @param timeout seconds before a download times out; passed to [census2020_download()].
 #' @seealso [census2020_get_data()] [census2020_download()]
 #' @return Effect is to download and save locally a number of data files.
 #' @examples \dontrun{
@@ -24,10 +25,8 @@ census2020_download_islandareas <- function(folder = NULL,
                                             baseurl = "https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/",
                                             urlmiddle = "demographic-and-housing-characteristics-file/",
                                             zipnames_suffix = '2020.dhc.zip',
-                                            overwrite = TRUE) {
-  oldtimeout = options('timeout')
-  on.exit({options(timeout = oldtimeout)})
-  options(timeout = 180)
+                                            overwrite = TRUE,
+                                            timeout = 180) {
 
   census2020_download(folder = folder,
                       mystates = mystates,
@@ -35,7 +34,8 @@ census2020_download_islandareas <- function(folder = NULL,
                       baseurl = baseurl,
                       urlmiddle = urlmiddle,
                       zipnames_suffix = zipnames_suffix,
-                      overwrite = overwrite)
+                      overwrite = overwrite,
+                      timeout = timeout)
 
   # file formats explained here:
   # "https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/2020-iac-dhc-readme.pdf"

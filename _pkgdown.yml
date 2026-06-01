@@ -1,4 +1,4 @@
-url: https://github.com/ejanalysis/census2020download
+url: https://ejanalysis.github.io/census2020download/
 template:
   bootstrap: 5
 reference:
@@ -6,9 +6,15 @@ reference:
   contents:
   - census2020_get_data
   - census2020_save_datasets
-- title: "Datasets"
+- title: "Block data tables (created at run time, not bundled)"
+  desc: >
+    These data.tables are produced by census2020_save_datasets() for the EJAM
+    package; they are documented here but are not shipped with this package.
   contents:
-  - starts_with("block")
+  - bgid2fips
+  - blockid2fips
+  - blockpoints
+  - blockwts
   - quaddata
 - title: internal
   contents:

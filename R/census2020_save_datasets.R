@@ -2,19 +2,21 @@
 #' This is just done when Census FIPS or bounds or points change.
 #' @param x a single data.table called blocks that is from [census2020_get_data()],
 #'   with colnames blockfips, pop, area, lat, lon
-#' @param metadata default is Census 2020 related, tries to use [EJAM package](https://ejanalysis.com/ejam-code)
+#' @param metadata default is Census 2020 related, tries to use [EJAM package](https://ejanalysis.com/ejamdocs)
 #' @param add_metadata logical, whether to add EJAM-related metadata about date and version
 #' @param save_as_data_for_package logical, whether to do [usethis::use_data()] here
 #' @param overwrite default is TRUE, but only relevant if usethis = TRUE
 #' @param keep_pop set to TRUE to keep the blockpop (population counts) column,
 #'   but it is not used by EJAM except here to create the weights before it is dropped by default.
 #' @import data.table
-#' @return A named list of these huge data.tables for the EJAM package:
-#'   - [bgid2fips](https://ejanalysis.github.io/EJAM/reference/bgid2fips.html)
-#'   - [blockid2fips]https://ejanalysis.github.io/EJAM/reference/blockid2fips.html
-#'   - [blockpoints]https://ejanalysis.github.io/EJAM/reference/blockpoints.html
-#'   - [blockwts]https://ejanalysis.github.io/EJAM/reference/blockwts.html
-#'   - [quaddata]https://ejanalysis.github.io/EJAM/reference/quaddata.html
+#' @return A named list of these (large) data.tables for the EJAM package. They
+#'   are created at run time and are not bundled with this package; see each help
+#'   topic for its columns:
+#'   - [bgid2fips]
+#'   - [blockid2fips]
+#'   - [blockpoints]
+#'   - [blockwts]
+#'   - [quaddata]
 #'
 #' @seealso [census2020_save_datasets()] creates individual data.tables,
 #'  after [census2020_get_data()] has done these:
@@ -174,18 +176,18 @@ census2020_save_datasets <- function(x,
 
   if (add_metadata) {
 
-    if (requireNamespace('EJAM') &&  isNamespaceLoaded('EJAM') ) {
+    if (requireNamespace("EJAM", quietly = TRUE) && isNamespaceLoaded("EJAM")) {
 
-      # for (i in seq_along(metadata)) {
-      #   attr(x, which = names(metadata)[i]) <- metadata[[i]]
-      # }
-      cat("ADDING METADATA, doing EJAM:::metadata_add() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
-require(EJAM)
-      bgid2fips     <-  EJAM:::metadata_add( bgid2fips ) # use defaults for metadata
-      blockid2fips  <-  EJAM:::metadata_add( blockid2fips )
-      blockpoints   <-  EJAM:::metadata_add( blockpoints )
-      blockwts      <-  EJAM:::metadata_add( blockwts )
-      quaddata      <-  EJAM:::metadata_add( quaddata )
+      # metadata_add() is an unexported EJAM helper; fetch it without a ':::'
+      # call so this Suggested-package dependency stays optional.
+      metadata_add <- get("metadata_add", envir = asNamespace("EJAM"))
+
+      cat("ADDING METADATA via EJAM metadata_add() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
+      bgid2fips     <-  metadata_add( bgid2fips ) # use defaults for metadata
+      blockid2fips  <-  metadata_add( blockid2fips )
+      blockpoints   <-  metadata_add( blockpoints )
+      blockwts      <-  metadata_add( blockwts )
+      quaddata      <-  metadata_add( quaddata )
 
       attr(   bgid2fips, "download_date") <- Sys.Date()
       attr(blockid2fips, "download_date") <- Sys.Date()
@@ -222,6 +224,9 @@ require(EJAM)
   }
   if (save_as_data_for_package) {
 
+    if (!requireNamespace("usethis", quietly = TRUE)) {
+      stop("save_as_data_for_package = TRUE requires the 'usethis' package; install it or set save_as_data_for_package = FALSE.")
+    }
     # use_data() ####
     cat("SAVING AS PACKAGE DATASETS, doing use_data() for bgid2fips, blockid2fips, blockpoints, blockwts, quaddata \n")
     usethis::use_data(   bgid2fips,  overwrite = TRUE)

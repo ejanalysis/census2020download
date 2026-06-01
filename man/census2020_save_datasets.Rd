@@ -18,7 +18,7 @@ census2020_save_datasets(
 \item{x}{a single data.table called blocks that is from \code{\link[=census2020_get_data]{census2020_get_data()}},
 with colnames blockfips, pop, area, lat, lon}
 
-\item{metadata}{default is Census 2020 related, tries to use \href{https://ejanalysis.com/ejam-code}{EJAM package}}
+\item{metadata}{default is Census 2020 related, tries to use \href{https://ejanalysis.com/ejamdocs}{EJAM package}}
 
 \item{add_metadata}{logical, whether to add EJAM-related metadata about date and version}
 
@@ -30,13 +30,15 @@ with colnames blockfips, pop, area, lat, lon}
 but it is not used by EJAM except here to create the weights before it is dropped by default.}
 }
 \value{
-A named list of these huge data.tables for the EJAM package:
+A named list of these (large) data.tables for the EJAM package. They
+are created at run time and are not bundled with this package; see each help
+topic for its columns:
 \itemize{
-\item \href{https://ejanalysis.github.io/EJAM/reference/bgid2fips.html}{bgid2fips}
-\item \link{blockid2fips}https://ejanalysis.github.io/EJAM/reference/blockid2fips.html
-\item \link{blockpoints}https://ejanalysis.github.io/EJAM/reference/blockpoints.html
-\item \link{blockwts}https://ejanalysis.github.io/EJAM/reference/blockwts.html
-\item \link{quaddata}https://ejanalysis.github.io/EJAM/reference/quaddata.html
+\item \link{bgid2fips}
+\item \link{blockid2fips}
+\item \link{blockpoints}
+\item \link{blockwts}
+\item \link{quaddata}
 }
 }
 \description{
