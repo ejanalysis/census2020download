@@ -61,6 +61,11 @@ For more information see
   data.table with Census 2020 population-based weight as fraction of
   parent block group population, and size of block
 
+## Acknowledgements
+
+Claude (Anthropic's AI assistant) was used extensively in refactoring
+and updating this package.
+
 ## See also
 
 Useful links:

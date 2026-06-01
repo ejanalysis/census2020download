@@ -82,3 +82,8 @@ For more information see
   create spatial index of blocks in the EJAM package.
 - `blockwts` - data.table with Census 2020 population-based weight as
   fraction of parent block group population, and size of block
+
+## Acknowledgements
+
+Claude (Anthropic’s AI assistant) was used extensively in refactoring
+and updating this package.
